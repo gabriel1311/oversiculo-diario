@@ -1,0 +1,81 @@
+name: Publicar versículo do dia
+
+on:
+  schedule:
+    # 11:00 UTC = 08:00 em Brasília. O GitHub costuma atrasar alguns minutos
+    # em horários cheios; não é problema para um post diário.
+    - cron: "0 11 * * *"
+  workflow_dispatch:
+    inputs:
+      ensaio:
+        description: "Gerar imagem e legenda sem publicar"
+        type: boolean
+        default: false
+
+# Necessário para o job commitar a imagem e o histórico de volta.
+permissions:
+  contents: write
+
+# Evita duas execuções simultâneas empurrando commits em cima uma da outra.
+concurrency:
+  group: publicar-versiculo
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Gerar imagem e legenda
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python -m src.principal --fase ${{ inputs.ensaio && 'ensaio' || 'preparar' }}
+
+      - name: Guardar os arquivos como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-do-dia
+          path: posts/
+          retention-days: 14
+
+      - name: Publicar a imagem no repositório
+        if: ${{ !inputs.ensaio }}
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add posts
+          if git diff --cached --quiet; then
+            echo "Nada novo para commitar" && exit 1
+          fi
+          git commit -m "Post de $(date -u +%Y-%m-%d)"
+          git push
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Publicar no Instagram
+        if: ${{ !inputs.ensaio }}
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
+          # Fixa a URL da imagem no commit recém-enviado, em vez do nome do
+          # branch, para não esbarrar no cache do raw.githubusercontent.
+          IMAGEM_REF: ${{ steps.commit.outputs.sha }}
+        run: python -m src.principal --fase publicar
+
+      - name: Registrar no histórico
+        if: ${{ !inputs.ensaio }}
+        run: |
+          git add dados/historico.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Histórico: $(date -u +%Y-%m-%d)"
+          git pull --rebase --autostash
+          git push
