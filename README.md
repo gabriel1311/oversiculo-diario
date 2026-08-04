@@ -26,7 +26,7 @@ pública. Migrar para Firebase depois é troca de invólucro — a lógica em `s
 muda.
 
 **Consequência:** o repositório precisa ser **público**. É o que faz
-`raw.githubusercontent.com` servir o PNG sem autenticação; num repositório privado
+`raw.githubusercontent.com` servir a imagem sem autenticação; num repositório privado
 o Instagram recebe um pedido de login e a publicação falha. As credenciais não
 ficam no repositório — vivem em *Secrets*, que são cifrados e não aparecem nem em
 fork nem em pull request.
@@ -53,8 +53,12 @@ gh secret set ANTHROPIC_API_KEY   # opcional; sem ele a legenda usa o texto padr
 
 | Secret | Onde obter | Obrigatório |
 |---|---|---|
-| `IG_ACCESS_TOKEN` | Meta for Developers → seu app → Instagram → Gerar token | sim |
+| `IG_ACCESS_TOKEN` | Meta for Developers → app → Instagram → API setup with Instagram login | sim |
 | `IG_ACCOUNT_ID` | mesmo painel, ao lado da conta conectada | sim |
+
+Permissões necessárias no token: `instagram_business_basic` e
+`instagram_business_content_publish`. Com o app em modo de desenvolvimento e
+publicando só na própria conta, não é preciso passar pelo App Review.
 | `ANTHROPIC_API_KEY` | console.anthropic.com | não |
 
 ### 3. Testar sem publicar
