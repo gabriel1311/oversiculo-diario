@@ -2,7 +2,7 @@
 Rotina do post do dia, em duas fases.
 
 A divisão não é estética: a Graph API baixa a imagem de uma URL pública, então o
-PNG precisa já estar commitado e publicado no GitHub antes de a publicação ser
+JPEG precisa já estar commitado e publicado no GitHub antes de a publicação ser
 chamada. Fase 1 gera os arquivos, o workflow faz o commit, fase 2 publica.
 
     python3 -m src.principal --fase preparar
@@ -24,7 +24,7 @@ RAIZ = Path(__file__).resolve().parent.parent
 
 
 def _caminhos(dia: date) -> tuple[str, Path, Path]:
-    relativo = f"posts/{dia.isoformat()}.png"
+    relativo = f"posts/{dia.isoformat()}.jpg"
     return relativo, RAIZ / relativo, RAIZ / f"posts/{dia.isoformat()}.txt"
 
 
@@ -50,8 +50,8 @@ def preparar(dia: date, ensaio: bool) -> int:
     escolhido = versiculos.escolher(dia)
     print(f"[versiculo] {escolhido.referencia} — {len(escolhido.texto)} caracteres")
 
-    relativo, destino_png, destino_txt = _caminhos(dia)
-    caminho = imagem.gerar(escolhido.texto, escolhido.referencia, destino_png)
+    relativo, destino_jpg, destino_txt = _caminhos(dia)
+    caminho = imagem.gerar(escolhido.texto, escolhido.referencia, destino_jpg)
     print(f"[imagem] {relativo} ({caminho.stat().st_size // 1024} KB)")
 
     texto_legenda = legenda.gerar(escolhido.texto, escolhido.referencia)
@@ -64,8 +64,8 @@ def preparar(dia: date, ensaio: bool) -> int:
 
 
 def publicar(dia: date) -> int:
-    relativo, destino_png, destino_txt = _caminhos(dia)
-    if not destino_png.exists() or not destino_txt.exists():
+    relativo, destino_jpg, destino_txt = _caminhos(dia)
+    if not destino_jpg.exists() or not destino_txt.exists():
         print("::error::Arquivos do dia não encontrados — a fase preparar rodou?", file=sys.stderr)
         return 1
 

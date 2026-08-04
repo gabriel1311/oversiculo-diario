@@ -169,5 +169,8 @@ def gerar(texto: str, referencia: str, destino: Path) -> Path:
     )
 
     destino.parent.mkdir(parents=True, exist_ok=True)
-    imagem.save(destino, "PNG", optimize=True)
+    # JPEG e não PNG: a Graph API do Instagram aceita **apenas** JPEG para
+    # publicação de imagem. Subsampling desligado (4:4:4) porque o padrão 4:2:0
+    # borra o dourado fino da moldura e da referência sobre o fundo azul.
+    imagem.save(destino, "JPEG", quality=93, subsampling=0, optimize=True, progressive=False)
     return destino

@@ -10,7 +10,7 @@ Graph API da Meta. Roda no GitHub Actions — sem servidor, sem custo, sem cart�
 ```
 cron 11:00 UTC (08:00 Brasília)
   └─ escolhe o versículo (sem repetir enquanto houver inédito)
-  └─ renderiza posts/AAAA-MM-DD.png
+  └─ renderiza posts/AAAA-MM-DD.jpg
   └─ escreve a legenda (Claude; cai num texto padrão se faltar chave)
   └─ commita a imagem no repositório          ← precisa vir antes de publicar
   └─ publica no Instagram usando a URL crua do commit
@@ -96,9 +96,13 @@ por dia caberia, mas não há motivo para a rotina depender de um serviço exter
 A tradução de Almeida usada é **domínio público**, então guardar o texto é
 legítimo — publicar diariamente uma tradução protegida não seria.
 
-**A rotina tem duas fases porque a Graph API baixa a imagem de uma URL.** O PNG
-precisa estar commitado e publicado antes de a publicação ser chamada. Por isso
-`preparar` e `publicar` são etapas separadas, com o commit no meio.
+**A rotina tem duas fases porque a Graph API baixa a imagem de uma URL.** O
+arquivo precisa estar commitado e publicado antes de a publicação ser chamada.
+Por isso `preparar` e `publicar` são etapas separadas, com o commit no meio.
+
+**A imagem sai em JPEG, não PNG.** A Graph API aceita **apenas** JPEG para
+publicação de imagem — mandar PNG falha. O subsampling é desligado (4:4:4)
+porque o padrão borra o dourado fino da moldura sobre o fundo azul.
 
 **A URL da imagem aponta para o SHA do commit, não para o branch.** O raw do
 GitHub tem cache por referência; apontar para `main` logo após o push pode servir
