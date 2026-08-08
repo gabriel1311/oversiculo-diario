@@ -14,9 +14,8 @@ on:
         description: "Gerar as imagens sem publicar"
         type: boolean
         default: false
-  # Para publicar automaticamente todo domingo ao meio-dia UTC (9h Brasília):
-  # schedule:
-  #   - cron: "0 12 * * 0"
+  schedule:
+    - cron: "0 12 * * 0" # todo domingo, 12:00 UTC (9h Brasília)
 
 permissions:
   contents: write
@@ -71,3 +70,24 @@ jobs:
           IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
           IMAGEM_REF: ${{ steps.commit.outputs.sha }}
         run: python -m src.semanal --fase publicar
+
+  avisar-falha:
+    needs: carrossel
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Abrir ou atualizar issue de falha
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          corpo=$(printf 'O carrossel semanal falhou em %s UTC.\n\nLog: %s' "$(date -u '+%Y-%m-%d %H:%M')" "$RUN_URL")
+          num=$(gh issue list --state open --label falha-publicacao --json number --jq '.[0].number // empty' -R "$GITHUB_REPOSITORY")
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body "$corpo" -R "$GITHUB_REPOSITORY"
+          else
+            gh label create falha-publicacao --color B60205 --description "Falha na automação" -R "$GITHUB_REPOSITORY" 2>/dev/null || true
+            gh issue create --title "⚠️ Falha no carrossel semanal" --label falha-publicacao --body "$corpo" -R "$GITHUB_REPOSITORY"
+          fi
