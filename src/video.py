@@ -17,11 +17,33 @@ import subprocess
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-TRILHA = RAIZ / "audio" / "trilha.wav"
+AUDIO = RAIZ / "audio"
+# Trilhas em rotação — o vídeo escolhe uma por dia (seed), para o feed não soar
+# sempre igual. A primeira é o fallback quando nenhuma escolha é possível.
+TRILHAS = ["trilha.wav", "trilha2.wav", "trilha3.wav"]
+TRILHA = AUDIO / TRILHAS[0]
 
 LADO = 1080
 ALTURA = 1920
 DURACAO = 15  # segundos; a trilha (16s) cobre com folga, o -shortest corta no vídeo
+
+
+def _fnv(texto: str) -> int:
+    """FNV-1a 32 bits — mesmo hash portável usado em imagem.py."""
+    h = 2166136261
+    for ch in texto:
+        h ^= ord(ch)
+        h = (h * 16777619) & 0xFFFFFFFF
+    return h
+
+
+def escolher_trilha(seed: str | None) -> Path:
+    existentes = [AUDIO / nome for nome in TRILHAS if (AUDIO / nome).exists()]
+    if not existentes:
+        return TRILHA
+    if not seed:
+        return existentes[0]
+    return existentes[_fnv(seed + "trilha") % len(existentes)]
 
 
 class VideoIndisponivel(RuntimeError):
@@ -32,9 +54,17 @@ def disponivel() -> bool:
     return shutil.which("ffmpeg") is not None
 
 
-def montar(imagem: Path, destino: Path, trilha: Path = TRILHA, duracao: int = DURACAO) -> Path:
+def montar(
+    imagem: Path,
+    destino: Path,
+    seed: str | None = None,
+    trilha: Path | None = None,
+    duracao: int = DURACAO,
+) -> Path:
     if not disponivel():
         raise VideoIndisponivel("ffmpeg não encontrado no PATH")
+    if trilha is None:
+        trilha = escolher_trilha(seed)
     if not trilha.exists():
         raise VideoIndisponivel(f"trilha não encontrada: {trilha}")
 

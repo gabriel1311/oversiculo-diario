@@ -67,7 +67,7 @@ def preparar(dia: date, ensaio: bool) -> int:
     # (existe no runner do GitHub Actions). Na máquina local sem ffmpeg, seguimos
     # sem o vídeo — o ensaio ainda mostra imagem e legenda.
     try:
-        video.montar(c.jpg, c.mp4)
+        video.montar(c.jpg, c.mp4, seed=dia.isoformat())
         print(f"[video] {c.rel_mp4} ({c.mp4.stat().st_size // 1024} KB)")
     except video.VideoIndisponivel as erro:
         if not ensaio:

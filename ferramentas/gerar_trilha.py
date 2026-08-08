@@ -78,14 +78,18 @@ def _envelope(t: float, dur: float) -> float:
     return 1.0
 
 
-def gerar() -> Path:
+def gerar(nome: str = "trilha.wav", semitons: int = 0, desce: bool = False) -> Path:
+    """Gera uma variação da trilha. `semitons` transpõe (chave diferente); `desce`
+    inverte o sentido do arpejo. Mesma pegada animada, timbre reconhecível."""
+    fator = 2.0 ** (semitons / 12.0)
+    destino = RAIZ / "audio" / nome
     n_total = int(TOTAL * SR)
     buf = [0.0] * n_total
     dur_janela = SEG + CF
     n_janela = int(dur_janela * SR)
 
     for i, acorde in enumerate(ACORDES):
-        freqs = [NOTAS[n] for n in acorde]
+        freqs = [NOTAS[n] * fator for n in acorde]
         inicio = int((i * SEG - CF / 2) * SR)  # pode ser negativo → dá a volta (laço)
 
         # Pad sustentado, discreto — só o colchão de harmonia.
@@ -109,6 +113,8 @@ def gerar() -> Path:
 
         # Arpejo rápido por cima: sobe/desce pelas notas do acorde, uma oitava acima.
         subida = freqs + freqs[::-1][1:-1]  # C E G E → padrão que sobe e desce
+        if desce:
+            subida = subida[::-1]
         for k in range(int(SEG / PASSO_ARP)):
             freq = subida[k % len(subida)] * 2.0
             t0 = int((k * PASSO_ARP) * SR)
@@ -119,17 +125,27 @@ def gerar() -> Path:
     pico = max(abs(v) for v in buf) or 1.0
     ganho = 0.6 / pico  # headroom; é trilha de fundo
 
-    DESTINO.parent.mkdir(parents=True, exist_ok=True)
-    with wave.open(str(DESTINO), "w") as w:
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    with wave.open(str(destino), "w") as w:
         w.setnchannels(1)
         w.setsampwidth(2)
         w.setframerate(SR)
         w.writeframes(
             b"".join(struct.pack("<h", int(max(-1.0, min(1.0, v * ganho)) * 32767)) for v in buf)
         )
-    return DESTINO
+    return destino
+
+
+# Três variações em rotação (o vídeo escolhe uma por dia). Mesma pegada, chaves
+# diferentes + sentido do arpejo variado, para o feed não soar sempre igual.
+VARIACOES = [
+    ("trilha.wav", 0, False),    # Dó
+    ("trilha2.wav", 2, True),    # Ré (mais brilhante), arpejo descendente
+    ("trilha3.wav", -3, False),  # Lá (mais quente)
+]
 
 
 if __name__ == "__main__":
-    caminho = gerar()
-    print(f"[trilha] {caminho} ({caminho.stat().st_size // 1024} KB, {TOTAL:.0f}s)")
+    for nome, semitons, desce in VARIACOES:
+        caminho = gerar(nome, semitons, desce)
+        print(f"[trilha] {caminho.name} ({caminho.stat().st_size // 1024} KB, {TOTAL:.0f}s)")
