@@ -199,14 +199,14 @@ def _ajustar(
     Versículos longos existem no pool (1 Coríntios 13:4-7 tem 315 caracteres),
     então isto não é um caso hipotético — sem o ajuste o texto vaza da moldura.
     """
-    for tamanho in range(64, 27, -2):
+    for tamanho in range(72, 29, -2):
         fonte = _fonte("EBGaramond.ttf", tamanho, "Regular")
         linhas = _quebrar(texto, fonte, largura, desenho)
         espacamento = round(tamanho * 1.42)
         if len(linhas) * espacamento <= altura:
             return fonte, linhas, espacamento
-    fonte = _fonte("EBGaramond.ttf", 28, "Regular")
-    return fonte, _quebrar(texto, fonte, largura, desenho), 40
+    fonte = _fonte("EBGaramond.ttf", 30, "Regular")
+    return fonte, _quebrar(texto, fonte, largura, desenho), 43
 
 
 def _ornamento(desenho: ImageDraw.ImageDraw, centro_y: int, pal: dict, estilo: str) -> None:
@@ -253,7 +253,7 @@ def gerar(texto: str, referencia: str, destino: Path, seed: str | None = None) -
     _moldura(desenho, pal, estilo_moldura)
 
     largura_util = LADO - 2 * MARGEM - 60
-    altura_util = 470
+    altura_util = 500
 
     # Aspas decorativas
     aspas = _fonte("EBGaramond.ttf", 190, "Medium")

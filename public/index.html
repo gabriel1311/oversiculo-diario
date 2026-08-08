@@ -188,14 +188,14 @@
       }
 
       function ajustar(ctx, texto, maxW, maxH) {
-        for (let size = 64; size >= 28; size -= 2) {
+        for (let size = 72; size >= 30; size -= 2) {
           ctx.font = `400 ${size}px "EB Garamond"`;
           const linhas = quebrar(ctx, texto, maxW);
           const esp = Math.round(size * 1.42);
           if (linhas.length * esp <= maxH) return { size, linhas, esp };
         }
-        ctx.font = `400 28px "EB Garamond"`;
-        return { size: 28, linhas: quebrar(ctx, texto, 828), esp: 40 };
+        ctx.font = `400 30px "EB Garamond"`;
+        return { size: 30, linhas: quebrar(ctx, texto, 828), esp: 43 };
       }
       function quebrar(ctx, texto, maxW) {
         const linhas = []; let atual = "";
@@ -251,7 +251,7 @@
         ctx.fillText("“", S(96 + 18), S(150));
 
         // versículo (ajuste em 1080-space, desenho escalado)
-        const maxW = 1080 - 2*96 - 60, maxH = 470;
+        const maxW = 1080 - 2*96 - 60, maxH = 500;
         const { size, linhas, esp } = ajustar(ctx, texto, maxW, maxH);
         const bloco = linhas.length * esp;
         let y = 300 + (maxH - bloco) / 2;
