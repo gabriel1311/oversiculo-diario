@@ -68,7 +68,7 @@ def preparar(ensaio: bool) -> int:
     DIR_CARROSSEL.mkdir(parents=True, exist_ok=True)
     for it in itens:
         destino = DIR_CARROSSEL / f"{it['data']}.jpg"
-        imagem.gerar(it["texto"], it["referencia"], destino, seed=it["data"])
+        imagem.gerar_quadrado(it["texto"], it["referencia"], destino, seed=it["data"])
         print(f"[carrossel] {destino.relative_to(RAIZ)}")
 
     ARQUIVO_LISTA.write_text(json.dumps(itens, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

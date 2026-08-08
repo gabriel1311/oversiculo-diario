@@ -8,6 +8,7 @@ sai igual (retry seguro), dias diferentes saem diferentes.
 
 from __future__ import annotations
 
+import random
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -91,6 +92,20 @@ ORNAMENTOS = ["losango", "cruz", "pontos", "estrela"]
 
 HANDLE = "@oversiculo.diario"
 
+# Formato vertical do Reel/Story (enche a tela).
+VERT_W, VERT_H = 1080, 1920
+
+# Dois estilos que se alternam por dia. "classico" = fundo escuro + serifada +
+# dourado; "bilhete" = papel creme + cursiva azul + coração (pedido do Gabriel).
+ESTILOS = ["classico", "bilhete"]
+
+# Paleta do estilo bilhete.
+BILHETE_CREME = (236, 228, 210)
+BILHETE_CREME_BORDA = (206, 196, 176)
+BILHETE_TINTA = (36, 44, 122)          # azul caneta
+BILHETE_SOMBRA = (196, 190, 176)       # sombra suave (emboss)
+BILHETE_HANDLE = (92, 98, 150)
+
 
 def _fonte(arquivo: str, tamanho: int, peso: str = "Regular") -> ImageFont.FreeTypeFont:
     """
@@ -120,31 +135,29 @@ def _fonte(arquivo: str, tamanho: int, peso: str = "Regular") -> ImageFont.FreeT
     return fonte
 
 
-def _fundo(pal: dict) -> Image.Image:
+def _fundo(pal: dict, largura: int = LADO, altura: int = LADO) -> Image.Image:
     """Gradiente vertical suave com vinheta, montado pequeno e ampliado."""
-    altura = 256
-    gradiente = Image.new("RGB", (1, altura))
+    passos = 256
+    gradiente = Image.new("RGB", (1, passos))
     pixels = gradiente.load()
-    for y in range(altura):
-        proporcao = y / (altura - 1)
+    for y in range(passos):
+        proporcao = y / (passos - 1)
         pixels[0, y] = tuple(
             round(pal["topo"][c] + (pal["base"][c] - pal["topo"][c]) * proporcao)
             for c in range(3)
         )
-    base = gradiente.resize((LADO, LADO), Image.Resampling.BICUBIC)
+    base = gradiente.resize((largura, altura), Image.Resampling.BICUBIC)
 
     # Vinheta: escurece os cantos para o texto ganhar peso no centro.
-    vinheta = Image.radial_gradient("L").resize((LADO, LADO), Image.Resampling.BICUBIC)
-    escuro = Image.new("RGB", (LADO, LADO), pal["vinheta"])
+    vinheta = Image.radial_gradient("L").resize((largura, altura), Image.Resampling.BICUBIC)
+    escuro = Image.new("RGB", (largura, altura), pal["vinheta"])
     return Image.composite(escuro, base, vinheta.point(lambda v: int(v * 0.55)))
 
 
-def _moldura(desenho: ImageDraw.ImageDraw, pal: dict, estilo: str) -> None:
+def _moldura(desenho: ImageDraw.ImageDraw, pal: dict, estilo: str, W: int = LADO, H: int = LADO) -> None:
     if estilo == "linha":
         # Uma linha só, fina e dourada — moldura minimalista.
-        desenho.rectangle(
-            [52, 52, LADO - 52 - 1, LADO - 52 - 1], outline=pal["ouro"], width=1
-        )
+        desenho.rectangle([52, 52, W - 53, H - 53], outline=pal["ouro"], width=1)
         return
 
     if estilo == "cantos":
@@ -152,9 +165,9 @@ def _moldura(desenho: ImageDraw.ImageDraw, pal: dict, estilo: str) -> None:
         m, braco = 54, 70
         for cx, cy, sx, sy in [
             (m, m, 1, 1),
-            (LADO - m, m, -1, 1),
-            (m, LADO - m, 1, -1),
-            (LADO - m, LADO - m, -1, -1),
+            (W - m, m, -1, 1),
+            (m, H - m, 1, -1),
+            (W - m, H - m, -1, -1),
         ]:
             desenho.line([cx, cy, cx + sx * braco, cy], fill=pal["ouro"], width=2)
             desenho.line([cx, cy, cx, cy + sy * braco], fill=pal["ouro"], width=2)
@@ -163,11 +176,11 @@ def _moldura(desenho: ImageDraw.ImageDraw, pal: dict, estilo: str) -> None:
     # dupla (padrão): duas linhas concêntricas.
     externa, interna = 44, 60
     desenho.rectangle(
-        [externa, externa, LADO - externa - 1, LADO - externa - 1],
+        [externa, externa, W - externa - 1, H - externa - 1],
         outline=pal["ouro_fraco"], width=2,
     )
     desenho.rectangle(
-        [interna, interna, LADO - interna - 1, LADO - interna - 1],
+        [interna, interna, W - interna - 1, H - interna - 1],
         outline=pal["ouro"], width=1,
     )
 
@@ -191,7 +204,7 @@ def _quebrar(
 
 
 def _ajustar(
-    texto: str, desenho: ImageDraw.ImageDraw, largura: int, altura: int
+    texto: str, desenho: ImageDraw.ImageDraw, largura: int, altura: int, maximo: int = 72
 ) -> tuple[ImageFont.FreeTypeFont, list[str], int]:
     """
     Encolhe a fonte até o versículo caber na área reservada.
@@ -199,7 +212,7 @@ def _ajustar(
     Versículos longos existem no pool (1 Coríntios 13:4-7 tem 315 caracteres),
     então isto não é um caso hipotético — sem o ajuste o texto vaza da moldura.
     """
-    for tamanho in range(72, 29, -2):
+    for tamanho in range(maximo, 29, -2):
         fonte = _fonte("EBGaramond.ttf", tamanho, "Regular")
         linhas = _quebrar(texto, fonte, largura, desenho)
         espacamento = round(tamanho * 1.42)
@@ -209,8 +222,7 @@ def _ajustar(
     return fonte, _quebrar(texto, fonte, largura, desenho), 43
 
 
-def _ornamento(desenho: ImageDraw.ImageDraw, centro_y: int, pal: dict, estilo: str) -> None:
-    meio = LADO // 2
+def _ornamento(desenho: ImageDraw.ImageDraw, centro_y: int, pal: dict, estilo: str, meio: int = LADO // 2) -> None:
     largura = 90
     # Os dois traços laterais aparecem em todos os estilos.
     desenho.line([meio - largura, centro_y, meio - 16, centro_y], fill=pal["ouro_fraco"], width=1)
@@ -239,53 +251,125 @@ def _ornamento(desenho: ImageDraw.ImageDraw, centro_y: int, pal: dict, estilo: s
         )
 
 
-def gerar(texto: str, referencia: str, destino: Path, seed: str | None = None) -> Path:
-    # A data escolhe paleta/moldura/ornamento por hash portável: mesmo dia =
-    # mesmo visual (retry seguro), dias diferentes = visuais diferentes, e a
-    # prévia no admin reproduz exatamente o mesmo cálculo.
-    base = seed or ""
-    pal = PALETAS[_fnv(base + "pal") % len(PALETAS)]
-    estilo_moldura = MOLDURAS[_fnv(base + "mol") % len(MOLDURAS)]
-    estilo_ornamento = ORNAMENTOS[_fnv(base + "orn") % len(ORNAMENTOS)]
+def _papel(seed: str, W: int, H: int) -> Image.Image:
+    """Fundo de papel creme com grão sutil. Determinístico pela seed (retry seguro)."""
+    pw, ph = W // 3, H // 3
+    peq = Image.new("RGB", (pw, ph), BILHETE_CREME)
+    px = peq.load()
+    rnd = random.Random(_fnv(seed + "papel"))
+    for y in range(ph):
+        for x in range(pw):
+            n = rnd.randint(-8, 8)
+            r, g, b = px[x, y]
+            px[x, y] = (max(0, min(255, r + n)), max(0, min(255, g + n)), max(0, min(255, b + n - 2)))
+    base = peq.resize((W, H), Image.Resampling.BILINEAR)
+    vin = Image.radial_gradient("L").resize((W, H))
+    escuro = Image.new("RGB", (W, H), BILHETE_CREME_BORDA)
+    return Image.composite(escuro, base, vin.point(lambda v: int(v * 0.35)))
 
-    imagem = _fundo(pal)
+
+def _coracao(desenho: ImageDraw.ImageDraw, cx: int, cy: int, escala: float, cor) -> None:
+    import math
+    pts = []
+    for i in range(0, 361, 5):
+        t = math.radians(i)
+        x = 16 * math.sin(t) ** 3
+        y = 13 * math.cos(t) - 5 * math.cos(2 * t) - 2 * math.cos(3 * t) - math.cos(4 * t)
+        pts.append((cx + x * escala, cy - y * escala))
+    desenho.line(pts, fill=cor, width=4, joint="curve")
+
+
+def _render_classico(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
+    pal = PALETAS[_fnv(seed + "pal") % len(PALETAS)]
+    estilo_moldura = MOLDURAS[_fnv(seed + "mol") % len(MOLDURAS)]
+    estilo_ornamento = ORNAMENTOS[_fnv(seed + "orn") % len(ORNAMENTOS)]
+
+    # Layout depende do formato (quadrado do carrossel x vertical do Reel).
+    vertical = H > W
+    quote_y, quote_sz = (300, 210) if vertical else (150, 190)
+    topo_texto, altura_util = (560, 820) if vertical else (300, 500)
+    handle_y = H - 150 if vertical else H - 118
+    font_max = 92 if vertical else 72
+
+    imagem = _fundo(pal, W, H)
     desenho = ImageDraw.Draw(imagem)
-    _moldura(desenho, pal, estilo_moldura)
+    _moldura(desenho, pal, estilo_moldura, W, H)
 
-    largura_util = LADO - 2 * MARGEM - 60
-    altura_util = 500
+    largura_util = W - 2 * MARGEM - 60
+    aspas = _fonte("EBGaramond.ttf", quote_sz, "Medium")
+    desenho.text((MARGEM + 18, quote_y), "“", font=aspas, fill=pal["ouro_fraco"])
 
-    # Aspas decorativas
-    aspas = _fonte("EBGaramond.ttf", 190, "Medium")
-    desenho.text((MARGEM + 18, 150), "“", font=aspas, fill=pal["ouro_fraco"])
-
-    fonte_texto, linhas, espacamento = _ajustar(texto, desenho, largura_util, altura_util)
-
-    bloco = len(linhas) * espacamento
-    y = 300 + (altura_util - bloco) // 2
+    fonte_texto, linhas, esp = _ajustar(texto, desenho, largura_util, altura_util, font_max)
+    bloco = len(linhas) * esp
+    y = topo_texto + (altura_util - bloco) // 2
     for linha in linhas:
-        desenho.text((LADO // 2, y), linha, font=fonte_texto, fill=pal["texto"], anchor="ma")
-        y += espacamento
+        desenho.text((W // 2, y), linha, font=fonte_texto, fill=pal["texto"], anchor="ma")
+        y += esp
 
-    _ornamento(desenho, y + 44, pal, estilo_ornamento)
+    _ornamento(desenho, y + 46, pal, estilo_ornamento, W // 2)
+    fonte_referencia = _fonte("Cinzel.ttf", 44 if vertical else 40, "SemiBold")
+    desenho.text((W // 2, y + 92), referencia.upper(), font=fonte_referencia, fill=pal["ouro"], anchor="ma")
+    fonte_handle = _fonte("Cinzel.ttf", 23 if vertical else 21, "Regular")
+    desenho.text((W // 2, handle_y), " ".join(HANDLE.upper()), font=fonte_handle, fill=pal["ouro_fraco"], anchor="ma")
+    return imagem
 
-    fonte_referencia = _fonte("Cinzel.ttf", 40, "SemiBold")
-    desenho.text(
-        (LADO // 2, y + 88), referencia.upper(), font=fonte_referencia, fill=pal["ouro"], anchor="ma"
-    )
 
-    fonte_handle = _fonte("Cinzel.ttf", 21, "Regular")
-    desenho.text(
-        (LADO // 2, LADO - 118),
-        " ".join(HANDLE.upper()),  # espaçado, como marca d'água discreta
-        font=fonte_handle,
-        fill=pal["ouro_fraco"],
-        anchor="ma",
-    )
+def _render_bilhete(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
+    imagem = _papel(seed, W, H)
+    desenho = ImageDraw.Draw(imagem)
 
+    # Moldura fininha discreta (como no modelo).
+    desenho.rectangle([26, 26, W - 27, H - 27], outline=BILHETE_TINTA, width=2)
+
+    largura_util = W - 2 * (MARGEM + 24)
+    altura_util = 900 if H > W else 620
+    topo_texto = 470 if H > W else 250
+
+    # Cursiva grande (Dancing Script). Entrelinha mais folgada.
+    for tam in range(104, 51, -3):
+        f = _fonte("DancingScript.ttf", tam, "SemiBold")
+        linhas = _quebrar(texto, f, largura_util, desenho)
+        esp = round(tam * 1.24)
+        if len(linhas) * esp <= altura_util:
+            break
+
+    bloco = len(linhas) * esp
+    y = topo_texto + (altura_util - bloco) // 2
+    for linha in linhas:
+        desenho.text((W // 2 + 2, y + 3), linha, font=f, fill=BILHETE_SOMBRA, anchor="ma")  # emboss
+        desenho.text((W // 2, y), linha, font=f, fill=BILHETE_TINTA, anchor="ma")
+        y += esp
+
+    _coracao(desenho, W // 2, y + 58, 2.3, BILHETE_TINTA)
+
+    fref = _fonte("DancingScript.ttf", 52 if H > W else 46, "Medium")
+    desenho.text((W // 2, H - 180 if H > W else H - 150), referencia, font=fref, fill=BILHETE_TINTA, anchor="ma")
+    fh = _fonte("DancingScript.ttf", 44 if H > W else 40, "Medium")
+    desenho.text((W // 2, H - 108 if H > W else H - 90), HANDLE, font=fh, fill=BILHETE_HANDLE, anchor="ma")
+    return imagem
+
+
+def _renderizar(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
+    estilo = ESTILOS[_fnv(seed + "estilo") % len(ESTILOS)]
+    if estilo == "bilhete":
+        return _render_bilhete(texto, referencia, seed, W, H)
+    return _render_classico(texto, referencia, seed, W, H)
+
+
+def _salvar(imagem: Image.Image, destino: Path) -> Path:
     destino.parent.mkdir(parents=True, exist_ok=True)
-    # JPEG e não PNG: a Graph API do Instagram aceita **apenas** JPEG para
-    # publicação de imagem. Subsampling desligado (4:4:4) porque o padrão 4:2:0
-    # borra o dourado fino da moldura e da referência sobre o fundo azul.
+    # JPEG (a Graph API só aceita JPEG). Subsampling 4:4:4 mantém o traço fino nítido.
     imagem.save(destino, "JPEG", quality=93, subsampling=0, optimize=True, progressive=False)
     return destino
+
+
+def gerar(texto: str, referencia: str, destino: Path, seed: str | None = None) -> Path:
+    """Cartaz VERTICAL 1080x1920 do post do dia (Reel/Story), estilo sorteado pela seed."""
+    imagem = _renderizar(texto, referencia, seed or "", VERT_W, VERT_H)
+    return _salvar(imagem, destino)
+
+
+def gerar_quadrado(texto: str, referencia: str, destino: Path, seed: str | None = None) -> Path:
+    """Cartaz QUADRADO 1080x1080 (para o carrossel do feed), estilo sorteado pela seed."""
+    imagem = _renderizar(texto, referencia, seed or "", LADO, LADO)
+    return _salvar(imagem, destino)
