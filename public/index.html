@@ -208,60 +208,59 @@
         return linhas;
       }
 
-      // Desenha o post 1080-space num canvas de qualquer tamanho (escala por k).
-      function desenhar(canvas, { texto, referencia, seed, override }) {
-        const W = canvas.width, k = W / 1080;
+      // Estilo clássico no formato vertical 9:16 (1080x1920-space, escala por k).
+      function pintarClassico(canvas, { texto, referencia, seed, override }) {
+        const W = canvas.width, H = canvas.height, k = W / 1080;
         const ctx = canvas.getContext("2d");
         const v = override || variantePorData(seed || "");
         const pal = PALETAS[v.pal], mol = MOLDURAS[v.mol], orn = ORNAMENTOS[v.orn];
         const S = (x) => x * k;
         const lw = (w) => Math.max(1, Math.round(w * k));
 
-        // fundo gradiente + vinheta
-        const g = ctx.createLinearGradient(0, 0, 0, W);
+        // fundo gradiente + vinheta (preenche a tela toda)
+        const g = ctx.createLinearGradient(0, 0, 0, H);
         g.addColorStop(0, rgb(pal.topo)); g.addColorStop(1, rgb(pal.base));
-        ctx.fillStyle = g; ctx.fillRect(0, 0, W, W);
-        const rg = ctx.createRadialGradient(W/2, W/2, S(200), W/2, W/2, S(760));
+        ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+        const rg = ctx.createRadialGradient(W/2, H/2, S(300), W/2, H/2, Math.max(W,H)*0.72);
         rg.addColorStop(0, `rgba(${pal.vinheta.join(",")},0)`);
         rg.addColorStop(1, `rgba(${pal.vinheta.join(",")},0.55)`);
-        ctx.fillStyle = rg; ctx.fillRect(0, 0, W, W);
+        ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
 
         // moldura
         if (mol === "linha") {
           ctx.strokeStyle = rgb(pal.ouro); ctx.lineWidth = lw(1);
-          ctx.strokeRect(S(52), S(52), W - S(104), W - S(104));
+          ctx.strokeRect(S(52), S(52), W - S(104), H - S(104));
         } else if (mol === "cantos") {
           ctx.strokeStyle = rgb(pal.ouro); ctx.lineWidth = lw(2);
           const m = S(54), br = S(70);
-          for (const [cx, cy, sx, sy] of [[m,m,1,1],[W-m,m,-1,1],[m,W-m,1,-1],[W-m,W-m,-1,-1]]) {
+          for (const [cx, cy, sx, sy] of [[m,m,1,1],[W-m,m,-1,1],[m,H-m,1,-1],[W-m,H-m,-1,-1]]) {
             ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + sx*br, cy); ctx.stroke();
             ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, cy + sy*br); ctx.stroke();
           }
         } else {
           ctx.strokeStyle = rgb(pal.ouroF); ctx.lineWidth = lw(2);
-          ctx.strokeRect(S(44), S(44), W - S(88), W - S(88));
+          ctx.strokeRect(S(44), S(44), W - S(88), H - S(88));
           ctx.strokeStyle = rgb(pal.ouro); ctx.lineWidth = lw(1);
-          ctx.strokeRect(S(60), S(60), W - S(120), W - S(120));
+          ctx.strokeRect(S(60), S(60), W - S(120), H - S(120));
         }
 
         // aspas
         ctx.fillStyle = rgb(pal.ouroF);
         ctx.textAlign = "left"; ctx.textBaseline = "top";
-        ctx.font = `500 ${S(190)}px "EB Garamond"`;
-        ctx.fillText("“", S(96 + 18), S(150));
+        ctx.font = `500 ${S(210)}px "EB Garamond"`;
+        ctx.fillText("“", S(114), S(300));
 
-        // versículo (ajuste em 1080-space, desenho escalado)
-        const maxW = 1080 - 2*96 - 60, maxH = 500;
-        const { size, linhas, esp } = ajustar(ctx, texto, maxW, maxH);
-        const bloco = linhas.length * esp;
-        let y = 300 + (maxH - bloco) / 2;
+        // versículo
+        const maxW = 1080 - 2*96 - 60, maxH = 820, topo = 560;
+        const { size, linhas, esp } = ajustarMax(ctx, texto, maxW, maxH, 92, "EB Garamond", 1.42);
+        let y = topo + (maxH - linhas.length * esp) / 2;
         ctx.fillStyle = rgb(pal.texto);
         ctx.textAlign = "center"; ctx.textBaseline = "top";
         ctx.font = `400 ${S(size)}px "EB Garamond"`;
         for (const linha of linhas) { ctx.fillText(linha, W/2, S(y)); y += esp; }
 
         // ornamento
-        const yc = y + 44;
+        const yc = y + 46;
         ctx.strokeStyle = rgb(pal.ouroF); ctx.lineWidth = lw(1);
         ctx.beginPath(); ctx.moveTo(S(540-90), S(yc)); ctx.lineTo(S(540-16), S(yc)); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(S(540+16), S(yc)); ctx.lineTo(S(540+90), S(yc)); ctx.stroke();
@@ -287,28 +286,75 @@
         // referência
         ctx.fillStyle = rgb(pal.ouro);
         ctx.textAlign = "center"; ctx.textBaseline = "top";
-        ctx.font = `700 ${S(40)}px "Cinzel"`;
-        ctx.fillText(referencia.toUpperCase(), W/2, S(y + 88));
+        ctx.font = `700 ${S(44)}px "Cinzel"`;
+        ctx.fillText(referencia.toUpperCase(), W/2, S(y + 92));
 
         // assinatura
         ctx.fillStyle = rgb(pal.ouroF);
-        ctx.font = `400 ${S(21)}px "Cinzel"`;
-        ctx.fillText(HANDLE.toUpperCase().split("").join(" "), W/2, S(1080 - 118));
+        ctx.font = `400 ${S(23)}px "Cinzel"`;
+        ctx.fillText(HANDLE.toUpperCase().split("").join(" "), W/2, S(1770));
       }
 
-      // Composição vertical 9:16 (Reel/Story): o quadrado borrado cobre o fundo
-      // e o quadrado nítido fica centralizado — igual ao que o ffmpeg monta.
-      function desenharVertical(canvas, opts) {
-        const W = canvas.width, H = canvas.height;
+      // ---- estilo bilhete (papel creme + cursiva azul) ----
+      const AZUL = [36,44,122], CREME = [236,228,210], AZUL_SOMBRA = [196,190,176], BIL_HANDLE = [92,98,150];
+
+      function escolherEstilo(texto, seed) {
+        let e = (fnv((seed || "") + "estilo") % 2) ? "bilhete" : "classico";
+        if (e === "bilhete" && (texto || "").length > 180) e = "classico";
+        return e;
+      }
+
+      function ajustarMax(ctx, texto, maxW, maxH, maxSize, fam, mult) {
+        for (let size = maxSize; size >= 30; size -= 2) {
+          ctx.font = `400 ${size}px "${fam}"`;
+          const linhas = quebrar(ctx, texto, maxW);
+          const esp = Math.round(size * mult);
+          if (linhas.length * esp <= maxH) return { size, linhas, esp };
+        }
+        ctx.font = `400 30px "${fam}"`;
+        return { size: 30, linhas: quebrar(ctx, texto, maxW), esp: Math.round(30 * mult) };
+      }
+
+      function coracaoCanvas(ctx, cx, cy, s, cor, lw) {
+        ctx.strokeStyle = cor; ctx.lineWidth = lw; ctx.beginPath();
+        for (let i = 0; i <= 360; i += 5) {
+          const t = i * Math.PI / 180;
+          const x = 16 * Math.pow(Math.sin(t), 3);
+          const y = 13*Math.cos(t) - 5*Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t);
+          const X = cx + x*s, Y = cy - y*s; i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y);
+        }
+        ctx.stroke();
+      }
+
+      function pintarBilhete(canvas, { texto, referencia, seed }) {
+        const W = canvas.width, H = canvas.height, k = W/1080, S = x => x*k;
         const ctx = canvas.getContext("2d");
-        const sq = document.createElement("canvas"); sq.width = 1080; sq.height = 1080;
-        desenhar(sq, opts);
-        ctx.save();
-        ctx.filter = "blur(16px) brightness(0.82)";
-        const s = Math.max(W / 1080, H / 1080), dw = 1080 * s, dh = 1080 * s;
-        ctx.drawImage(sq, (W - dw) / 2, (H - dh) / 2, dw, dh);
-        ctx.restore();
-        ctx.drawImage(sq, 0, (H - W) / 2, W, W);   // frente nítida, centralizada
+        ctx.fillStyle = rgb(CREME); ctx.fillRect(0, 0, W, H);
+        const rg = ctx.createRadialGradient(W/2, H/2, S(300), W/2, H/2, Math.max(W,H)*0.7);
+        rg.addColorStop(0, "rgba(206,196,176,0)"); rg.addColorStop(1, "rgba(206,196,176,.35)");
+        ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+        ctx.strokeStyle = rgb(AZUL); ctx.lineWidth = Math.max(1, Math.round(2*k));
+        ctx.strokeRect(S(26), S(26), W-S(52), H-S(52));
+        const maxW = 1080 - 2*(96+24), maxH = 900, topo = 470;
+        const { size, linhas, esp } = ajustarMax(ctx, texto, maxW, maxH, 104, "Dancing Script", 1.24);
+        let y = topo + (maxH - linhas.length*esp)/2;
+        ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.font = `600 ${S(size)}px "Dancing Script"`;
+        for (const l of linhas) {
+          ctx.fillStyle = rgb(AZUL_SOMBRA); ctx.fillText(l, W/2 + S(2), S(y+3));
+          ctx.fillStyle = rgb(AZUL); ctx.fillText(l, W/2, S(y)); y += esp;
+        }
+        coracaoCanvas(ctx, W/2, S(y+58), 2.3*k, rgb(AZUL), Math.max(2, Math.round(4*k)));
+        ctx.fillStyle = rgb(AZUL); ctx.font = `500 ${S(52)}px "Dancing Script"`;
+        ctx.fillText(referencia, W/2, S(1740));
+        ctx.fillStyle = rgb(BIL_HANDLE); ctx.font = `500 ${S(44)}px "Dancing Script"`;
+        ctx.fillText(HANDLE, W/2, S(1812));
+      }
+
+      // Escolhe o estilo (ou usa override.estilo) e pinta no formato vertical 9:16.
+      function desenharVertical(canvas, opts) {
+        const estilo = (opts.override && opts.override.estilo) || escolherEstilo(opts.texto, opts.seed);
+        if (estilo === "bilhete") pintarBilhete(canvas, opts);
+        else pintarClassico(canvas, opts);
       }
 
       // Trilha do dia (mesma escolha do vídeo: hash FNV do seed entre as 3).
@@ -353,7 +399,9 @@
         const render = (override) => desenharVertical(cv, { texto, referencia: item.referencia, seed: item.data, override });
         render(null); // o visual real do dia
         btn.addEventListener("click", () => {
+          const estilo = (texto.length <= 180 && Math.random() < 0.5) ? "bilhete" : "classico";
           render({
+            estilo,
             pal: Math.floor(Math.random()*PALETAS.length),
             mol: Math.floor(Math.random()*MOLDURAS.length),
             orn: Math.floor(Math.random()*ORNAMENTOS.length),
@@ -367,8 +415,9 @@
         try {
           const g = new FontFace("EB Garamond", `url(${RAW}/fontes/EBGaramond.ttf)`, { weight: "400 800" });
           const c = new FontFace("Cinzel", `url(${RAW}/fontes/Cinzel.ttf)`, { weight: "400 900" });
-          await Promise.all([g.load(), c.load()]);
-          document.fonts.add(g); document.fonts.add(c);
+          const d = new FontFace("Dancing Script", `url(${RAW}/fontes/DancingScript.ttf)`, { weight: "400 700" });
+          await Promise.all([g.load(), c.load(), d.load()]);
+          document.fonts.add(g); document.fonts.add(c); document.fonts.add(d);
         } catch (e) { /* segue com fontes do sistema */ }
 
         let historico = [], agenda = [], pool = [];
@@ -414,6 +463,7 @@
           const render = (ov) => desenharVertical(cv, { texto, referencia: prox.referencia, seed: prox.data, override: ov });
           render(null);
           btn.addEventListener("click", () => render({
+            estilo: (texto.length <= 180 && Math.random() < 0.5) ? "bilhete" : "classico",
             pal: Math.floor(Math.random()*PALETAS.length),
             mol: Math.floor(Math.random()*MOLDURAS.length),
             orn: Math.floor(Math.random()*ORNAMENTOS.length),
