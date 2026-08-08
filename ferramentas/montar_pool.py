@@ -41,6 +41,19 @@ REFERENCIAS = [
     "hebreus 13:8", "tiago 1:2-3", "salmos 62:1-2", "isaias 43:2",
     "joao 16:33", "2 timoteo 1:7", "salmos 100:4-5", "miqueias 6:8",
     "romanos 5:8", "salmos 145:18", "eclesiastes 3:1",
+    # --- ampliação do acervo (agosto/2026) ---
+    "salmos 19:14", "salmos 27:4", "salmos 34:18", "salmos 37:4",
+    "salmos 42:11", "salmos 55:22", "salmos 73:26", "salmos 90:12",
+    "salmos 103:2-4", "salmos 118:24", "salmos 136:1", "salmos 143:8",
+    "salmos 147:3", "proverbios 3:9-10", "proverbios 15:1", "proverbios 17:17",
+    "proverbios 18:10", "proverbios 27:17", "isaias 12:2", "isaias 26:3",
+    "isaias 55:8-9", "jeremias 17:7", "mateus 5:6", "mateus 6:34",
+    "mateus 7:7", "joao 1:1", "joao 8:12", "joao 15:5",
+    "atos 1:8", "romanos 8:38-39", "romanos 10:9", "romanos 12:12",
+    "1 corintios 10:13", "2 corintios 5:17", "galatas 2:20", "efesios 3:20",
+    "efesios 6:10", "filipenses 1:6", "filipenses 4:8", "colossenses 3:2",
+    "1 tessalonicenses 5:11", "hebreus 4:16", "tiago 4:7", "1 pedro 4:8",
+    "1 joao 1:9", "1 joao 4:7", "apocalipse 21:4",
 ]
 
 TAMANHO_MAXIMO = 260  # acima disso o texto não cai bem no quadrado 1080x1080
