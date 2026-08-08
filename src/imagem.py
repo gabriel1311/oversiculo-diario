@@ -99,6 +99,10 @@ VERT_W, VERT_H = 1080, 1920
 # dourado; "bilhete" = papel creme + cursiva azul + coração (pedido do Gabriel).
 ESTILOS = ["classico", "bilhete"]
 
+# A cursiva do bilhete só fica boa em versículo curto/médio; acima disso o texto
+# aperta e perde legibilidade, então versículos longos vão sempre no clássico.
+LIMITE_BILHETE = 180
+
 # Paleta do estilo bilhete.
 BILHETE_CREME = (236, 228, 210)
 BILHETE_CREME_BORDA = (206, 196, 176)
@@ -349,9 +353,16 @@ def _render_bilhete(texto: str, referencia: str, seed: str, W: int, H: int) -> I
     return imagem
 
 
-def _renderizar(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
+def escolher_estilo(texto: str, seed: str) -> str:
+    """Estilo do dia; versículo longo cai sempre no clássico (a cursiva aperta)."""
     estilo = ESTILOS[_fnv(seed + "estilo") % len(ESTILOS)]
-    if estilo == "bilhete":
+    if estilo == "bilhete" and len(texto) > LIMITE_BILHETE:
+        return "classico"
+    return estilo
+
+
+def _renderizar(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
+    if escolher_estilo(texto, seed) == "bilhete":
         return _render_bilhete(texto, referencia, seed, W, H)
     return _render_classico(texto, referencia, seed, W, H)
 
