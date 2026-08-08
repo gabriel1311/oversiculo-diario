@@ -95,13 +95,19 @@ def _publicar_container(conta: str, token: str, campos: dict[str, str], tentativ
     return id_post
 
 
-def publicar_reel(url_video: str, legenda: str) -> str:
-    """Publica o vídeo como Reel no feed (com legenda). Devolve o id do post."""
+def publicar_reel(url_video: str, legenda: str, cover_url: str | None = None) -> str:
+    """Publica o vídeo como Reel no feed (com legenda). Devolve o id do post.
+
+    cover_url define a capa/thumbnail (a imagem do versículo), para a grade do
+    perfil não mostrar o primeiro quadro do vídeo.
+    """
     token, conta = _credenciais()
     # share_to_feed=true faz o Reel aparecer também na grade do perfil.
+    campos = {"media_type": "REELS", "video_url": url_video, "caption": legenda, "share_to_feed": "true"}
+    if cover_url:
+        campos["cover_url"] = cover_url
     return _publicar_container(
-        conta, token,
-        {"media_type": "REELS", "video_url": url_video, "caption": legenda, "share_to_feed": "true"},
+        conta, token, campos,
         tentativas=60,  # vídeo transcodifica devagar: até ~5 min de espera
     )
 

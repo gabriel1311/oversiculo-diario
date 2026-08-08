@@ -70,20 +70,14 @@ def montar(
 
     destino.parent.mkdir(parents=True, exist_ok=True)
 
-    # O cartaz já é 1080×1920 (enche a tela do Reel/Story). Então o vídeo é o
-    # cartaz parado com a trilha por baixo e um fade suave no início e no fim.
-    # Sem zoom no texto de propósito: assim o versículo fica sempre nítido, sem
-    # risco de tremer.
-    saida_fade = max(0.1, duracao - 0.8)
-    filtro = (
-        f"fade=t=in:st=0:d=0.8,fade=t=out:st={saida_fade:.1f}:d=0.8,format=yuv420p"
-    )
-
+    # O cartaz já é 1080×1920 (enche a tela do Reel/Story). O vídeo é o cartaz
+    # PARADO com a trilha por baixo — sem fade de entrada, senão o 1º quadro fica
+    # preto e o Instagram usa esse preto como capa/thumbnail. Imagem constante =
+    # laço perfeito e a miniatura mostra o versículo.
     comando = [
         "ffmpeg", "-y",
         "-loop", "1", "-i", str(imagem),      # cartaz parado 1080×1920
         "-stream_loop", "-1", "-i", str(trilha),  # trilha em laço
-        "-vf", filtro,
         "-map", "0:v", "-map", "1:a",
         "-t", str(duracao),
         "-r", "30",

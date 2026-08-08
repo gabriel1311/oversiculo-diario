@@ -96,10 +96,11 @@ def publicar(dia: date) -> int:
 
     texto_legenda = c.txt.read_text(encoding="utf-8").strip()
     url = url_publica(c.rel_mp4)
+    capa = url_publica(c.rel_jpg)  # thumbnail = a imagem do versículo
     print(f"[video] {url}")
 
     try:
-        id_reel = instagram.publicar_reel(url, texto_legenda)
+        id_reel = instagram.publicar_reel(url, texto_legenda, cover_url=capa)
         print(f"[instagram] Reel publicado: {id_reel}")
         # O Story é o mesmo vídeo do dia. Se falhar, não derruba o post do feed —
         # o Reel já foi publicado; só avisamos.

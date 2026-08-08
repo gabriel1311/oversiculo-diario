@@ -89,10 +89,11 @@ def publicar() -> int:
 
     texto_legenda = txt.read_text(encoding="utf-8").strip()
     url = url_publica(rel_mp4)
+    capa = url_publica(rel_jpg)  # thumbnail = a imagem do versículo
     print(f"[video] {url}")
 
     try:
-        id_reel = instagram.publicar_reel(url, texto_legenda)
+        id_reel = instagram.publicar_reel(url, texto_legenda, cover_url=capa)
         print(f"[instagram] Reel publicado: {id_reel}")
         try:
             id_story = instagram.publicar_story(url)
