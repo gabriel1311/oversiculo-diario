@@ -10,6 +10,9 @@ on:
       consulta:
         description: "Versículo (ex.: filipenses 4:13)"
         default: "filipenses 4:13"
+      trilha:
+        description: "Arquivo de trilha em audio/ (vazio = rotação padrão)"
+        default: ""
       ensaio:
         description: "Gerar sem publicar"
         type: boolean
@@ -41,6 +44,7 @@ jobs:
       - name: Gerar imagem, vídeo e legenda
         env:
           AVULSO_CONSULTA: ${{ inputs.consulta }}
+          AVULSO_TRILHA: ${{ inputs.trilha }}
         run: python -m src.avulso --fase ${{ inputs.ensaio && 'ensaio' || 'preparar' }}
 
       - name: Guardar os arquivos como artefato

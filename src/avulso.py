@@ -60,9 +60,11 @@ def preparar(ensaio: bool) -> int:
     imagem.gerar(v.texto, v.referencia, jpg, seed=seed)
     print(f"[imagem] {rel_jpg}")
 
+    trilha_env = os.environ.get("AVULSO_TRILHA", "").strip()
+    trilha = (RAIZ / "audio" / trilha_env) if trilha_env else None
     try:
-        video.montar(jpg, mp4, seed=seed)
-        print(f"[video] {rel_mp4} ({mp4.stat().st_size // 1024} KB)")
+        video.montar(jpg, mp4, seed=seed, trilha=trilha)
+        print(f"[video] {rel_mp4} ({mp4.stat().st_size // 1024} KB){' | trilha ' + trilha_env if trilha_env else ''}")
     except video.VideoIndisponivel as erro:
         if not ensaio:
             print(f"::error::Não foi possível montar o vídeo: {erro}", file=sys.stderr)
