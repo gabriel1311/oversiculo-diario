@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>O Versículo Diário — Painel</title>
+    <style>
+      :root {
+        --bg: #0b1d3a;
+        --bg-2: #10264a;
+        --card: #14294c;
+        --line: #24406e;
+        --texto: #eef2f8;
+        --dim: #a9b8d0;
+        --faint: #6f83a6;
+        --ouro: #ceaa6a;
+        --ouro-fraco: #967a4c;
+        --bom: #5cc98a;
+        --ruim: #f2726f;
+        --serif: Georgia, "Times New Roman", serif;
+        --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: linear-gradient(180deg, var(--bg), var(--bg-2));
+        min-height: 100vh;
+        color: var(--texto);
+        font-family: var(--sans);
+        font-size: 15px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap { max-width: 960px; margin: 0 auto; padding: 40px 22px 60px; }
+
+      header { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+      .marca {
+        width: 44px; height: 44px; border-radius: 11px; flex-shrink: 0;
+        background: radial-gradient(circle at 50% 38%, #1c3b6b, #0b1d3a);
+        border: 1px solid var(--ouro-fraco);
+        display: grid; place-items: center;
+      }
+      .marca::after {
+        content: ""; width: 16px; height: 12px; border: 2px solid var(--ouro);
+        border-radius: 2px 2px 6px 6px; border-top: none;
+        box-shadow: 0 -5px 0 -3px var(--ouro);
+      }
+      h1 { font-family: var(--serif); font-size: 23px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+      .sub { color: var(--faint); font-size: 12.5px; margin-top: -1px; }
+
+      .pill {
+        display: inline-flex; align-items: center; gap: 7px; margin-left: auto;
+        font-size: 12.5px; padding: 6px 13px; border-radius: 20px;
+        border: 1px solid var(--line); background: var(--card); color: var(--dim);
+      }
+      .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--faint); }
+      .dot.on { background: var(--bom); box-shadow: 0 0 0 3px rgba(92,201,138,0.18); }
+
+      .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 26px 0; }
+      .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+      .kpi .rot { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--faint); font-weight: 600; }
+      .kpi .val { font-family: var(--serif); font-size: 30px; font-weight: 600; margin-top: 4px; letter-spacing: -0.02em; }
+      .kpi .pe { font-size: 12.5px; color: var(--dim); margin-top: 2px; }
+      .kpi .val.ouro { color: var(--ouro); }
+
+      h2 {
+        font-family: var(--serif); font-size: 15px; font-weight: 600; color: var(--ouro);
+        text-transform: uppercase; letter-spacing: 0.06em; margin: 34px 0 14px;
+        padding-bottom: 8px; border-bottom: 1px solid var(--line);
+      }
+
+      .proximo {
+        background: var(--card); border: 1px solid var(--ouro-fraco); border-radius: 14px;
+        padding: 20px 22px; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+      }
+      .proximo .quando { font-size: 13px; color: var(--dim); }
+      .proximo .ref { font-family: var(--serif); font-size: 22px; color: var(--ouro); font-weight: 600; }
+
+      .agenda { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+      .agenda .linha { display: flex; justify-content: space-between; gap: 14px; padding: 11px 16px; background: var(--card); font-size: 14px; }
+      .agenda .linha .data { color: var(--dim); font-variant-numeric: tabular-nums; }
+      .agenda .linha .ref { color: var(--texto); font-family: var(--serif); }
+      .agenda .linha:first-child .ref { color: var(--ouro); }
+
+      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .post { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s; }
+      .post:hover { border-color: var(--ouro-fraco); transform: translateY(-2px); }
+      .post img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: var(--bg-2); }
+      .post .meta { padding: 9px 11px; }
+      .post .meta .ref { font-family: var(--serif); font-size: 13.5px; }
+      .post .meta .data { font-size: 11.5px; color: var(--faint); font-variant-numeric: tabular-nums; }
+
+      .custo { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+      .custo .linha { display: flex; justify-content: space-between; gap: 14px; padding: 12px 18px; border-bottom: 1px solid var(--line); font-size: 14px; }
+      .custo .linha:last-child { border-bottom: none; }
+      .custo .linha .item { color: var(--dim); }
+      .custo .linha .item small { display: block; color: var(--faint); font-size: 11.5px; }
+      .custo .linha .preco { color: var(--bom); font-weight: 600; white-space: nowrap; }
+      .custo .total { background: var(--bg-2); }
+      .custo .total .item { color: var(--texto); font-weight: 600; }
+      .custo .total .preco { font-family: var(--serif); font-size: 18px; }
+
+      footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--faint); display: flex; gap: 18px; flex-wrap: wrap; }
+      footer a { color: var(--dim); text-decoration: none; }
+      footer a:hover { color: var(--ouro); }
+
+      .aviso { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; color: var(--dim); font-size: 13.5px; }
+      .carregando { color: var(--faint); font-size: 13.5px; padding: 8px 0; }
+
+      @media (max-width: 560px) {
+        .kpis { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="marca"></div>
+        <div>
+          <h1>O Versículo Diário</h1>
+          <div class="sub">Painel de controle · @oversiculo.diario</div>
+        </div>
+        <span class="pill"><span class="dot" id="statusDot"></span><span id="statusTxt">carregando…</span></span>
+      </header>
+
+      <div class="kpis">
+        <div class="kpi">
+          <div class="rot">Publicados</div>
+          <div class="val" id="kpiTotal">—</div>
+          <div class="pe" id="kpiDesde"></div>
+        </div>
+        <div class="kpi">
+          <div class="rot">Próximo post</div>
+          <div class="val" id="kpiProximo" style="font-size:20px">—</div>
+          <div class="pe" id="kpiProximoRef"></div>
+        </div>
+        <div class="kpi">
+          <div class="rot">Custo mensal</div>
+          <div class="val ouro" id="kpiCusto">R$ 0</div>
+          <div class="pe">tudo em plano gratuito</div>
+        </div>
+      </div>
+
+      <h2>Próximo a publicar</h2>
+      <div class="proximo" id="proximo"><span class="carregando">carregando…</span></div>
+
+      <h2>Agenda dos próximos dias</h2>
+      <div id="agendaBox"><div class="carregando">carregando…</div></div>
+
+      <h2>Já publicados</h2>
+      <div id="historicoBox"><div class="carregando">carregando…</div></div>
+
+      <h2>Custo</h2>
+      <div class="custo">
+        <div class="linha"><span class="item">Publicação diária<small>GitHub Actions · dentro do plano grátis</small></span><span class="preco">R$ 0</span></div>
+        <div class="linha"><span class="item">Hospedagem da imagem<small>GitHub (raw)</small></span><span class="preco">R$ 0</span></div>
+        <div class="linha"><span class="item">Este painel<small>Firebase Hosting · plano Spark</small></span><span class="preco">R$ 0</span></div>
+        <div class="linha"><span class="item">Renovação do token<small>automática, toda semana</small></span><span class="preco">R$ 0</span></div>
+        <div class="linha"><span class="item" id="itemLegenda">Legendas<small id="legendaNota">texto padrão</small></span><span class="preco" id="precoLegenda">R$ 0</span></div>
+        <div class="linha total"><span class="item">Total</span><span class="preco" id="custoTotal">R$ 0 / mês</span></div>
+      </div>
+
+      <footer>
+        <a href="https://instagram.com/oversiculo.diario" target="_blank" rel="noreferrer">Ver no Instagram ↗</a>
+        <a href="https://github.com/gabriel1311/oversiculo-diario" target="_blank" rel="noreferrer">Código no GitHub ↗</a>
+        <a href="https://github.com/gabriel1311/oversiculo-diario/actions" target="_blank" rel="noreferrer">Execuções (Actions) ↗</a>
+        <span style="margin-left:auto" id="atualizado"></span>
+      </footer>
+    </div>
+
+    <script>
+      const REPO = "gabriel1311/oversiculo-diario";
+      const RAW = `https://raw.githubusercontent.com/${REPO}/main`;
+
+      const nf = new Intl.NumberFormat("pt-BR");
+      const diaSemana = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
+      const meses = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+
+      // Datas do arquivo são YYYY-MM-DD; interpretamos como data local (sem fuso).
+      function parseData(s) {
+        const [a, m, d] = s.split("-").map(Number);
+        return new Date(a, m - 1, d);
+      }
+      function fmtLongo(s) {
+        const dt = parseData(s);
+        return `${diaSemana[dt.getDay()]}, ${dt.getDate()} de ${meses[dt.getMonth()]}`;
+      }
+      function fmtCurto(s) {
+        const dt = parseData(s);
+        return `${String(dt.getDate()).padStart(2, "0")}/${meses[dt.getMonth()]}`;
+      }
+
+      async function buscarJSON(caminho) {
+        // cache-bust leve para não pegar versão presa do CDN
+        const r = await fetch(`${RAW}/${caminho}?t=${Date.now()}`, { cache: "no-store" });
+        if (!r.ok) throw new Error(`${caminho}: HTTP ${r.status}`);
+        return r.json();
+      }
+
+      function setStatus(ok, texto) {
+        document.getElementById("statusDot").className = "dot" + (ok ? " on" : "");
+        document.getElementById("statusTxt").textContent = texto;
+      }
+
+      async function main() {
+        let historico = [];
+        let agenda = [];
+        try {
+          [historico, agenda] = await Promise.all([
+            buscarJSON("dados/historico.json").catch(() => []),
+            buscarJSON("dados/agenda.json").catch(() => []),
+          ]);
+        } catch (e) {
+          setStatus(false, "erro ao carregar");
+        }
+
+        // KPIs
+        document.getElementById("kpiTotal").textContent = nf.format(historico.length);
+        if (historico.length) {
+          const primeira = historico[0].data;
+          document.getElementById("kpiDesde").textContent = "desde " + fmtCurto(primeira);
+        }
+
+        const prox = agenda[0];
+        if (prox) {
+          document.getElementById("kpiProximo").textContent = fmtCurto(prox.data);
+          document.getElementById("kpiProximoRef").textContent = prox.referencia;
+          document.getElementById("proximo").innerHTML =
+            `<span class="quando">${fmtLongo(prox.data)} · 08h (Brasília)</span>` +
+            `<span class="ref">${prox.referencia}</span>`;
+          setStatus(true, "no ar");
+        } else {
+          document.getElementById("proximo").innerHTML =
+            `<span class="quando">Agenda ainda não gerada — aparece após o próximo post.</span>`;
+          setStatus(true, "no ar");
+        }
+
+        // Agenda
+        const agBox = document.getElementById("agendaBox");
+        if (agenda.length) {
+          agBox.className = "agenda";
+          agBox.innerHTML = agenda
+            .map(
+              (a) =>
+                `<div class="linha"><span class="data">${fmtLongo(a.data)}</span><span class="ref">${a.referencia}</span></div>`
+            )
+            .join("");
+        } else {
+          agBox.innerHTML = `<div class="aviso">A agenda é gerada a cada publicação. Assim que o próximo post rodar, os dias aparecem aqui.</div>`;
+        }
+
+        // Histórico (mais recente primeiro)
+        const hBox = document.getElementById("historicoBox");
+        if (historico.length) {
+          const recentes = [...historico].reverse();
+          hBox.className = "grid";
+          hBox.innerHTML = recentes
+            .map((h) => {
+              const img = `${RAW}/posts/${h.data}.jpg`;
+              return (
+                `<a class="post" href="https://instagram.com/oversiculo.diario" target="_blank" rel="noreferrer">` +
+                `<img loading="lazy" src="${img}" alt="${h.referencia}" onerror="this.style.display='none'">` +
+                `<div class="meta"><div class="ref">${h.referencia}</div><div class="data">${fmtCurto(h.data)}</div></div>` +
+                `</a>`
+              );
+            })
+            .join("");
+        } else {
+          hBox.innerHTML = `<div class="aviso">Nenhum post ainda. O primeiro aparece aqui depois da primeira publicação.</div>`;
+        }
+
+        document.getElementById("atualizado").textContent =
+          "atualizado " + new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+      }
+
+      main();
+    </script>
+  </body>
+</html>

@@ -58,6 +58,10 @@ def preparar(dia: date, ensaio: bool) -> int:
     destino_txt.write_text(texto_legenda + "\n", encoding="utf-8")
     print(f"[legenda]\n{texto_legenda}\n")
 
+    # Atualiza a agenda prevista dos próximos dias (a página de controle lê daqui).
+    versiculos.escrever_agenda()
+    print("[agenda] próximos dias atualizados em dados/agenda.json")
+
     if ensaio:
         print("[ensaio] arquivos gerados; nada foi publicado")
     return 0

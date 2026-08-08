@@ -76,11 +76,11 @@ jobs:
           IMAGEM_REF: ${{ steps.commit.outputs.sha }}
         run: python -m src.principal --fase publicar
 
-      - name: Registrar no histórico
+      - name: Registrar histórico e agenda
         if: ${{ !inputs.ensaio }}
         run: |
-          git add dados/historico.json
+          git add dados/historico.json dados/agenda.json
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "Histórico: $(date -u +%Y-%m-%d)"
+          git commit -m "Histórico e agenda: $(date -u +%Y-%m-%d)"
           git pull --rebase --autostash
           git push
