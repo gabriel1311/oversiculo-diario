@@ -1,7 +1,14 @@
-"""Renderiza o post 1080x1080 a partir do versículo."""
+"""Renderiza o post 1080x1080 a partir do versículo.
+
+O visual varia por dia — paleta, ornamento e moldura — para o feed não ficar
+engessado, mas a estrutura é sempre a mesma (versículo centralizado, referência,
+assinatura, moldura dourada). A variação é semeada pela data: o mesmo dia sempre
+sai igual (retry seguro), dias diferentes saem diferentes.
+"""
 
 from __future__ import annotations
 
+import random
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -12,12 +19,42 @@ FONTES = RAIZ / "fontes"
 LADO = 1080
 MARGEM = 96
 
-# Azul-marinho profundo + dourado. Mantido em sincronia com a logo.
-FUNDO_TOPO = (11, 29, 58)
-FUNDO_BASE = (24, 52, 94)
-DOURADO = (206, 170, 106)
-DOURADO_FRACO = (150, 122, 76)
-TEXTO = (243, 240, 233)
+# Paletas: fundo escuro + tinta clara + acento metálico. Todas são claro-sobre-
+# escuro com contraste alto, então o texto fica sempre legível. O acento é uma
+# variação de dourado/bronze que combina com cada fundo.
+PALETAS = [
+    {  # marinho (o original)
+        "topo": (11, 29, 58), "base": (24, 52, 94), "vinheta": (4, 12, 26),
+        "ouro": (206, 170, 106), "ouro_fraco": (150, 122, 76), "texto": (243, 240, 233),
+    },
+    {  # floresta
+        "topo": (10, 40, 30), "base": (18, 60, 45), "vinheta": (4, 18, 12),
+        "ouro": (200, 172, 108), "ouro_fraco": (142, 120, 78), "texto": (240, 240, 230),
+    },
+    {  # vinho
+        "topo": (46, 16, 26), "base": (74, 28, 42), "vinheta": (22, 8, 14),
+        "ouro": (208, 172, 112), "ouro_fraco": (152, 122, 82), "texto": (244, 236, 232),
+    },
+    {  # grafite (acento areia)
+        "topo": (26, 28, 33), "base": (44, 47, 55), "vinheta": (10, 11, 14),
+        "ouro": (212, 188, 152), "ouro_fraco": (150, 132, 106), "texto": (240, 238, 232),
+    },
+    {  # ameixa
+        "topo": (36, 22, 52), "base": (58, 38, 80), "vinheta": (16, 10, 26),
+        "ouro": (202, 172, 122), "ouro_fraco": (146, 122, 88), "texto": (242, 236, 240),
+    },
+    {  # petróleo
+        "topo": (8, 38, 44), "base": (14, 60, 68), "vinheta": (4, 18, 20),
+        "ouro": (200, 178, 124), "ouro_fraco": (140, 124, 88), "texto": (236, 240, 238),
+    },
+    {  # café
+        "topo": (34, 24, 18), "base": (58, 42, 30), "vinheta": (16, 10, 6),
+        "ouro": (214, 184, 130), "ouro_fraco": (154, 130, 92), "texto": (242, 236, 226),
+    },
+]
+
+MOLDURAS = ["dupla", "cantos"]
+ORNAMENTOS = ["losango", "cruz", "pontos"]
 
 HANDLE = "@oversiculo.diario"
 
@@ -50,7 +87,7 @@ def _fonte(arquivo: str, tamanho: int, peso: str = "Regular") -> ImageFont.FreeT
     return fonte
 
 
-def _fundo() -> Image.Image:
+def _fundo(pal: dict) -> Image.Image:
     """Gradiente vertical suave com vinheta, montado pequeno e ampliado."""
     altura = 256
     gradiente = Image.new("RGB", (1, altura))
@@ -58,29 +95,40 @@ def _fundo() -> Image.Image:
     for y in range(altura):
         proporcao = y / (altura - 1)
         pixels[0, y] = tuple(
-            round(FUNDO_TOPO[c] + (FUNDO_BASE[c] - FUNDO_TOPO[c]) * proporcao)
+            round(pal["topo"][c] + (pal["base"][c] - pal["topo"][c]) * proporcao)
             for c in range(3)
         )
     base = gradiente.resize((LADO, LADO), Image.Resampling.BICUBIC)
 
     # Vinheta: escurece os cantos para o texto ganhar peso no centro.
     vinheta = Image.radial_gradient("L").resize((LADO, LADO), Image.Resampling.BICUBIC)
-    escuro = Image.new("RGB", (LADO, LADO), (4, 12, 26))
+    escuro = Image.new("RGB", (LADO, LADO), pal["vinheta"])
     return Image.composite(escuro, base, vinheta.point(lambda v: int(v * 0.55)))
 
 
-def _moldura(desenho: ImageDraw.ImageDraw) -> None:
-    externa = 44
-    interna = 60
+def _moldura(desenho: ImageDraw.ImageDraw, pal: dict, estilo: str) -> None:
+    if estilo == "cantos":
+        # Só cantos: quatro cotovelos dourados, sem retângulo fechado.
+        m, braco = 54, 70
+        for cx, cy, sx, sy in [
+            (m, m, 1, 1),
+            (LADO - m, m, -1, 1),
+            (m, LADO - m, 1, -1),
+            (LADO - m, LADO - m, -1, -1),
+        ]:
+            desenho.line([cx, cy, cx + sx * braco, cy], fill=pal["ouro"], width=2)
+            desenho.line([cx, cy, cx, cy + sy * braco], fill=pal["ouro"], width=2)
+        return
+
+    # dupla (padrão): duas linhas concêntricas.
+    externa, interna = 44, 60
     desenho.rectangle(
         [externa, externa, LADO - externa - 1, LADO - externa - 1],
-        outline=DOURADO_FRACO,
-        width=2,
+        outline=pal["ouro_fraco"], width=2,
     )
     desenho.rectangle(
         [interna, interna, LADO - interna - 1, LADO - interna - 1],
-        outline=DOURADO,
-        width=1,
+        outline=pal["ouro"], width=1,
     )
 
 
@@ -121,42 +169,60 @@ def _ajustar(
     return fonte, _quebrar(texto, fonte, largura, desenho), 40
 
 
-def _ornamento(desenho: ImageDraw.ImageDraw, centro_y: int) -> None:
+def _ornamento(desenho: ImageDraw.ImageDraw, centro_y: int, pal: dict, estilo: str) -> None:
     meio = LADO // 2
     largura = 90
-    desenho.line([meio - largura, centro_y, meio - 14, centro_y], fill=DOURADO_FRACO, width=1)
-    desenho.line([meio + 14, centro_y, meio + largura, centro_y], fill=DOURADO_FRACO, width=1)
-    desenho.polygon(
-        [(meio, centro_y - 6), (meio + 6, centro_y), (meio, centro_y + 6), (meio - 6, centro_y)],
-        outline=DOURADO,
-    )
+    # Os dois traços laterais aparecem em todos os estilos.
+    desenho.line([meio - largura, centro_y, meio - 16, centro_y], fill=pal["ouro_fraco"], width=1)
+    desenho.line([meio + 16, centro_y, meio + largura, centro_y], fill=pal["ouro_fraco"], width=1)
+
+    if estilo == "cruz":
+        desenho.line([meio, centro_y - 8, meio, centro_y + 8], fill=pal["ouro"], width=2)
+        desenho.line([meio - 6, centro_y - 2, meio + 6, centro_y - 2], fill=pal["ouro"], width=2)
+    elif estilo == "pontos":
+        for dx in (-8, 0, 8):
+            desenho.ellipse(
+                [meio + dx - 2, centro_y - 2, meio + dx + 2, centro_y + 2], fill=pal["ouro"]
+            )
+    else:  # losango
+        desenho.polygon(
+            [(meio, centro_y - 6), (meio + 6, centro_y), (meio, centro_y + 6), (meio - 6, centro_y)],
+            outline=pal["ouro"],
+        )
 
 
-def gerar(texto: str, referencia: str, destino: Path) -> Path:
-    imagem = _fundo()
+def gerar(texto: str, referencia: str, destino: Path, seed: str | None = None) -> Path:
+    # A data semeia paleta/moldura/ornamento: mesmo dia = mesmo visual (retry
+    # seguro), dias diferentes = visuais diferentes.
+    sorteio = random.Random(seed or "")
+    pal = sorteio.choice(PALETAS)
+    estilo_moldura = sorteio.choice(MOLDURAS)
+    estilo_ornamento = sorteio.choice(ORNAMENTOS)
+
+    imagem = _fundo(pal)
     desenho = ImageDraw.Draw(imagem)
-    _moldura(desenho)
+    _moldura(desenho, pal, estilo_moldura)
 
     largura_util = LADO - 2 * MARGEM - 60
     altura_util = 470
 
     # Aspas decorativas
     aspas = _fonte("EBGaramond.ttf", 190, "Medium")
-    desenho.text((MARGEM + 18, 150), "“", font=aspas, fill=DOURADO_FRACO)
+    desenho.text((MARGEM + 18, 150), "“", font=aspas, fill=pal["ouro_fraco"])
 
     fonte_texto, linhas, espacamento = _ajustar(texto, desenho, largura_util, altura_util)
 
     bloco = len(linhas) * espacamento
     y = 300 + (altura_util - bloco) // 2
     for linha in linhas:
-        desenho.text((LADO // 2, y), linha, font=fonte_texto, fill=TEXTO, anchor="ma")
+        desenho.text((LADO // 2, y), linha, font=fonte_texto, fill=pal["texto"], anchor="ma")
         y += espacamento
 
-    _ornamento(desenho, y + 44)
+    _ornamento(desenho, y + 44, pal, estilo_ornamento)
 
     fonte_referencia = _fonte("Cinzel.ttf", 40, "SemiBold")
     desenho.text(
-        (LADO // 2, y + 88), referencia.upper(), font=fonte_referencia, fill=DOURADO, anchor="ma"
+        (LADO // 2, y + 88), referencia.upper(), font=fonte_referencia, fill=pal["ouro"], anchor="ma"
     )
 
     fonte_handle = _fonte("Cinzel.ttf", 21, "Regular")
@@ -164,7 +230,7 @@ def gerar(texto: str, referencia: str, destino: Path) -> Path:
         (LADO // 2, LADO - 118),
         " ".join(HANDLE.upper()),  # espaçado, como marca d'água discreta
         font=fonte_handle,
-        fill=DOURADO_FRACO,
+        fill=pal["ouro_fraco"],
         anchor="ma",
     )
 

@@ -51,7 +51,7 @@ def preparar(dia: date, ensaio: bool) -> int:
     print(f"[versiculo] {escolhido.referencia} — {len(escolhido.texto)} caracteres")
 
     relativo, destino_jpg, destino_txt = _caminhos(dia)
-    caminho = imagem.gerar(escolhido.texto, escolhido.referencia, destino_jpg)
+    caminho = imagem.gerar(escolhido.texto, escolhido.referencia, destino_jpg, seed=dia.isoformat())
     print(f"[imagem] {relativo} ({caminho.stat().st_size // 1024} KB)")
 
     texto_legenda = legenda.gerar(escolhido.texto, escolhido.referencia)
