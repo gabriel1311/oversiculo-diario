@@ -1,0 +1,76 @@
+name: Post avulso
+
+# Publica um versículo específico agora (Reel + Story), com o modelo novo, SEM
+# tocar na agenda nem no histórico — a programação diária continua igual.
+# Disparo manual: escolha o versículo (consulta como em dados/versiculos.json).
+
+on:
+  workflow_dispatch:
+    inputs:
+      consulta:
+        description: "Versículo (ex.: filipenses 4:13)"
+        default: "filipenses 4:13"
+      ensaio:
+        description: "Gerar sem publicar"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: avulso
+  cancel-in-progress: false
+
+jobs:
+  avulso:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Garantir ffmpeg
+        run: ffmpeg -version >/dev/null 2>&1 || (sudo apt-get update && sudo apt-get install -y ffmpeg)
+
+      - name: Gerar imagem, vídeo e legenda
+        env:
+          AVULSO_CONSULTA: ${{ inputs.consulta }}
+        run: python -m src.avulso --fase ${{ inputs.ensaio && 'ensaio' || 'preparar' }}
+
+      - name: Guardar os arquivos como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-avulso
+          path: posts/avulso/
+          retention-days: 14
+
+      - name: Commitar os arquivos
+        if: ${{ !inputs.ensaio }}
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add posts/avulso
+          if git diff --cached --quiet; then
+            echo "Arquivos já commitados; usando o commit atual."
+          else
+            git commit -m "Post avulso: ${{ inputs.consulta }}"
+            git pull --rebase --autostash || true
+            git push
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Publicar no Instagram
+        if: ${{ !inputs.ensaio }}
+        env:
+          AVULSO_CONSULTA: ${{ inputs.consulta }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
+          IMAGEM_REF: ${{ steps.commit.outputs.sha }}
+        run: python -m src.avulso --fase publicar
