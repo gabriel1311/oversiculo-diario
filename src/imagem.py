@@ -416,7 +416,10 @@ def _render_livro(texto: str, referencia: str, seed: str, W: int, H: int) -> Ima
 
 
 # Estilo "foto": versículo em branco sobre uma foto livre, com escurecimento.
-FOTOS = ["foto-campo.jpg", "foto-montanha-rosa.jpg", "foto-floresta.jpg"]
+FOTOS = [
+    "foto-campo.jpg", "foto-montanha-rosa.jpg", "foto-floresta.jpg",
+    "foto-ceu-dourado.jpg", "foto-praia.jpg",
+]
 FOTO_TEXTO = (247, 246, 242)
 FOTO_HANDLE = (232, 230, 224)
 
