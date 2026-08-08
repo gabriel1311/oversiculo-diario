@@ -1,8 +1,8 @@
 {
-  "12-24": "isaias 9:6",
-  "12-25": "lucas 2:11",
+  "12-24": { "consulta": "isaias 9:6", "exclusivo": true },
+  "12-25": { "consulta": "lucas 2:11", "exclusivo": true },
   "01-01": "lamentacoes 3:22-23",
-  "2026-04-05": "mateus 28:6",
-  "2027-03-28": "mateus 28:6",
-  "2028-04-16": "mateus 28:6"
+  "2026-04-05": { "consulta": "mateus 28:6", "exclusivo": true },
+  "2027-03-28": { "consulta": "mateus 28:6", "exclusivo": true },
+  "2028-04-16": { "consulta": "mateus 28:6", "exclusivo": true }
 }
