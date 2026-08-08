@@ -21,7 +21,7 @@ AUDIO = RAIZ / "audio"
 # Trilhas em rotação — o vídeo escolhe uma por dia (seed), para o feed não soar
 # sempre igual. São faixas royalty-free reais (Pixabay), creditadas em
 # audio/CREDITOS.md. Para variar mais, é só somar mais arquivos aqui.
-TRILHAS = ["piano-atlas.mp3"]
+TRILHAS = ["piano-atlas.mp3", "piano-monda.mp3", "piano-atlas2.mp3"]
 TRILHA = AUDIO / TRILHAS[0]
 
 LADO = 1080

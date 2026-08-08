@@ -7,6 +7,8 @@ não como arquivos de música para download avulso.
 | Arquivo            | Título          | Autor       | Fonte                         | Licença                          |
 |--------------------|-----------------|-------------|-------------------------------|----------------------------------|
 | piano-atlas.mp3    | Emotional Piano | AtlasAudio  | Pixabay (pixabay.com/music)   | Pixabay Content License (uso comercial livre) |
+| piano-monda.mp3    | Emotional Piano | MondaMusic  | Pixabay (pixabay.com/music)   | Pixabay Content License (uso comercial livre) |
+| piano-atlas2.mp3   | Piano Emotional | AtlasAudio  | Pixabay (pixabay.com/music)   | Pixabay Content License (uso comercial livre) |
 
 Para acrescentar uma trilha: baixe uma faixa livre, coloque o arquivo em
 `audio/`, adicione o nome em `TRILHAS` (em `src/video.py`) e credite aqui.
