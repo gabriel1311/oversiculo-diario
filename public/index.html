@@ -297,11 +297,17 @@
 
       // ---- estilo bilhete (papel creme + cursiva azul) ----
       const AZUL = [36,44,122], CREME = [236,228,210], AZUL_SOMBRA = [196,190,176], BIL_HANDLE = [92,98,150];
+      const LIVRO_BG = [216,214,208], LIVRO_TEXTO = [38,36,34], LIVRO_REF = [18,18,18], LIVRO_GRIFO = [216,228,96], LIVRO_HANDLE = [120,120,112];
+      const ESTILOS_V = ["classico", "bilhete", "livro"];
 
       function escolherEstilo(texto, seed) {
-        let e = (fnv((seed || "") + "estilo") % 2) ? "bilhete" : "classico";
+        let e = ESTILOS_V[fnv((seed || "") + "estilo") % ESTILOS_V.length];
         if (e === "bilhete" && (texto || "").length > 180) e = "classico";
         return e;
+      }
+      function estiloAleatorio(texto) {
+        const ops = (texto || "").length <= 180 ? ESTILOS_V : ["classico", "livro"];
+        return ops[Math.floor(Math.random() * ops.length)];
       }
 
       function ajustarMax(ctx, texto, maxW, maxH, maxSize, fam, mult) {
@@ -350,10 +356,39 @@
         ctx.fillText(HANDLE, W/2, S(1812));
       }
 
+      function pintarLivro(canvas, { texto, referencia }) {
+        const W = canvas.width, H = canvas.height, k = W/1080, S = x => x*k;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = rgb(LIVRO_BG); ctx.fillRect(0, 0, W, H);
+        const rg = ctx.createRadialGradient(W/2, H/2, S(300), W/2, H/2, Math.max(W,H)*0.72);
+        rg.addColorStop(0, "rgba(196,194,188,0)"); rg.addColorStop(1, "rgba(196,194,188,.22)");
+        ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+        const ml = 130, maxW = 1080 - 2*ml, refAlt = 78, gap = 46;
+        const { size, linhas, esp } = ajustarMax(ctx, texto, maxW, 1056, 64, "EB Garamond", 1.5);
+        const bloco = refAlt + gap + linhas.length * esp;
+        let y = (1920 - bloco) / 2;
+        ctx.textAlign = "left"; ctx.textBaseline = "top";
+        ctx.fillStyle = rgb(LIVRO_REF); ctx.font = `800 ${S(70)}px "EB Garamond"`;
+        ctx.fillText(referencia.toUpperCase(), S(ml), S(y));
+        y += refAlt + gap;
+        ctx.font = `400 ${S(size)}px "EB Garamond"`;
+        for (let i = 0; i < linhas.length; i++) {
+          if (i === linhas.length - 1) {
+            const larg = ctx.measureText(linhas[i]).width;
+            ctx.fillStyle = rgb(LIVRO_GRIFO);
+            ctx.fillRect(S(ml) - S(6), S(y + esp*0.06), larg + S(16), S(esp*0.86));
+          }
+          ctx.fillStyle = rgb(LIVRO_TEXTO); ctx.fillText(linhas[i], S(ml), S(y)); y += esp;
+        }
+        ctx.textAlign = "right"; ctx.fillStyle = rgb(LIVRO_HANDLE);
+        ctx.font = `500 ${S(34)}px "EB Garamond"`; ctx.fillText(HANDLE, S(1080 - ml), S(1770));
+      }
+
       // Escolhe o estilo (ou usa override.estilo) e pinta no formato vertical 9:16.
       function desenharVertical(canvas, opts) {
         const estilo = (opts.override && opts.override.estilo) || escolherEstilo(opts.texto, opts.seed);
         if (estilo === "bilhete") pintarBilhete(canvas, opts);
+        else if (estilo === "livro") pintarLivro(canvas, opts);
         else pintarClassico(canvas, opts);
       }
 
@@ -399,9 +434,8 @@
         const render = (override) => desenharVertical(cv, { texto, referencia: item.referencia, seed: item.data, override });
         render(null); // o visual real do dia
         btn.addEventListener("click", () => {
-          const estilo = (texto.length <= 180 && Math.random() < 0.5) ? "bilhete" : "classico";
           render({
-            estilo,
+            estilo: estiloAleatorio(texto),
             pal: Math.floor(Math.random()*PALETAS.length),
             mol: Math.floor(Math.random()*MOLDURAS.length),
             orn: Math.floor(Math.random()*ORNAMENTOS.length),
@@ -463,7 +497,7 @@
           const render = (ov) => desenharVertical(cv, { texto, referencia: prox.referencia, seed: prox.data, override: ov });
           render(null);
           btn.addEventListener("click", () => render({
-            estilo: (texto.length <= 180 && Math.random() < 0.5) ? "bilhete" : "classico",
+            estilo: estiloAleatorio(texto),
             pal: Math.floor(Math.random()*PALETAS.length),
             mol: Math.floor(Math.random()*MOLDURAS.length),
             orn: Math.floor(Math.random()*ORNAMENTOS.length),

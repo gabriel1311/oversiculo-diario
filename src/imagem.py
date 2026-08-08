@@ -95,9 +95,11 @@ HANDLE = "@oversiculo.diario"
 # Formato vertical do Reel/Story (enche a tela).
 VERT_W, VERT_H = 1080, 1920
 
-# Dois estilos que se alternam por dia. "classico" = fundo escuro + serifada +
-# dourado; "bilhete" = papel creme + cursiva azul + coração (pedido do Gabriel).
-ESTILOS = ["classico", "bilhete"]
+# Estilos que se alternam por dia:
+#   classico = fundo escuro + serifada + dourado
+#   bilhete  = papel creme + cursiva azul + coração
+#   livro    = cinza clean + serifada + última linha grifada de amarelo
+ESTILOS = ["classico", "bilhete", "livro"]
 
 # A cursiva do bilhete só fica boa em versículo curto/médio; acima disso o texto
 # aperta e perde legibilidade, então versículos longos vão sempre no clássico.
@@ -109,6 +111,14 @@ BILHETE_CREME_BORDA = (206, 196, 176)
 BILHETE_TINTA = (36, 44, 122)          # azul caneta
 BILHETE_SOMBRA = (196, 190, 176)       # sombra suave (emboss)
 BILHETE_HANDLE = (92, 98, 150)
+
+# Paleta do estilo "livro" (cinza clean + serifada + grifo amarelo).
+LIVRO_BG = (216, 214, 208)
+LIVRO_BORDA = (196, 194, 188)
+LIVRO_TEXTO = (38, 36, 34)
+LIVRO_REF = (18, 18, 18)
+LIVRO_GRIFO = (216, 228, 96)
+LIVRO_HANDLE = (120, 120, 112)
 
 
 def _fonte(arquivo: str, tamanho: int, peso: str = "Regular") -> ImageFont.FreeTypeFont:
@@ -255,10 +265,11 @@ def _ornamento(desenho: ImageDraw.ImageDraw, centro_y: int, pal: dict, estilo: s
         )
 
 
-def _papel(seed: str, W: int, H: int) -> Image.Image:
-    """Fundo de papel creme com grão sutil. Determinístico pela seed (retry seguro)."""
+def _papel(seed: str, W: int, H: int, base_cor=BILHETE_CREME, borda_cor=BILHETE_CREME_BORDA,
+           forca_vin: float = 0.35) -> Image.Image:
+    """Fundo de papel com grão sutil. Determinístico pela seed (retry seguro)."""
     pw, ph = W // 3, H // 3
-    peq = Image.new("RGB", (pw, ph), BILHETE_CREME)
+    peq = Image.new("RGB", (pw, ph), base_cor)
     px = peq.load()
     rnd = random.Random(_fnv(seed + "papel"))
     for y in range(ph):
@@ -268,8 +279,8 @@ def _papel(seed: str, W: int, H: int) -> Image.Image:
             px[x, y] = (max(0, min(255, r + n)), max(0, min(255, g + n)), max(0, min(255, b + n - 2)))
     base = peq.resize((W, H), Image.Resampling.BILINEAR)
     vin = Image.radial_gradient("L").resize((W, H))
-    escuro = Image.new("RGB", (W, H), BILHETE_CREME_BORDA)
-    return Image.composite(escuro, base, vin.point(lambda v: int(v * 0.35)))
+    escuro = Image.new("RGB", (W, H), borda_cor)
+    return Image.composite(escuro, base, vin.point(lambda v: int(v * forca_vin)))
 
 
 def _coracao(desenho: ImageDraw.ImageDraw, cx: int, cy: int, escala: float, cor) -> None:
@@ -361,9 +372,54 @@ def escolher_estilo(texto: str, seed: str) -> str:
     return estilo
 
 
+def _render_livro(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
+    """Estilo 'livro': fundo cinza clean, serifada alinhada à esquerda, referência
+    em negrito no topo e a última linha grifada de amarelo (marca-texto)."""
+    imagem = _papel(seed, W, H, LIVRO_BG, LIVRO_BORDA, forca_vin=0.22)
+    desenho = ImageDraw.Draw(imagem)
+
+    margem_l = 130
+    largura_util = W - 2 * margem_l
+
+    fonte_ref = _fonte("EBGaramond.ttf", 70, "ExtraBold")
+    ref_alt = 78
+    gap = 46
+
+    # Ajuste do corpo do texto (serifada), alinhado à esquerda.
+    for tam in range(64, 33, -2):
+        fonte = _fonte("EBGaramond.ttf", tam, "Regular")
+        linhas = _quebrar(texto, fonte, largura_util, desenho)
+        esp = round(tam * 1.5)
+        if ref_alt + gap + len(linhas) * esp <= (1180 if H > W else 640):
+            break
+
+    bloco = ref_alt + gap + len(linhas) * esp
+    y0 = (H - bloco) // 2
+    desenho.text((margem_l, y0), referencia.upper(), font=fonte_ref, fill=LIVRO_REF, anchor="la")
+
+    y = y0 + ref_alt + gap
+    for idx, linha in enumerate(linhas):
+        if idx == len(linhas) - 1:  # grifa a última linha (o "fecho")
+            larg = desenho.textlength(linha, font=fonte)
+            desenho.rectangle(
+                [margem_l - 6, y + esp * 0.06, margem_l + larg + 10, y + esp * 0.92],
+                fill=LIVRO_GRIFO,
+            )
+        desenho.text((margem_l, y), linha, font=fonte, fill=LIVRO_TEXTO, anchor="la")
+        y += esp
+
+    fonte_handle = _fonte("EBGaramond.ttf", 34, "Medium")
+    desenho.text((W - margem_l, H - (150 if H > W else 120)), HANDLE, font=fonte_handle,
+                 fill=LIVRO_HANDLE, anchor="ra")
+    return imagem
+
+
 def _renderizar(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
-    if escolher_estilo(texto, seed) == "bilhete":
+    estilo = escolher_estilo(texto, seed)
+    if estilo == "bilhete":
         return _render_bilhete(texto, referencia, seed, W, H)
+    if estilo == "livro":
+        return _render_livro(texto, referencia, seed, W, H)
     return _render_classico(texto, referencia, seed, W, H)
 
 
