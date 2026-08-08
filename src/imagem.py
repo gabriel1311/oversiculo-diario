@@ -8,10 +8,23 @@ sai igual (retry seguro), dias diferentes saem diferentes.
 
 from __future__ import annotations
 
-import random
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
+
+
+def _fnv(texto: str) -> int:
+    """
+    Hash FNV-1a de 32 bits — determinístico e **portável**: o mesmo cálculo em
+    JavaScript dá o mesmo número. É o que faz a prévia no admin bater exatamente
+    com o visual que o Python publica (o `random` do Python não é reproduzível
+    no navegador).
+    """
+    h = 2166136261
+    for ch in texto:
+        h ^= ord(ch)
+        h = (h * 16777619) & 0xFFFFFFFF
+    return h
 
 RAIZ = Path(__file__).resolve().parent.parent
 FONTES = RAIZ / "fontes"
@@ -192,12 +205,13 @@ def _ornamento(desenho: ImageDraw.ImageDraw, centro_y: int, pal: dict, estilo: s
 
 
 def gerar(texto: str, referencia: str, destino: Path, seed: str | None = None) -> Path:
-    # A data semeia paleta/moldura/ornamento: mesmo dia = mesmo visual (retry
-    # seguro), dias diferentes = visuais diferentes.
-    sorteio = random.Random(seed or "")
-    pal = sorteio.choice(PALETAS)
-    estilo_moldura = sorteio.choice(MOLDURAS)
-    estilo_ornamento = sorteio.choice(ORNAMENTOS)
+    # A data escolhe paleta/moldura/ornamento por hash portável: mesmo dia =
+    # mesmo visual (retry seguro), dias diferentes = visuais diferentes, e a
+    # prévia no admin reproduz exatamente o mesmo cálculo.
+    base = seed or ""
+    pal = PALETAS[_fnv(base + "pal") % len(PALETAS)]
+    estilo_moldura = MOLDURAS[_fnv(base + "mol") % len(MOLDURAS)]
+    estilo_ornamento = ORNAMENTOS[_fnv(base + "orn") % len(ORNAMENTOS)]
 
     imagem = _fundo(pal)
     desenho = ImageDraw.Draw(imagem)
