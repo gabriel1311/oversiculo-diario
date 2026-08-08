@@ -33,6 +33,10 @@ fork nem em pull request.
 
 ## Instalar
 
+Para a configuração inicial completa, do zero até postar sozinho, siga
+[PASSO-A-PASSO.md](PASSO-A-PASSO.md). O resumo abaixo assume que você já tem o
+token e o Account ID da Meta em mãos.
+
 ### 1. Criar o repositório (público)
 
 ```bash
