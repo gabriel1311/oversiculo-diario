@@ -12,6 +12,10 @@ RAIZ = Path(__file__).resolve().parent.parent
 ARQUIVO_POOL = RAIZ / "dados" / "versiculos.json"
 ARQUIVO_HISTORICO = RAIZ / "dados" / "historico.json"
 ARQUIVO_AGENDA = RAIZ / "dados" / "agenda.json"
+# Versículos a NÃO sortear por enquanto (lista de consultas). Útil para "pular"
+# um versículo sem inventar um post falso no histórico. O sorteio trata como já
+# usado; quando o pool inteiro se esgota, eles voltam à rotação normalmente.
+ARQUIVO_RESERVADOS = RAIZ / "dados" / "reservados.json"
 
 
 @dataclass(frozen=True)
@@ -34,6 +38,12 @@ def carregar_historico() -> list[dict]:
     return json.loads(ARQUIVO_HISTORICO.read_text(encoding="utf-8"))
 
 
+def carregar_reservados() -> set[str]:
+    if not ARQUIVO_RESERVADOS.exists():
+        return set()
+    return set(json.loads(ARQUIVO_RESERVADOS.read_text(encoding="utf-8")))
+
+
 def registrar(versiculo: Versiculo, dia: date, id_post: str | None) -> None:
     historico = carregar_historico()
     historico.append(
@@ -54,6 +64,7 @@ def escolher(
     dia: date | None = None,
     pool: list[Versiculo] | None = None,
     historico: list[dict] | None = None,
+    reservados: set[str] | None = None,
 ) -> Versiculo:
     """
     Sorteia entre os que ainda não foram publicados. Quando o pool se esgota,
@@ -70,8 +81,10 @@ def escolher(
         pool = carregar_pool()
     if historico is None:
         historico = carregar_historico()
+    if reservados is None:
+        reservados = carregar_reservados()
 
-    ja_usados = {item["consulta"] for item in historico}
+    ja_usados = {item["consulta"] for item in historico} | reservados
     ineditos = [v for v in pool if v.consulta not in ja_usados]
 
     if ineditos:
@@ -101,6 +114,7 @@ def simular_agenda(dias: int = 14, hoje: date | None = None) -> list[dict]:
     hoje = hoje or date.today()
     pool = carregar_pool()
     historico = [dict(h) for h in carregar_historico()]  # cópia mutável
+    reservados = carregar_reservados()
     ja = {h["data"] for h in historico}
 
     # A agenda começa no primeiro dia que ainda não tem post.
@@ -110,7 +124,7 @@ def simular_agenda(dias: int = 14, hoje: date | None = None) -> list[dict]:
 
     agenda = []
     for _ in range(dias):
-        v = escolher(d, pool=pool, historico=historico)
+        v = escolher(d, pool=pool, historico=historico, reservados=reservados)
         agenda.append({"data": d.isoformat(), "referencia": v.referencia, "consulta": v.consulta})
         historico.append(
             {"data": d.isoformat(), "consulta": v.consulta, "referencia": v.referencia, "id_post": None}
