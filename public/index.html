@@ -61,7 +61,10 @@
       .destaque .ref { font-family: var(--serif); font-size: 24px; color: var(--ouro); margin: 4px 0 14px; }
 
       .art { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--bg-2); aspect-ratio: 1; }
+      .art.v { aspect-ratio: 9 / 16; }   /* prévia no formato do Reel/Story */
       .art canvas { width: 100%; height: 100%; display: block; }
+      .destaque .art.v { width: 230px; }
+      .trilha { margin-top: 10px; }
 
       .refazer {
         display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
@@ -293,6 +296,36 @@
         ctx.fillText(HANDLE.toUpperCase().split("").join(" "), W/2, S(1080 - 118));
       }
 
+      // Composição vertical 9:16 (Reel/Story): o quadrado borrado cobre o fundo
+      // e o quadrado nítido fica centralizado — igual ao que o ffmpeg monta.
+      function desenharVertical(canvas, opts) {
+        const W = canvas.width, H = canvas.height;
+        const ctx = canvas.getContext("2d");
+        const sq = document.createElement("canvas"); sq.width = 1080; sq.height = 1080;
+        desenhar(sq, opts);
+        ctx.save();
+        ctx.filter = "blur(16px) brightness(0.82)";
+        const s = Math.max(W / 1080, H / 1080), dw = 1080 * s, dh = 1080 * s;
+        ctx.drawImage(sq, (W - dw) / 2, (H - dh) / 2, dw, dh);
+        ctx.restore();
+        ctx.drawImage(sq, 0, (H - W) / 2, W, W);   // frente nítida, centralizada
+      }
+
+      // Trilha do dia (mesma escolha do vídeo: hash FNV do seed entre as 3).
+      const TRILHAS = ["trilha.wav", "trilha2.wav", "trilha3.wav"];
+      function trilhaDoDia(seed) { return TRILHAS[fnv((seed || "") + "trilha") % TRILHAS.length]; }
+      function playerTrilha(seed) {
+        const wrap = document.createElement("div"); wrap.className = "trilha";
+        const audio = new Audio(`${RAW}/audio/${trilhaDoDia(seed)}`); audio.loop = true;
+        const b = document.createElement("button"); b.className = "refazer";
+        b.textContent = "▶︎ Ouvir a trilha do dia";
+        b.addEventListener("click", () => {
+          if (audio.paused) { audio.play(); b.textContent = "⏸ Pausar trilha"; }
+          else { audio.pause(); b.textContent = "▶︎ Ouvir a trilha do dia"; }
+        });
+        wrap.appendChild(b); return wrap;
+      }
+
       // ---- dados ----
       const nf = new Intl.NumberFormat("pt-BR");
       const diaSem = ["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
@@ -308,8 +341,8 @@
         const texto = textoPorConsulta[item.consulta] || "";
         const el = document.createElement("div");
         el.className = "prev";
-        const art = document.createElement("div"); art.className = "art";
-        const cv = document.createElement("canvas"); cv.width = tamanho; cv.height = tamanho;
+        const art = document.createElement("div"); art.className = "art v";
+        const cv = document.createElement("canvas"); cv.width = tamanho; cv.height = Math.round(tamanho * 16 / 9);
         art.appendChild(cv); el.appendChild(art);
 
         const meta = document.createElement("div"); meta.className = "meta";
@@ -317,7 +350,7 @@
         const btn = document.createElement("button"); btn.className = "mini"; btn.title = "nova versão (só prévia)"; btn.textContent = "🔄";
         meta.appendChild(btn); el.appendChild(meta);
 
-        const render = (override) => desenhar(cv, { texto, referencia: item.referencia, seed: item.data, override });
+        const render = (override) => desenharVertical(cv, { texto, referencia: item.referencia, seed: item.data, override });
         render(null); // o visual real do dia
         btn.addEventListener("click", () => {
           render({
@@ -363,20 +396,22 @@
           document.getElementById("kpiProximo").textContent = fmtCurto(prox.data);
           document.getElementById("kpiProximoRef").textContent = prox.referencia;
           dest.innerHTML = "";
-          const art = document.createElement("div"); art.className = "art";
-          const cv = document.createElement("canvas"); cv.width = 600; cv.height = 600; art.appendChild(cv);
+          const art = document.createElement("div"); art.className = "art v";
+          const cv = document.createElement("canvas"); cv.width = 405; cv.height = 720; art.appendChild(cv);
           const lado = document.createElement("div"); lado.className = "lado";
-          lado.innerHTML = `<div class="quando">${fmtLongo(prox.data)} · 08h (Brasília)</div><div class="ref">${prox.referencia}</div>`;
+          const temaTxt = prox.tema ? ` · tema: ${prox.tema}` : "";
+          lado.innerHTML = `<div class="quando">${fmtLongo(prox.data)} · 08h (Brasília)${temaTxt}</div><div class="ref">${prox.referencia}</div>`;
           const btn = document.createElement("button"); btn.className = "refazer"; btn.innerHTML = "🔄 Nova versão";
           lado.appendChild(btn);
+          lado.appendChild(playerTrilha(prox.data));
           const nota = document.createElement("div"); nota.className = "nota-previa";
-          nota.textContent = "É só prévia — o post publicado usa o visual sorteado do dia.";
+          nota.textContent = "Prévia em formato Reel/Story — o post real usa o visual sorteado do dia.";
           lado.appendChild(nota);
-          const artWrap = document.createElement("div"); artWrap.style.width = "300px"; artWrap.style.flexShrink = "0"; artWrap.appendChild(art);
+          const artWrap = document.createElement("div"); artWrap.style.flexShrink = "0"; artWrap.appendChild(art);
           dest.appendChild(artWrap); dest.appendChild(lado);
 
           const texto = textoPorConsulta[prox.consulta] || "";
-          const render = (ov) => desenhar(cv, { texto, referencia: prox.referencia, seed: prox.data, override: ov });
+          const render = (ov) => desenharVertical(cv, { texto, referencia: prox.referencia, seed: prox.data, override: ov });
           render(null);
           btn.addEventListener("click", () => render({
             pal: Math.floor(Math.random()*PALETAS.length),
