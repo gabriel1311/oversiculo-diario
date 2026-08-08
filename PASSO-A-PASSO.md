@@ -93,6 +93,16 @@ solta na tela de configuração da API.
 6. Clique em **Gerar token** e **copie o token na hora** — ele é exibido uma vez
    só. Já é de longa duração: vale **60 dias**.
 
+   > ⚠️ **Se o modal de login falhar com "Não foi possível se conectar ao
+   > Instagram", faça esta etapa numa janela anônima** (`Cmd+Shift+N`), onde o
+   > Chrome desativa as extensões. Bloqueadores de anúncios e de rastreadores
+   > barram o `www.facebook.com` em contexto de terceiros, que é exatamente o
+   > que esse login usa — o erro aparece antes mesmo de a senha ser validada, e
+   > o clique chega a deslogar você. Não é problema de senha nem da conta.
+   >
+   > Como confirmar: se o `www.facebook.com` abre normal numa aba, mas falha
+   > quando pedido a partir de outra página, é bloqueador.
+
 Sobre as permissões: elas vêm do caso de uso, não precisam ser marcadas uma a uma.
 Confira em **Permissões e recursos** que `instagram_business_content_publish`
 aparece na lista — é a que autoriza publicar. Com o app em modo de desenvolvimento
@@ -185,3 +195,4 @@ claro. Os enganos mais prováveis:
 | parou de postar de repente | token de 60 dias expirou |
 | a conta não aparece para conectar | falta o papel de Testador do Instagram, ou o convite não foi aceito |
 | não acho o botão "Adicionar conta" | a seção 2 está recolhida — clique na setinha do título |
+| modal de login diz "não foi possível se conectar" | bloqueador de rastreadores barrando `www.facebook.com` — use janela anônima |
