@@ -6,39 +6,24 @@
     <title>O Versículo Diário — Painel</title>
     <style>
       :root {
-        --bg: #0b1d3a;
-        --bg-2: #10264a;
-        --card: #14294c;
-        --line: #24406e;
-        --texto: #eef2f8;
-        --dim: #a9b8d0;
-        --faint: #6f83a6;
-        --ouro: #ceaa6a;
-        --ouro-fraco: #967a4c;
-        --bom: #5cc98a;
-        --ruim: #f2726f;
+        --bg: #0b1d3a; --bg-2: #10264a; --card: #14294c; --line: #24406e;
+        --texto: #eef2f8; --dim: #a9b8d0; --faint: #6f83a6;
+        --ouro: #ceaa6a; --ouro-fraco: #967a4c; --bom: #5cc98a;
         --serif: Georgia, "Times New Roman", serif;
         --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       }
       * { box-sizing: border-box; }
       body {
-        margin: 0;
-        background: linear-gradient(180deg, var(--bg), var(--bg-2));
-        min-height: 100vh;
-        color: var(--texto);
-        font-family: var(--sans);
-        font-size: 15px;
-        line-height: 1.55;
-        -webkit-font-smoothing: antialiased;
+        margin: 0; background: linear-gradient(180deg, var(--bg), var(--bg-2));
+        min-height: 100vh; color: var(--texto); font-family: var(--sans);
+        font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
       }
-      .wrap { max-width: 960px; margin: 0 auto; padding: 40px 22px 60px; }
-
+      .wrap { max-width: 980px; margin: 0 auto; padding: 40px 22px 60px; }
       header { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
       .marca {
         width: 44px; height: 44px; border-radius: 11px; flex-shrink: 0;
         background: radial-gradient(circle at 50% 38%, #1c3b6b, #0b1d3a);
-        border: 1px solid var(--ouro-fraco);
-        display: grid; place-items: center;
+        border: 1px solid var(--ouro-fraco); display: grid; place-items: center;
       }
       .marca::after {
         content: ""; width: 16px; height: 12px; border: 2px solid var(--ouro);
@@ -47,7 +32,6 @@
       }
       h1 { font-family: var(--serif); font-size: 23px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
       .sub { color: var(--faint); font-size: 12.5px; margin-top: -1px; }
-
       .pill {
         display: inline-flex; align-items: center; gap: 7px; margin-left: auto;
         font-size: 12.5px; padding: 6px 13px; border-radius: 20px;
@@ -60,8 +44,8 @@
       .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
       .kpi .rot { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--faint); font-weight: 600; }
       .kpi .val { font-family: var(--serif); font-size: 30px; font-weight: 600; margin-top: 4px; letter-spacing: -0.02em; }
+      .kpi .val.pequeno { font-size: 20px; }
       .kpi .pe { font-size: 12.5px; color: var(--dim); margin-top: 2px; }
-      .kpi .val.ouro { color: var(--ouro); }
 
       h2 {
         font-family: var(--serif); font-size: 15px; font-weight: 600; color: var(--ouro);
@@ -69,47 +53,50 @@
         padding-bottom: 8px; border-bottom: 1px solid var(--line);
       }
 
-      .proximo {
-        background: var(--card); border: 1px solid var(--ouro-fraco); border-radius: 14px;
-        padding: 20px 22px; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+      /* card de prévia (canvas renderizado no navegador) */
+      .destaque { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+      .destaque .art { width: 300px; flex-shrink: 0; }
+      .destaque .lado { flex: 1; min-width: 200px; padding-top: 4px; }
+      .destaque .quando { font-size: 13px; color: var(--dim); }
+      .destaque .ref { font-family: var(--serif); font-size: 24px; color: var(--ouro); margin: 4px 0 14px; }
+
+      .art { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--bg-2); aspect-ratio: 1; }
+      .art canvas { width: 100%; height: 100%; display: block; }
+
+      .refazer {
+        display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+        font: inherit; font-size: 13px; color: var(--dim);
+        background: var(--card); border: 1px solid var(--line); border-radius: 9px;
+        padding: 8px 13px; transition: border-color .13s, color .13s;
       }
-      .proximo .quando { font-size: 13px; color: var(--dim); }
-      .proximo .ref { font-family: var(--serif); font-size: 22px; color: var(--ouro); font-weight: 600; }
+      .refazer:hover { border-color: var(--ouro-fraco); color: var(--texto); }
+      .nota-previa { font-size: 12px; color: var(--faint); margin-top: 8px; }
 
-      .agenda { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-      .agenda .linha { display: flex; justify-content: space-between; gap: 14px; padding: 11px 16px; background: var(--card); font-size: 14px; }
-      .agenda .linha .data { color: var(--dim); font-variant-numeric: tabular-nums; }
-      .agenda .linha .ref { color: var(--texto); font-family: var(--serif); }
-      .agenda .linha:first-child .ref { color: var(--ouro); }
+      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+      .prev { }
+      .prev .meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; }
+      .prev .meta .txt .ref { font-family: var(--serif); font-size: 13.5px; }
+      .prev .meta .txt .data { font-size: 11.5px; color: var(--faint); }
+      .prev .mini {
+        cursor: pointer; font: inherit; font-size: 15px; line-height: 1;
+        background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+        padding: 6px 8px; color: var(--dim); flex-shrink: 0;
+      }
+      .prev .mini:hover { border-color: var(--ouro-fraco); color: var(--texto); }
 
-      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
       .post { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s; }
       .post:hover { border-color: var(--ouro-fraco); transform: translateY(-2px); }
       .post img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: var(--bg-2); }
-      .post .meta { padding: 9px 11px; }
-      .post .meta .ref { font-family: var(--serif); font-size: 13.5px; }
-      .post .meta .data { font-size: 11.5px; color: var(--faint); font-variant-numeric: tabular-nums; }
+      .post .meta2 { padding: 9px 11px; }
+      .post .meta2 .ref { font-family: var(--serif); font-size: 13.5px; }
+      .post .meta2 .data { font-size: 11.5px; color: var(--faint); }
 
-      .custo { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
-      .custo .linha { display: flex; justify-content: space-between; gap: 14px; padding: 12px 18px; border-bottom: 1px solid var(--line); font-size: 14px; }
-      .custo .linha:last-child { border-bottom: none; }
-      .custo .linha .item { color: var(--dim); }
-      .custo .linha .item small { display: block; color: var(--faint); font-size: 11.5px; }
-      .custo .linha .preco { color: var(--bom); font-weight: 600; white-space: nowrap; }
-      .custo .total { background: var(--bg-2); }
-      .custo .total .item { color: var(--texto); font-weight: 600; }
-      .custo .total .preco { font-family: var(--serif); font-size: 18px; }
-
-      footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--faint); display: flex; gap: 18px; flex-wrap: wrap; }
+      footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--faint); display: flex; gap: 18px; flex-wrap: wrap; }
       footer a { color: var(--dim); text-decoration: none; }
       footer a:hover { color: var(--ouro); }
-
       .aviso { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; color: var(--dim); font-size: 13.5px; }
       .carregando { color: var(--faint); font-size: 13.5px; padding: 8px 0; }
-
-      @media (max-width: 560px) {
-        .kpis { grid-template-columns: 1fr; }
-      }
+      @media (max-width: 560px) { .kpis { grid-template-columns: 1fr; } }
     </style>
   </head>
   <body>
@@ -131,34 +118,24 @@
         </div>
         <div class="kpi">
           <div class="rot">Próximo post</div>
-          <div class="val" id="kpiProximo" style="font-size:20px">—</div>
+          <div class="val pequeno" id="kpiProximo">—</div>
           <div class="pe" id="kpiProximoRef"></div>
         </div>
         <div class="kpi">
-          <div class="rot">Custo mensal</div>
-          <div class="val ouro" id="kpiCusto">R$ 0</div>
-          <div class="pe">tudo em plano gratuito</div>
+          <div class="rot">Acervo</div>
+          <div class="val" id="kpiAcervo">—</div>
+          <div class="pe">versículos no pool</div>
         </div>
       </div>
 
       <h2>Próximo a publicar</h2>
-      <div class="proximo" id="proximo"><span class="carregando">carregando…</span></div>
+      <div class="destaque" id="destaque"><span class="carregando">renderizando prévia…</span></div>
 
-      <h2>Agenda dos próximos dias</h2>
+      <h2>Próximos dias</h2>
       <div id="agendaBox"><div class="carregando">carregando…</div></div>
 
       <h2>Já publicados</h2>
       <div id="historicoBox"><div class="carregando">carregando…</div></div>
-
-      <h2>Custo</h2>
-      <div class="custo">
-        <div class="linha"><span class="item">Publicação diária<small>GitHub Actions · dentro do plano grátis</small></span><span class="preco">R$ 0</span></div>
-        <div class="linha"><span class="item">Hospedagem da imagem<small>GitHub (raw)</small></span><span class="preco">R$ 0</span></div>
-        <div class="linha"><span class="item">Este painel<small>Firebase Hosting · plano Spark</small></span><span class="preco">R$ 0</span></div>
-        <div class="linha"><span class="item">Renovação do token<small>automática, toda semana</small></span><span class="preco">R$ 0</span></div>
-        <div class="linha"><span class="item" id="itemLegenda">Legendas<small id="legendaNota">texto padrão</small></span><span class="preco" id="precoLegenda">R$ 0</span></div>
-        <div class="linha total"><span class="item">Total</span><span class="preco" id="custoTotal">R$ 0 / mês</span></div>
-      </div>
 
       <footer>
         <a href="https://instagram.com/oversiculo.diario" target="_blank" rel="noreferrer">Ver no Instagram ↗</a>
@@ -172,107 +149,258 @@
       const REPO = "gabriel1311/oversiculo-diario";
       const RAW = `https://raw.githubusercontent.com/${REPO}/main`;
 
+      // ---- renderizador do post, espelho de src/imagem.py ----
+      // Mesmas paletas, na mesma ordem, e o mesmo hash — a prévia bate exatamente
+      // com o que o Python publica.
+      const PALETAS = [
+        { topo:[11,29,58],  base:[24,52,94],  vinheta:[4,12,26],  ouro:[206,170,106], ouroF:[150,122,76], texto:[243,240,233] },
+        { topo:[10,40,30],  base:[18,60,45],  vinheta:[4,18,12],  ouro:[200,172,108], ouroF:[142,120,78], texto:[240,240,230] },
+        { topo:[46,16,26],  base:[74,28,42],  vinheta:[22,8,14],  ouro:[208,172,112], ouroF:[152,122,82], texto:[244,236,232] },
+        { topo:[26,28,33],  base:[44,47,55],  vinheta:[10,11,14], ouro:[212,188,152], ouroF:[150,132,106], texto:[240,238,232] },
+        { topo:[36,22,52],  base:[58,38,80],  vinheta:[16,10,26], ouro:[202,172,122], ouroF:[146,122,88], texto:[242,236,240] },
+        { topo:[8,38,44],   base:[14,60,68],  vinheta:[4,18,20],  ouro:[200,178,124], ouroF:[140,124,88], texto:[236,240,238] },
+        { topo:[34,24,18],  base:[58,42,30],  vinheta:[16,10,6],  ouro:[214,184,130], ouroF:[154,130,92], texto:[242,236,226] },
+      ];
+      const MOLDURAS = ["dupla", "cantos"];
+      const ORNAMENTOS = ["losango", "cruz", "pontos"];
+      const HANDLE = "@oversiculo.diario";
+      const rgb = (a) => `rgb(${a[0]},${a[1]},${a[2]})`;
+
+      function fnv(s) {
+        let h = 2166136261 >>> 0;
+        for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+        return h >>> 0;
+      }
+      function variantePorData(seed) {
+        return {
+          pal: fnv(seed + "pal") % PALETAS.length,
+          mol: fnv(seed + "mol") % MOLDURAS.length,
+          orn: fnv(seed + "orn") % ORNAMENTOS.length,
+        };
+      }
+
+      function ajustar(ctx, texto, maxW, maxH) {
+        for (let size = 64; size >= 28; size -= 2) {
+          ctx.font = `400 ${size}px "EB Garamond"`;
+          const linhas = quebrar(ctx, texto, maxW);
+          const esp = Math.round(size * 1.42);
+          if (linhas.length * esp <= maxH) return { size, linhas, esp };
+        }
+        ctx.font = `400 28px "EB Garamond"`;
+        return { size: 28, linhas: quebrar(ctx, texto, 828), esp: 40 };
+      }
+      function quebrar(ctx, texto, maxW) {
+        const linhas = []; let atual = "";
+        for (const p of texto.split(/\s+/)) {
+          const t = atual ? atual + " " + p : p;
+          if (ctx.measureText(t).width <= maxW) atual = t;
+          else { if (atual) linhas.push(atual); atual = p; }
+        }
+        if (atual) linhas.push(atual);
+        return linhas;
+      }
+
+      // Desenha o post 1080-space num canvas de qualquer tamanho (escala por k).
+      function desenhar(canvas, { texto, referencia, seed, override }) {
+        const W = canvas.width, k = W / 1080;
+        const ctx = canvas.getContext("2d");
+        const v = override || variantePorData(seed || "");
+        const pal = PALETAS[v.pal], mol = MOLDURAS[v.mol], orn = ORNAMENTOS[v.orn];
+        const S = (x) => x * k;
+        const lw = (w) => Math.max(1, Math.round(w * k));
+
+        // fundo gradiente + vinheta
+        const g = ctx.createLinearGradient(0, 0, 0, W);
+        g.addColorStop(0, rgb(pal.topo)); g.addColorStop(1, rgb(pal.base));
+        ctx.fillStyle = g; ctx.fillRect(0, 0, W, W);
+        const rg = ctx.createRadialGradient(W/2, W/2, S(200), W/2, W/2, S(760));
+        rg.addColorStop(0, `rgba(${pal.vinheta.join(",")},0)`);
+        rg.addColorStop(1, `rgba(${pal.vinheta.join(",")},0.55)`);
+        ctx.fillStyle = rg; ctx.fillRect(0, 0, W, W);
+
+        // moldura
+        if (mol === "cantos") {
+          ctx.strokeStyle = rgb(pal.ouro); ctx.lineWidth = lw(2);
+          const m = S(54), br = S(70);
+          for (const [cx, cy, sx, sy] of [[m,m,1,1],[W-m,m,-1,1],[m,W-m,1,-1],[W-m,W-m,-1,-1]]) {
+            ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + sx*br, cy); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, cy + sy*br); ctx.stroke();
+          }
+        } else {
+          ctx.strokeStyle = rgb(pal.ouroF); ctx.lineWidth = lw(2);
+          ctx.strokeRect(S(44), S(44), W - S(88), W - S(88));
+          ctx.strokeStyle = rgb(pal.ouro); ctx.lineWidth = lw(1);
+          ctx.strokeRect(S(60), S(60), W - S(120), W - S(120));
+        }
+
+        // aspas
+        ctx.fillStyle = rgb(pal.ouroF);
+        ctx.textAlign = "left"; ctx.textBaseline = "top";
+        ctx.font = `500 ${S(190)}px "EB Garamond"`;
+        ctx.fillText("“", S(96 + 18), S(150));
+
+        // versículo (ajuste em 1080-space, desenho escalado)
+        const maxW = 1080 - 2*96 - 60, maxH = 470;
+        const { size, linhas, esp } = ajustar(ctx, texto, maxW, maxH);
+        const bloco = linhas.length * esp;
+        let y = 300 + (maxH - bloco) / 2;
+        ctx.fillStyle = rgb(pal.texto);
+        ctx.textAlign = "center"; ctx.textBaseline = "top";
+        ctx.font = `400 ${S(size)}px "EB Garamond"`;
+        for (const linha of linhas) { ctx.fillText(linha, W/2, S(y)); y += esp; }
+
+        // ornamento
+        const yc = y + 44;
+        ctx.strokeStyle = rgb(pal.ouroF); ctx.lineWidth = lw(1);
+        ctx.beginPath(); ctx.moveTo(S(540-90), S(yc)); ctx.lineTo(S(540-16), S(yc)); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(S(540+16), S(yc)); ctx.lineTo(S(540+90), S(yc)); ctx.stroke();
+        ctx.strokeStyle = rgb(pal.ouro); ctx.fillStyle = rgb(pal.ouro);
+        if (orn === "cruz") {
+          ctx.lineWidth = lw(2);
+          ctx.beginPath(); ctx.moveTo(W/2, S(yc-8)); ctx.lineTo(W/2, S(yc+8)); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(S(540-6), S(yc-2)); ctx.lineTo(S(540+6), S(yc-2)); ctx.stroke();
+        } else if (orn === "pontos") {
+          for (const dx of [-8, 0, 8]) { ctx.beginPath(); ctx.arc(W/2 + S(dx), S(yc), S(2), 0, 7); ctx.fill(); }
+        } else {
+          ctx.lineWidth = lw(1);
+          ctx.beginPath();
+          ctx.moveTo(W/2, S(yc-6)); ctx.lineTo(S(540+6), S(yc));
+          ctx.lineTo(W/2, S(yc+6)); ctx.lineTo(S(540-6), S(yc)); ctx.closePath(); ctx.stroke();
+        }
+
+        // referência
+        ctx.fillStyle = rgb(pal.ouro);
+        ctx.textAlign = "center"; ctx.textBaseline = "top";
+        ctx.font = `700 ${S(40)}px "Cinzel"`;
+        ctx.fillText(referencia.toUpperCase(), W/2, S(y + 88));
+
+        // assinatura
+        ctx.fillStyle = rgb(pal.ouroF);
+        ctx.font = `400 ${S(21)}px "Cinzel"`;
+        ctx.fillText(HANDLE.toUpperCase().split("").join(" "), W/2, S(1080 - 118));
+      }
+
+      // ---- dados ----
       const nf = new Intl.NumberFormat("pt-BR");
-      const diaSemana = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
+      const diaSem = ["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
       const meses = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+      function parseData(s){ const [a,m,d]=s.split("-").map(Number); return new Date(a,m-1,d); }
+      function fmtLongo(s){ const d=parseData(s); return `${diaSem[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]}`; }
+      function fmtCurto(s){ const d=parseData(s); return `${String(d.getDate()).padStart(2,"0")}/${meses[d.getMonth()]}`; }
+      async function buscarJSON(p){ const r=await fetch(`${RAW}/${p}?t=${Date.now()}`,{cache:"no-store"}); if(!r.ok) throw new Error(p); return r.json(); }
+      function setStatus(ok, t){ document.getElementById("statusDot").className="dot"+(ok?" on":""); document.getElementById("statusTxt").textContent=t; }
 
-      // Datas do arquivo são YYYY-MM-DD; interpretamos como data local (sem fuso).
-      function parseData(s) {
-        const [a, m, d] = s.split("-").map(Number);
-        return new Date(a, m - 1, d);
-      }
-      function fmtLongo(s) {
-        const dt = parseData(s);
-        return `${diaSemana[dt.getDay()]}, ${dt.getDate()} de ${meses[dt.getMonth()]}`;
-      }
-      function fmtCurto(s) {
-        const dt = parseData(s);
-        return `${String(dt.getDate()).padStart(2, "0")}/${meses[dt.getMonth()]}`;
-      }
+      // cria um card de prévia com botão "nova versão"
+      function cardPrevia(item, textoPorConsulta, tamanho) {
+        const texto = textoPorConsulta[item.consulta] || "";
+        const el = document.createElement("div");
+        el.className = "prev";
+        const art = document.createElement("div"); art.className = "art";
+        const cv = document.createElement("canvas"); cv.width = tamanho; cv.height = tamanho;
+        art.appendChild(cv); el.appendChild(art);
 
-      async function buscarJSON(caminho) {
-        // cache-bust leve para não pegar versão presa do CDN
-        const r = await fetch(`${RAW}/${caminho}?t=${Date.now()}`, { cache: "no-store" });
-        if (!r.ok) throw new Error(`${caminho}: HTTP ${r.status}`);
-        return r.json();
-      }
+        const meta = document.createElement("div"); meta.className = "meta";
+        meta.innerHTML = `<div class="txt"><div class="ref">${item.referencia}</div><div class="data">${fmtCurto(item.data)}</div></div>`;
+        const btn = document.createElement("button"); btn.className = "mini"; btn.title = "nova versão (só prévia)"; btn.textContent = "🔄";
+        meta.appendChild(btn); el.appendChild(meta);
 
-      function setStatus(ok, texto) {
-        document.getElementById("statusDot").className = "dot" + (ok ? " on" : "");
-        document.getElementById("statusTxt").textContent = texto;
+        const render = (override) => desenhar(cv, { texto, referencia: item.referencia, seed: item.data, override });
+        render(null); // o visual real do dia
+        btn.addEventListener("click", () => {
+          render({
+            pal: Math.floor(Math.random()*PALETAS.length),
+            mol: Math.floor(Math.random()*MOLDURAS.length),
+            orn: Math.floor(Math.random()*ORNAMENTOS.length),
+          });
+        });
+        return el;
       }
 
       async function main() {
-        let historico = [];
-        let agenda = [];
+        // fontes do próprio repositório (variáveis)
         try {
-          [historico, agenda] = await Promise.all([
+          const g = new FontFace("EB Garamond", `url(${RAW}/fontes/EBGaramond.ttf)`, { weight: "400 800" });
+          const c = new FontFace("Cinzel", `url(${RAW}/fontes/Cinzel.ttf)`, { weight: "400 900" });
+          await Promise.all([g.load(), c.load()]);
+          document.fonts.add(g); document.fonts.add(c);
+        } catch (e) { /* segue com fontes do sistema */ }
+
+        let historico = [], agenda = [], pool = [];
+        try {
+          [historico, agenda, pool] = await Promise.all([
             buscarJSON("dados/historico.json").catch(() => []),
             buscarJSON("dados/agenda.json").catch(() => []),
+            buscarJSON("dados/versiculos.json").catch(() => []),
           ]);
-        } catch (e) {
-          setStatus(false, "erro ao carregar");
-        }
+          setStatus(true, "no ar");
+        } catch (e) { setStatus(false, "erro ao carregar"); }
+
+        const textoPorConsulta = {};
+        for (const v of pool) textoPorConsulta[v.consulta] = v.texto;
 
         // KPIs
         document.getElementById("kpiTotal").textContent = nf.format(historico.length);
-        if (historico.length) {
-          const primeira = historico[0].data;
-          document.getElementById("kpiDesde").textContent = "desde " + fmtCurto(primeira);
-        }
+        if (historico.length) document.getElementById("kpiDesde").textContent = "desde " + fmtCurto(historico[0].data);
+        document.getElementById("kpiAcervo").textContent = nf.format(pool.length);
 
-        const prox = agenda[0];
-        if (prox) {
+        // Próximo (destaque com prévia grande)
+        const dest = document.getElementById("destaque");
+        if (agenda.length) {
+          const prox = agenda[0];
           document.getElementById("kpiProximo").textContent = fmtCurto(prox.data);
           document.getElementById("kpiProximoRef").textContent = prox.referencia;
-          document.getElementById("proximo").innerHTML =
-            `<span class="quando">${fmtLongo(prox.data)} · 08h (Brasília)</span>` +
-            `<span class="ref">${prox.referencia}</span>`;
-          setStatus(true, "no ar");
+          dest.innerHTML = "";
+          const art = document.createElement("div"); art.className = "art";
+          const cv = document.createElement("canvas"); cv.width = 600; cv.height = 600; art.appendChild(cv);
+          const lado = document.createElement("div"); lado.className = "lado";
+          lado.innerHTML = `<div class="quando">${fmtLongo(prox.data)} · 08h (Brasília)</div><div class="ref">${prox.referencia}</div>`;
+          const btn = document.createElement("button"); btn.className = "refazer"; btn.innerHTML = "🔄 Nova versão";
+          lado.appendChild(btn);
+          const nota = document.createElement("div"); nota.className = "nota-previa";
+          nota.textContent = "É só prévia — o post publicado usa o visual sorteado do dia.";
+          lado.appendChild(nota);
+          const artWrap = document.createElement("div"); artWrap.style.width = "300px"; artWrap.style.flexShrink = "0"; artWrap.appendChild(art);
+          dest.appendChild(artWrap); dest.appendChild(lado);
+
+          const texto = textoPorConsulta[prox.consulta] || "";
+          const render = (ov) => desenhar(cv, { texto, referencia: prox.referencia, seed: prox.data, override: ov });
+          render(null);
+          btn.addEventListener("click", () => render({
+            pal: Math.floor(Math.random()*PALETAS.length),
+            mol: Math.floor(Math.random()*MOLDURAS.length),
+            orn: Math.floor(Math.random()*ORNAMENTOS.length),
+          }));
         } else {
-          document.getElementById("proximo").innerHTML =
-            `<span class="quando">Agenda ainda não gerada — aparece após o próximo post.</span>`;
-          setStatus(true, "no ar");
+          dest.innerHTML = `<div class="aviso">A agenda aparece após o próximo post rodar.</div>`;
         }
 
-        // Agenda
+        // Próximos dias (grade de prévias, a partir do 2º)
         const agBox = document.getElementById("agendaBox");
-        if (agenda.length) {
-          agBox.className = "agenda";
-          agBox.innerHTML = agenda
-            .map(
-              (a) =>
-                `<div class="linha"><span class="data">${fmtLongo(a.data)}</span><span class="ref">${a.referencia}</span></div>`
-            )
-            .join("");
+        const resto = agenda.slice(1);
+        if (resto.length) {
+          agBox.className = "grid";
+          agBox.innerHTML = "";
+          for (const item of resto) agBox.appendChild(cardPrevia(item, textoPorConsulta, 360));
         } else {
-          agBox.innerHTML = `<div class="aviso">A agenda é gerada a cada publicação. Assim que o próximo post rodar, os dias aparecem aqui.</div>`;
+          agBox.innerHTML = `<div class="aviso">Os próximos dias aparecem aqui assim que a agenda for gerada.</div>`;
         }
 
-        // Histórico (mais recente primeiro)
+        // Já publicados (imagens reais)
         const hBox = document.getElementById("historicoBox");
         if (historico.length) {
-          const recentes = [...historico].reverse();
           hBox.className = "grid";
-          hBox.innerHTML = recentes
-            .map((h) => {
-              const img = `${RAW}/posts/${h.data}.jpg`;
-              return (
-                `<a class="post" href="https://instagram.com/oversiculo.diario" target="_blank" rel="noreferrer">` +
-                `<img loading="lazy" src="${img}" alt="${h.referencia}" onerror="this.style.display='none'">` +
-                `<div class="meta"><div class="ref">${h.referencia}</div><div class="data">${fmtCurto(h.data)}</div></div>` +
-                `</a>`
-              );
-            })
-            .join("");
+          hBox.innerHTML = [...historico].reverse().map((h) =>
+            `<a class="post" href="https://instagram.com/oversiculo.diario" target="_blank" rel="noreferrer">` +
+            `<img loading="lazy" src="${RAW}/posts/${h.data}.jpg" alt="${h.referencia}" onerror="this.style.display='none'">` +
+            `<div class="meta2"><div class="ref">${h.referencia}</div><div class="data">${fmtCurto(h.data)}</div></div></a>`
+          ).join("");
         } else {
-          hBox.innerHTML = `<div class="aviso">Nenhum post ainda. O primeiro aparece aqui depois da primeira publicação.</div>`;
+          hBox.innerHTML = `<div class="aviso">Nenhum post ainda.</div>`;
         }
 
         document.getElementById("atualizado").textContent =
           "atualizado " + new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
       }
-
       main();
     </script>
   </body>
