@@ -2,13 +2,16 @@
 
 Nada de sample nem de música do catálogo do Instagram — cada nota é uma soma de
 senoides calculada aqui. Por isso não há risco de direitos autorais: a faixa é
-100% gerada. É um pad calmo (progressão I–V–vi–IV em Dó) pensado para ficar por
-baixo do versículo, em volume de fundo.
+100% gerada.
+
+Pegada ANIMADA: andamento dobrado (acordes de 2s, ~120 BPM), progressão maior
+(Dó–Fá–Sol–Dó repetida), baixo marcando o ritmo (groove) e arpejo rápido tipo
+caixinha de música por cima. Sem drone grave triste.
 
     python3 ferramentas/gerar_trilha.py      # grava audio/trilha.wav
 
-Se um dia o Gabriel quiser outra música, é só substituir audio/trilha.wav (ou
-apontar TRILHA para outro arquivo) — o resto do pipeline não muda.
+Se um dia o Gabriel quiser outra música, é só substituir audio/trilha.wav — o
+resto do pipeline não muda.
 """
 
 from __future__ import annotations
@@ -22,37 +25,52 @@ RAIZ = Path(__file__).resolve().parent.parent
 DESTINO = RAIZ / "audio" / "trilha.wav"
 
 SR = 22050
-SEG = 4.0          # segundos por acorde
-CF = 1.2           # crossfade entre acordes (segundos)
-TOTAL = 16.0       # 4 acordes × 4 s — laço perfeito para o Reel repetir
+SEG = 2.0          # segundos por acorde (~120 BPM, andamento animado)
+CF = 0.6           # crossfade entre acordes (segundos)
+TOTAL = 16.0       # 8 acordes × 2 s — a progressão roda 2x; laço perfeito
 
-# Progressão I–V–vi–IV em Dó maior, em oitavas graves e quentes.
 NOTAS = {
-    "C3": 130.81, "D3": 146.83, "E3": 164.81, "F3": 174.61, "G3": 196.00,
-    "A3": 220.00, "B3": 246.94, "C4": 261.63, "D4": 293.66, "E4": 329.63,
+    "C4": 261.63, "D4": 293.66, "E4": 329.63, "F4": 349.23, "G4": 392.00,
+    "A4": 440.00, "B4": 493.88, "C5": 523.25, "D5": 587.33, "E5": 659.25,
 }
-ACORDES = [
-    ["C3", "E4", "G3"],   # C  (I)
-    ["G3", "B3", "D4"],   # G  (V)
-    ["A3", "C4", "E4"],   # Am (vi)
-    ["F3", "A3", "C4"],   # F  (IV)
+# I–IV–V–I em Dó maior, tudo MAIOR, tocado duas vezes — arco que sobe e resolve alegre.
+PROGRESSAO = [
+    ["C4", "E4", "G4"],   # C  (I)
+    ["F4", "A4", "C5"],   # F  (IV)
+    ["G4", "B4", "D5"],   # G  (V)
+    ["C4", "E4", "G4"],   # C  (I) — resolve
 ]
+ACORDES = PROGRESSAO * 2
 
-# Cada nota é fundamental + harmônicos suaves; o pad ganha corpo sem virar ruído.
-PARCIAIS = [(0.5, 0.55), (1.0, 1.0), (2.0, 0.4), (3.0, 0.18)]
+# Pad: fundamental + harmônicos suaves. Sem sub-oitava (era ela que pesava/entristecia).
+PARCIAIS = [(1.0, 1.0), (2.0, 0.5), (3.0, 0.22), (4.0, 0.10)]
+
+# Baixo marcando o ritmo (groove) e arpejo rápido (caixinha de música) por cima.
+PASSO_BAIXO = 0.5   # uma nota de baixo por tempo (~120 BPM)
+PASSO_ARP = 0.25    # arpejo em colcheias — corrido, animado
+TAU_ARP = 0.16      # decaimento curto do pluck (segundos)
+TAU_BAIXO = 0.24
 
 
 def _voz(freq: float, t: float) -> float:
     val = 0.0
     for mult, amp in PARCIAIS:
-        # Duas senoides levemente desafinadas dão calor de coro (chorus).
         val += amp * math.sin(2 * math.pi * freq * mult * t)
-        val += amp * 0.5 * math.sin(2 * math.pi * freq * mult * 1.004 * t)
+        val += amp * 0.5 * math.sin(2 * math.pi * freq * mult * 1.004 * t)  # chorus leve
     return val
 
 
+def _pluck(freq: float, t: float, tau: float = TAU_ARP) -> float:
+    if t < 0:
+        return 0.0
+    ataque = 1 - math.exp(-t / 0.004)        # ataque quase instantâneo
+    decai = math.exp(-t / tau)               # cauda curta, tipo caixinha
+    tom = math.sin(2 * math.pi * freq * t) + 0.35 * math.sin(2 * math.pi * freq * 2 * t)
+    return ataque * decai * tom
+
+
 def _envelope(t: float, dur: float) -> float:
-    """Fade-in/fade-out em cosseno levantado; a sobreposição vira crossfade."""
+    """Fade-in/out em cosseno levantado; a sobreposição vira crossfade."""
     if t < CF:
         return 0.5 * (1 - math.cos(math.pi * t / CF))
     if t > dur - CF:
@@ -69,16 +87,37 @@ def gerar() -> Path:
     for i, acorde in enumerate(ACORDES):
         freqs = [NOTAS[n] for n in acorde]
         inicio = int((i * SEG - CF / 2) * SR)  # pode ser negativo → dá a volta (laço)
+
+        # Pad sustentado, discreto — só o colchão de harmonia.
         for n in range(n_janela):
             t = n / SR
             env = _envelope(t, dur_janela)
             if env <= 0:
                 continue
             amostra = sum(_voz(f, t) for f in freqs) / len(freqs)
-            buf[(inicio + n) % n_total] += env * amostra
+            buf[(inicio + n) % n_total] += 0.4 * env * amostra
+
+        base = int(i * SEG * SR)
+
+        # Baixo marcando o tempo (root uma oitava abaixo) — dá o groove animado.
+        for k in range(int(SEG / PASSO_BAIXO)):
+            freq = freqs[0] * 0.5
+            t0 = int((k * PASSO_BAIXO) * SR)
+            dur = int(min(PASSO_BAIXO + TAU_BAIXO * 3, SEG) * SR)
+            for n in range(dur):
+                buf[(base + t0 + n) % n_total] += 0.55 * _pluck(freq, n / SR, TAU_BAIXO)
+
+        # Arpejo rápido por cima: sobe/desce pelas notas do acorde, uma oitava acima.
+        subida = freqs + freqs[::-1][1:-1]  # C E G E → padrão que sobe e desce
+        for k in range(int(SEG / PASSO_ARP)):
+            freq = subida[k % len(subida)] * 2.0
+            t0 = int((k * PASSO_ARP) * SR)
+            dur = int(min(PASSO_ARP + TAU_ARP * 3, SEG) * SR)
+            for n in range(dur):
+                buf[(base + t0 + n) % n_total] += 0.42 * _pluck(freq, n / SR)
 
     pico = max(abs(v) for v in buf) or 1.0
-    ganho = 0.5 / pico  # deixa headroom; é trilha de fundo, não precisa estourar
+    ganho = 0.6 / pico  # headroom; é trilha de fundo
 
     DESTINO.parent.mkdir(parents=True, exist_ok=True)
     with wave.open(str(DESTINO), "w") as w:
