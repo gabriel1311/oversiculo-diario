@@ -50,8 +50,11 @@ def _get(caminho: str, campos: dict[str, str]) -> dict:
 def _esperar_container(container: str, token: str, tentativas: int = 20) -> None:
     """
     O container leva alguns segundos até ficar pronto: o Instagram precisa baixar
-    a imagem da URL pública. Publicar antes disso devolve erro, então esperamos
+    a mídia da URL pública. Publicar antes disso devolve erro, então esperamos
     o status virar FINISHED.
+
+    Vídeo (Reel/Story) demora bem mais que imagem — o Instagram transcodifica —,
+    então o chamador passa mais tentativas nesse caso.
     """
     for _ in range(tentativas):
         estado = _get(container, {"fields": "status_code,status", "access_token": token})
@@ -62,6 +65,55 @@ def _esperar_container(container: str, token: str, tentativas: int = 20) -> None
             raise ErroInstagram(f"container falhou: {estado.get('status')}")
         time.sleep(5)
     raise ErroInstagram("container não ficou pronto a tempo")
+
+
+def _credenciais() -> tuple[str, str]:
+    token = os.environ.get("IG_ACCESS_TOKEN")
+    conta = os.environ.get("IG_ACCOUNT_ID")
+    if not token or not conta:
+        raise ErroInstagram("faltam IG_ACCESS_TOKEN e/ou IG_ACCOUNT_ID no ambiente")
+    return token, conta
+
+
+def _publicar_container(conta: str, token: str, campos: dict[str, str], tentativas: int) -> str:
+    """Cria o container com os campos dados, espera ficar pronto e publica."""
+    criado = _post(f"{conta}/media", {**campos, "access_token": token})
+    container = criado.get("id")
+    if not container:
+        raise ErroInstagram(f"resposta sem id de container: {criado}")
+    print(f"[instagram] container {container}")
+
+    _esperar_container(container, token, tentativas)
+
+    publicado = _post(
+        f"{conta}/media_publish",
+        {"creation_id": container, "access_token": token},
+    )
+    id_post = publicado.get("id")
+    if not id_post:
+        raise ErroInstagram(f"resposta sem id do post: {publicado}")
+    return id_post
+
+
+def publicar_reel(url_video: str, legenda: str) -> str:
+    """Publica o vídeo como Reel no feed (com legenda). Devolve o id do post."""
+    token, conta = _credenciais()
+    # share_to_feed=true faz o Reel aparecer também na grade do perfil.
+    return _publicar_container(
+        conta, token,
+        {"media_type": "REELS", "video_url": url_video, "caption": legenda, "share_to_feed": "true"},
+        tentativas=60,  # vídeo transcodifica devagar: até ~5 min de espera
+    )
+
+
+def publicar_story(url_video: str) -> str:
+    """Publica o mesmo vídeo como Story. Story não aceita legenda. Devolve o id."""
+    token, conta = _credenciais()
+    return _publicar_container(
+        conta, token,
+        {"media_type": "STORIES", "video_url": url_video},
+        tentativas=60,
+    )
 
 
 def publicar(url_imagem: str, legenda: str) -> str:
