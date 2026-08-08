@@ -57,3 +57,26 @@ jobs:
           dias="$(printf '%s' "$resp" \
             | python3 -c 'import sys,json; print(int(json.load(sys.stdin).get("expires_in",0))//86400)')"
           echo "Token renovado. Nova validade: ${dias} dias."
+
+  # Avisa (issue no repositório) se a renovação do token falhar — é o que mantém
+  # a automação viva, então uma falha aqui merece atenção rápida.
+  avisar-falha:
+    needs: renovar
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Abrir ou atualizar issue de falha
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          corpo=$(printf 'A renovação automática do token do Instagram falhou em %s UTC.\n\nSe não for resolvida, o token vence e a publicação para. Log: %s' "$(date -u '+%Y-%m-%d %H:%M')" "$RUN_URL")
+          num=$(gh issue list --state open --label falha-token --json number --jq '.[0].number // empty' -R "$GITHUB_REPOSITORY")
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body "$corpo" -R "$GITHUB_REPOSITORY"
+          else
+            gh label create falha-token --color B60205 --description "Falha na renovação do token" -R "$GITHUB_REPOSITORY" 2>/dev/null || true
+            gh issue create --title "⚠️ Falha ao renovar o token do Instagram" --label falha-token --body "$corpo" -R "$GITHUB_REPOSITORY"
+          fi

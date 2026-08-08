@@ -85,3 +85,26 @@ jobs:
           git commit -m "Histórico e agenda: $(date -u +%Y-%m-%d)"
           git pull --rebase --autostash
           git push
+
+  # Se a publicação falhar, abre (ou comenta) uma issue no repositório — um aviso
+  # visível sem depender de serviço externo. O GitHub também manda e-mail ao dono.
+  avisar-falha:
+    needs: publicar
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Abrir ou atualizar issue de falha
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          corpo=$(printf 'A automação de publicação falhou em %s UTC.\n\nLog: %s' "$(date -u '+%Y-%m-%d %H:%M')" "$RUN_URL")
+          num=$(gh issue list --state open --label falha-publicacao --json number --jq '.[0].number // empty' -R "$GITHUB_REPOSITORY")
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body "$corpo" -R "$GITHUB_REPOSITORY"
+          else
+            gh label create falha-publicacao --color B60205 --description "Falha na automação" -R "$GITHUB_REPOSITORY" 2>/dev/null || true
+            gh issue create --title "⚠️ Falha ao publicar o versículo do dia" --label falha-publicacao --body "$corpo" -R "$GITHUB_REPOSITORY"
+          fi
