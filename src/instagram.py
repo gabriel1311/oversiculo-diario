@@ -116,6 +116,36 @@ def publicar_story(url_video: str) -> str:
     )
 
 
+def publicar_carrossel(urls_imagens: list[str], legenda: str) -> str:
+    """
+    Publica um carrossel (2 a 10 imagens) no feed. Cada imagem vira um container
+    filho (is_carousel_item), e um container-pai do tipo CAROUSEL os agrupa.
+    Devolve o id do post.
+    """
+    token, conta = _credenciais()
+    if not 2 <= len(urls_imagens) <= 10:
+        raise ErroInstagram(f"carrossel aceita de 2 a 10 imagens, recebi {len(urls_imagens)}")
+
+    filhos = []
+    for url in urls_imagens:
+        criado = _post(
+            f"{conta}/media",
+            {"image_url": url, "is_carousel_item": "true", "access_token": token},
+        )
+        filho = criado.get("id")
+        if not filho:
+            raise ErroInstagram(f"resposta sem id de item do carrossel: {criado}")
+        _esperar_container(filho, token)  # imagem é rápida, mas garante o FINISHED
+        filhos.append(filho)
+        print(f"[instagram] item {filho}")
+
+    return _publicar_container(
+        conta, token,
+        {"media_type": "CAROUSEL", "children": ",".join(filhos), "caption": legenda},
+        tentativas=30,
+    )
+
+
 def publicar(url_imagem: str, legenda: str) -> str:
     """Cria o container, espera o processamento e publica. Devolve o id do post."""
     token = os.environ.get("IG_ACCESS_TOKEN")

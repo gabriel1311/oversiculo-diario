@@ -1,0 +1,73 @@
+name: Carrossel semanal
+
+# Monta um carrossel com os versículos dos próximos 7 dias e publica no feed.
+#
+# Fica em disparo MANUAL de propósito: um post novo em conta pública é coisa que
+# vale a pena acompanhar na primeira vez. Rode com "ensaio" ligado para só gerar
+# as imagens (sem publicar) e conferir. Quando estiver confiante e quiser que
+# saia sozinho todo domingo, descomente o bloco `schedule` abaixo.
+
+on:
+  workflow_dispatch:
+    inputs:
+      ensaio:
+        description: "Gerar as imagens sem publicar"
+        type: boolean
+        default: false
+  # Para publicar automaticamente todo domingo ao meio-dia UTC (9h Brasília):
+  # schedule:
+  #   - cron: "0 12 * * 0"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: carrossel-semanal
+  cancel-in-progress: false
+
+jobs:
+  carrossel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Gerar carrossel
+        run: python -m src.semanal --fase ${{ inputs.ensaio && 'ensaio' || 'preparar' }}
+
+      - name: Guardar as imagens como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: carrossel-semanal
+          path: posts/carrossel/
+          retention-days: 14
+
+      - name: Commitar as imagens
+        if: ${{ !inputs.ensaio }}
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add posts/carrossel
+          if git diff --cached --quiet; then
+            echo "Imagens já commitadas; usando o commit atual."
+          else
+            git commit -m "Carrossel semanal $(date -u +%Y-%m-%d)"
+            git pull --rebase --autostash || true
+            git push
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Publicar o carrossel
+        if: ${{ !inputs.ensaio }}
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
+          IMAGEM_REF: ${{ steps.commit.outputs.sha }}
+        run: python -m src.semanal --fase publicar
