@@ -14,12 +14,12 @@ from __future__ import annotations
 
 import shutil
 import subprocess
+from datetime import date
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 AUDIO = RAIZ / "audio"
-# Trilhas em rotação — o vídeo escolhe uma por dia (seed), para o feed não soar
-# sempre igual. São faixas royalty-free reais (Pixabay), creditadas em
+# Trilhas em rotação — faixas royalty-free reais (Pixabay), creditadas em
 # audio/CREDITOS.md. Para variar mais, é só somar mais arquivos aqui.
 TRILHAS = [
     "piano-atlas.mp3", "piano-monda.mp3", "piano-atlas2.mp3",
@@ -27,6 +27,28 @@ TRILHAS = [
     "cinematic-leberch.mp3", "ambient-jonas.mp3", "cinematic-tunetank.mp3",
 ]
 TRILHA = AUDIO / TRILHAS[0]
+
+# Clima de cada trilha, para casar a música com o tema do versículo.
+CLIMAS = {
+    "piano-atlas.mp3": "piano", "piano-monda.mp3": "piano",
+    "piano-atlas2.mp3": "piano", "piano-nastel.mp3": "piano",
+    "violao-jonas.mp3": "violao",
+    "cinematic-leberch.mp3": "cinematic", "cinematic-tunetank.mp3": "cinematic",
+    "ambient-jonas.mp3": "ambiente",
+}
+# Tema do dia (weekday do Python: seg=0 … dom=6) → climas ACEITOS naquele dia.
+# Escolhe entre todas as trilhas desses climas (com variedade). Casa com os temas
+# de versiculos.TEMAS_DIA: seg=força, ter=esperança, qua=sabedoria, qui=amor,
+# sex=paz, sáb=proteção, dom=louvor.
+CLIMA_POR_DIA = {
+    0: {"cinematic", "piano"},            # força e recomeço → mais grandioso
+    1: {"cinematic", "piano"},            # fé e esperança
+    2: {"piano", "violao"},               # sabedoria → intimista
+    3: {"piano", "violao"},               # amor → quente
+    4: {"ambiente", "piano", "violao"},   # paz e descanso → etéreo/calmo
+    5: {"piano", "ambiente"},             # proteção e cuidado
+    6: {"cinematic", "piano"},            # gratidão e louvor → grandioso
+}
 
 LADO = 1080
 ALTURA = 1920
@@ -43,12 +65,26 @@ def _fnv(texto: str) -> int:
 
 
 def escolher_trilha(seed: str | None) -> Path:
-    existentes = [AUDIO / nome for nome in TRILHAS if (AUDIO / nome).exists()]
+    """Escolhe a trilha do dia. Se o seed for uma data, casa o clima da música com
+    o tema daquele dia da semana (com variedade dentro do clima); senão, sorteia."""
+    existentes = [nome for nome in TRILHAS if (AUDIO / nome).exists()]
     if not existentes:
         return TRILHA
     if not seed:
-        return existentes[0]
-    return existentes[_fnv(seed + "trilha") % len(existentes)]
+        return AUDIO / existentes[0]
+
+    # Casa pelo tema do dia quando o seed é uma data (post diário).
+    try:
+        dia = date.fromisoformat(seed)
+    except (ValueError, TypeError):
+        dia = None
+    if dia is not None:
+        climas_ok = CLIMA_POR_DIA.get(dia.weekday(), set())
+        candidatos = [n for n in existentes if CLIMAS.get(n) in climas_ok]
+        if candidatos:
+            return AUDIO / candidatos[_fnv(seed + "trilha") % len(candidatos)]
+
+    return AUDIO / existentes[_fnv(seed + "trilha") % len(existentes)]
 
 
 class VideoIndisponivel(RuntimeError):
