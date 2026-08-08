@@ -298,7 +298,9 @@
       // ---- estilo bilhete (papel creme + cursiva azul) ----
       const AZUL = [36,44,122], CREME = [236,228,210], AZUL_SOMBRA = [196,190,176], BIL_HANDLE = [92,98,150];
       const LIVRO_BG = [216,214,208], LIVRO_TEXTO = [38,36,34], LIVRO_REF = [18,18,18], LIVRO_GRIFO = [216,228,96], LIVRO_HANDLE = [120,120,112];
-      const ESTILOS_V = ["classico", "bilhete", "livro"];
+      const FOTOS_V = ["foto-campo.jpg", "foto-montanha-rosa.jpg", "foto-floresta.jpg"];
+      const FOTO_TEXTO = [247,246,242], FOTO_HANDLE = [232,230,224];
+      const ESTILOS_V = ["classico", "bilhete", "livro", "foto"];
 
       function escolherEstilo(texto, seed) {
         let e = ESTILOS_V[fnv((seed || "") + "estilo") % ESTILOS_V.length];
@@ -306,7 +308,7 @@
         return e;
       }
       function estiloAleatorio(texto) {
-        const ops = (texto || "").length <= 180 ? ESTILOS_V : ["classico", "livro"];
+        const ops = (texto || "").length <= 180 ? ESTILOS_V : ["classico", "livro", "foto"];
         return ops[Math.floor(Math.random() * ops.length)];
       }
 
@@ -384,11 +386,46 @@
         ctx.font = `500 ${S(34)}px "EB Garamond"`; ctx.fillText(HANDLE, S(1080 - ml), S(1770));
       }
 
+      function _textoFoto(ctx, W, H, texto, referencia) {
+        const S = x => x * (W/1080);
+        const maxW = 1080 - 2*96 - 40, maxH = 820, topo = 560;
+        const { size, linhas, esp } = ajustarMax(ctx, texto, maxW, maxH, 84, "EB Garamond", 1.42);
+        let y = topo + (maxH - linhas.length*esp)/2;
+        ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.font = `400 ${S(size)}px "EB Garamond"`;
+        for (const l of linhas) {
+          ctx.fillStyle = "rgba(0,0,0,.55)"; ctx.fillText(l, W/2 + S(2), S(y) + S(3));
+          ctx.fillStyle = rgb(FOTO_TEXTO); ctx.fillText(l, W/2, S(y)); y += esp;
+        }
+        ctx.strokeStyle = rgb(FOTO_TEXTO); ctx.lineWidth = Math.max(1, Math.round(2*W/1080));
+        ctx.beginPath(); ctx.moveTo(W/2 - S(70), S(y+42)); ctx.lineTo(W/2 + S(70), S(y+42)); ctx.stroke();
+        ctx.fillStyle = rgb(FOTO_TEXTO); ctx.font = `700 ${S(42)}px "Cinzel"`;
+        ctx.fillText(referencia.toUpperCase(), W/2, S(y+74));
+        ctx.fillStyle = rgb(FOTO_HANDLE); ctx.font = `400 ${S(22)}px "Cinzel"`;
+        ctx.fillText(HANDLE.toUpperCase().split("").join(" "), W/2, S(1770));
+      }
+
+      function pintarFoto(canvas, { texto, referencia, seed }) {
+        const W = canvas.width, H = canvas.height;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#20201f"; ctx.fillRect(0, 0, W, H);
+        const nome = FOTOS_V[fnv((seed || "") + "foto") % FOTOS_V.length];
+        const img = new Image(); img.crossOrigin = "anonymous";
+        img.onload = () => {
+          const s = Math.max(W/img.width, H/img.height), dw = img.width*s, dh = img.height*s;
+          ctx.save(); ctx.filter = "grayscale(25%) brightness(52%)";
+          ctx.drawImage(img, (W-dw)/2, (H-dh)/2, dw, dh); ctx.restore();
+          _textoFoto(ctx, W, H, texto, referencia);
+        };
+        img.onerror = () => _textoFoto(ctx, W, H, texto, referencia);
+        img.src = `${RAW}/fotos/${nome}`;
+      }
+
       // Escolhe o estilo (ou usa override.estilo) e pinta no formato vertical 9:16.
       function desenharVertical(canvas, opts) {
         const estilo = (opts.override && opts.override.estilo) || escolherEstilo(opts.texto, opts.seed);
         if (estilo === "bilhete") pintarBilhete(canvas, opts);
         else if (estilo === "livro") pintarLivro(canvas, opts);
+        else if (estilo === "foto") pintarFoto(canvas, opts);
         else pintarClassico(canvas, opts);
       }
 

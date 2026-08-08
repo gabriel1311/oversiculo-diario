@@ -11,7 +11,7 @@ from __future__ import annotations
 import random
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 
 def _fnv(texto: str) -> int:
@@ -29,6 +29,7 @@ def _fnv(texto: str) -> int:
 
 RAIZ = Path(__file__).resolve().parent.parent
 FONTES = RAIZ / "fontes"
+FOTOS_DIR = RAIZ / "fotos"
 
 LADO = 1080
 MARGEM = 96
@@ -99,7 +100,7 @@ VERT_W, VERT_H = 1080, 1920
 #   classico = fundo escuro + serifada + dourado
 #   bilhete  = papel creme + cursiva azul + coração
 #   livro    = cinza clean + serifada + última linha grifada de amarelo
-ESTILOS = ["classico", "bilhete", "livro"]
+ESTILOS = ["classico", "bilhete", "livro", "foto"]
 
 # A cursiva do bilhete só fica boa em versículo curto/médio; acima disso o texto
 # aperta e perde legibilidade, então versículos longos vão sempre no clássico.
@@ -414,12 +415,63 @@ def _render_livro(texto: str, referencia: str, seed: str, W: int, H: int) -> Ima
     return imagem
 
 
+# Estilo "foto": versículo em branco sobre uma foto livre, com escurecimento.
+FOTOS = ["foto-campo.jpg", "foto-montanha-rosa.jpg", "foto-floresta.jpg"]
+FOTO_TEXTO = (247, 246, 242)
+FOTO_HANDLE = (232, 230, 224)
+
+
+def _foto_fundo(seed: str, W: int, H: int) -> Image.Image:
+    nomes = [f for f in FOTOS if (FOTOS_DIR / f).exists()]
+    if not nomes:
+        return Image.new("RGB", (W, H), (28, 28, 30))
+    nome = nomes[_fnv(seed + "foto") % len(nomes)]
+    im = Image.open(FOTOS_DIR / nome).convert("RGB")
+    escala = max(W / im.width, H / im.height)
+    im = im.resize((round(im.width * escala), round(im.height * escala)), Image.Resampling.LANCZOS)
+    x = (im.width - W) // 2
+    y = (im.height - H) // 2
+    im = im.crop((x, y, x + W, y + H))
+    # Esmaece: dessatura um pouco e escurece bastante, para o texto branco
+    # contrastar bem sobre qualquer área da foto.
+    cinza = ImageOps.grayscale(im).convert("RGB")
+    im = Image.blend(im, cinza, 0.25)
+    return Image.blend(im, Image.new("RGB", (W, H), (0, 0, 0)), 0.55)
+
+
+def _render_foto(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
+    imagem = _foto_fundo(seed, W, H)
+    desenho = ImageDraw.Draw(imagem)
+    vertical = H > W
+    largura_util = W - 2 * MARGEM - 40
+    altura_util = 820 if vertical else 500
+    topo = 560 if vertical else 300
+
+    fonte_texto, linhas, esp = _ajustar(texto, desenho, largura_util, altura_util, 84)
+    bloco = len(linhas) * esp
+    y = topo + (altura_util - bloco) // 2
+    for linha in linhas:
+        desenho.text((W // 2 + 2, y + 3), linha, font=fonte_texto, fill=(0, 0, 0), anchor="ma")
+        desenho.text((W // 2, y), linha, font=fonte_texto, fill=FOTO_TEXTO, anchor="ma")
+        y += esp
+
+    desenho.line([W // 2 - 70, y + 42, W // 2 + 70, y + 42], fill=FOTO_TEXTO, width=2)
+    fonte_ref = _fonte("Cinzel.ttf", 42 if vertical else 36, "SemiBold")
+    desenho.text((W // 2, y + 74), referencia.upper(), font=fonte_ref, fill=FOTO_TEXTO, anchor="ma")
+    fonte_handle = _fonte("Cinzel.ttf", 22, "Regular")
+    desenho.text((W // 2, H - (150 if vertical else 118)), " ".join(HANDLE.upper()),
+                 font=fonte_handle, fill=FOTO_HANDLE, anchor="ma")
+    return imagem
+
+
 def _renderizar(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
     estilo = escolher_estilo(texto, seed)
     if estilo == "bilhete":
         return _render_bilhete(texto, referencia, seed, W, H)
     if estilo == "livro":
         return _render_livro(texto, referencia, seed, W, H)
+    if estilo == "foto":
+        return _render_foto(texto, referencia, seed, W, H)
     return _render_classico(texto, referencia, seed, W, H)
 
 
