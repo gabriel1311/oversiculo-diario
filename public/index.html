@@ -76,6 +76,22 @@
       .nota-previa { font-size: 12px; color: var(--faint); margin-top: 8px; }
 
       .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+
+      /* seção de desempenho */
+      .dGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+      .dCol { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+      .dTit { font-size: 13px; color: var(--dim); margin-bottom: 12px; }
+      .dLinha { display: flex; align-items: center; gap: 10px; margin: 9px 0; font-size: 13.5px; }
+      .dNome { width: 74px; color: var(--texto); text-transform: capitalize; }
+      .dBar { flex: 1; height: 8px; background: var(--bg-2); border-radius: 5px; overflow: hidden; }
+      .dBar span { display: block; height: 100%; background: var(--ouro); border-radius: 5px; }
+      .dVal { width: 64px; text-align: right; color: var(--dim); } .dVal small { color: var(--faint); }
+      .dPosts { display: flex; flex-direction: column; gap: 8px; }
+      .dPost { display: block; padding: 9px 11px; border: 1px solid var(--line); border-radius: 9px; text-decoration: none; transition: border-color .13s; }
+      .dPost:hover { border-color: var(--ouro-fraco); }
+      .dRef { font-family: var(--serif); font-size: 14.5px; color: var(--texto); }
+      .dNums { font-size: 12.5px; color: var(--dim); margin-top: 2px; }
+      .dEst { font-size: 11.5px; color: var(--faint); margin-top: 2px; text-transform: capitalize; }
       .prev { }
       .prev .meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; }
       .prev .meta .txt .ref { font-family: var(--serif); font-size: 13.5px; }
@@ -129,6 +145,11 @@
           <div class="val" id="kpiAcervo">—</div>
           <div class="pe">versículos no pool</div>
         </div>
+        <div class="kpi">
+          <div class="rot">Seguidores</div>
+          <div class="val" id="kpiSeguidores">—</div>
+          <div class="pe" id="kpiSeguidoresPe"></div>
+        </div>
       </div>
 
       <h2>Próximo a publicar</h2>
@@ -136,6 +157,9 @@
 
       <h2>Próximos dias</h2>
       <div id="agendaBox"><div class="carregando">carregando…</div></div>
+
+      <h2>Desempenho</h2>
+      <div id="desempenhoBox"><div class="carregando">as métricas aparecem após a 1ª coleta (todo dia às 20h).</div></div>
 
       <h2>Já publicados</h2>
       <div id="historicoBox"><div class="carregando">carregando…</div></div>
@@ -491,12 +515,13 @@
           document.fonts.add(g); document.fonts.add(c); document.fonts.add(d);
         } catch (e) { /* segue com fontes do sistema */ }
 
-        let historico = [], agenda = [], pool = [];
+        let historico = [], agenda = [], pool = [], metricas = null;
         try {
-          [historico, agenda, pool] = await Promise.all([
+          [historico, agenda, pool, metricas] = await Promise.all([
             buscarJSON("dados/historico.json").catch(() => []),
             buscarJSON("dados/agenda.json").catch(() => []),
             buscarJSON("dados/versiculos.json").catch(() => []),
+            buscarJSON("dados/metricas.json").catch(() => null),
           ]);
           setStatus(true, "no ar");
         } catch (e) { setStatus(false, "erro ao carregar"); }
@@ -565,6 +590,39 @@
           ).join("");
         } else {
           hBox.innerHTML = `<div class="aviso">Nenhum post ainda.</div>`;
+        }
+
+        // Desempenho (métricas reais do Instagram)
+        if (metricas && metricas.seguidores != null) {
+          document.getElementById("kpiSeguidores").textContent = nf.format(metricas.seguidores);
+          document.getElementById("kpiSeguidoresPe").textContent = metricas.username ? "@" + metricas.username : "";
+        }
+        const dBox = document.getElementById("desempenhoBox");
+        const posts = ((metricas && metricas.posts) || []).map((p) => ({
+          ...p, eng: (p.likes || 0) + (p.comentarios || 0),
+          estilo: escolherEstilo(textoPorConsulta[p.consulta] || "", p.data),
+        })).filter((p) => p.likes != null || p.comentarios != null);
+        if (posts.length) {
+          const porEstilo = {};
+          for (const p of posts) { (porEstilo[p.estilo] ??= { n: 0, eng: 0 }); porEstilo[p.estilo].n++; porEstilo[p.estilo].eng += p.eng; }
+          const linhasEstilo = Object.entries(porEstilo).map(([e, v]) => ({ e, media: v.eng / v.n, n: v.n })).sort((a, b) => b.media - a.media);
+          const maxMedia = Math.max(1, ...linhasEstilo.map((x) => x.media));
+          const estiloHtml = linhasEstilo.map((x) =>
+            `<div class="dLinha"><span class="dNome">${x.e}</span><span class="dBar"><span style="width:${Math.round(x.media / maxMedia * 100)}%"></span></span><span class="dVal">${x.media.toFixed(1)} <small>· ${x.n}</small></span></div>`
+          ).join("");
+          const top = [...posts].sort((a, b) => b.eng - a.eng).slice(0, 6);
+          const topHtml = top.map((p) =>
+            `<a class="dPost" href="${p.permalink || "https://instagram.com/oversiculo.diario"}" target="_blank" rel="noreferrer">` +
+            `<div class="dRef">${p.referencia}</div>` +
+            `<div class="dNums">♥ ${nf.format(p.likes || 0)} · 💬 ${nf.format(p.comentarios || 0)}` +
+            (p.alcance != null ? ` · 👁 ${nf.format(p.alcance)}` : "") + (p.salvos != null ? ` · 🔖 ${nf.format(p.salvos)}` : "") + `</div>` +
+            `<div class="dEst">${p.estilo} · ${fmtCurto(p.data)}</div></a>`
+          ).join("");
+          dBox.innerHTML =
+            `<div class="dGrid"><div class="dCol"><div class="dTit">Engajamento médio por estilo</div>${estiloHtml}</div>` +
+            `<div class="dCol"><div class="dTit">Posts que mais engajaram</div><div class="dPosts">${topHtml}</div></div></div>`;
+        } else if (metricas) {
+          dBox.innerHTML = `<div class="aviso">Métricas coletadas, mas ainda sem engajamento registrado.</div>`;
         }
 
         document.getElementById("atualizado").textContent =
