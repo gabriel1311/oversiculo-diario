@@ -126,9 +126,17 @@ post.
 
 ## Manutenção
 
-**O token da Meta expira em ~60 dias.** A rotina checa a validade a cada execução
-e emite um aviso no log do Actions quando faltam 7 dias ou menos — o GitHub manda
-e-mail. Renove no Meta for Developers e atualize o secret.
+**O token se renova sozinho.** O workflow `renovar-token.yml` roda toda segunda,
+chama o endpoint de renovação do Instagram e regrava o secret `IG_ACCESS_TOKEN`
+com um token novo de 60 dias. Como renova semanalmente, o token nunca chega perto
+de vencer — nenhuma ação manual é necessária.
+
+Isso exige um secret a mais: `GH_PAT`, um token de acesso pessoal do GitHub
+(fine-grained) com permissão de **escrever secrets** só neste repositório. É o
+único jeito de um workflow reescrever o próprio cofre, e como o repositório é
+público o token do Instagram não pode ficar em arquivo. Se o `GH_PAT` não existir,
+a renovação falha e o token volta a expirar em 60 dias — aí é renová-lo à mão pelo
+caminho do `PASSO-A-PASSO.md`.
 
 **Ampliar o pool de versículos:** acrescente as referências em
 `ferramentas/montar_pool.py` e rode `python3 ferramentas/montar_pool.py`. Ele só

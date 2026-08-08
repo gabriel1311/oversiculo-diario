@@ -94,28 +94,12 @@ def publicar(url_imagem: str, legenda: str) -> str:
 
 def dias_ate_expirar() -> int | None:
     """
-    Quantos dias faltam para o token expirar, ou None se não der para saber.
+    Antes checava a validade do token aqui, a cada post. Não faz mais nada.
 
-    O token de longa duração do Instagram Login vale ~60 dias. Diferente do
-    caminho do Facebook, ele não expõe a validade por um `debug_token`; o
-    endpoint de refresh devolve `expires_in`, e como refrescar também estende o
-    token, aproveitamos a mesma chamada para as duas coisas.
-
-    Retorna None em qualquer falha — sem derrubar a publicação por causa disso.
+    A saúde do token virou responsabilidade do workflow `renovar-token.yml`, que
+    renova semanalmente e regrava o secret. Chamar a renovação aqui também, a
+    cada publicação, só geraria um token novo por dia à toa. Mantido como no-op
+    para não mexer em quem chama; retorna None, e o fluxo de publicação já trata
+    None pulando o aviso.
     """
-    token = os.environ.get("IG_ACCESS_TOKEN")
-    if not token:
-        return None
-    try:
-        # host graph.instagram.com; refresh é um GET simples
-        url = f"https://graph.instagram.com/refresh_access_token?" + urllib.parse.urlencode(
-            {"grant_type": "ig_refresh_token", "access_token": token}
-        )
-        with urllib.request.urlopen(url, timeout=30) as resposta:
-            dados = json.load(resposta)
-    except Exception:
-        return None
-    segundos = dados.get("expires_in")
-    if not segundos:
-        return None
-    return max(0, int(segundos) // 86400)
+    return None

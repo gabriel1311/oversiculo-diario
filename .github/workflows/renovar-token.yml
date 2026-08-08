@@ -1,0 +1,59 @@
+name: Renovar token do Instagram
+
+# O token do Instagram vale 60 dias, mas pode ser renovado por mais 60 a
+# qualquer momento antes de vencer — e renovado de novo, indefinidamente.
+# Este job roda toda semana, pega um token novo e regrava o secret sozinho.
+# Rodando semanalmente, o token está sempre com ~60 dias de folga e nunca
+# expira, mesmo que a publicação diária fique parada por algumas semanas.
+#
+# Precisa do secret GH_PAT: um token de acesso pessoal do GitHub com permissão
+# de escrever secrets neste repositório. É o único jeito de o workflow reescrever
+# o próprio cofre (o repositório é público, então o token não pode ficar em
+# arquivo).
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # toda segunda-feira, 06:00 UTC
+  workflow_dispatch:
+
+# Uma renovação por vez.
+concurrency:
+  group: renovar-token
+  cancel-in-progress: false
+
+jobs:
+  renovar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Renovar e regravar o token
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          set -euo pipefail
+
+          resp="$(curl -sS -G https://graph.instagram.com/refresh_access_token \
+            --data-urlencode 'grant_type=ig_refresh_token' \
+            --data-urlencode "access_token=${IG_ACCESS_TOKEN}")"
+
+          novo="$(printf '%s' "$resp" \
+            | python3 -c 'import sys,json; print(json.load(sys.stdin).get("access_token",""))' || true)"
+
+          if [ -z "$novo" ]; then
+            # Só a mensagem de erro, nunca a resposta inteira (que na dúvida
+            # poderia carregar dado sensível).
+            motivo="$(printf '%s' "$resp" \
+              | python3 -c 'import sys,json; print(json.load(sys.stdin).get("error",{}).get("message","erro desconhecido"))' \
+              2>/dev/null || echo 'resposta ilegível')"
+            echo "::error::Não consegui renovar o token: ${motivo}"
+            exit 1
+          fi
+
+          # Impede que o token novo apareça em qualquer log daqui pra frente.
+          echo "::add-mask::${novo}"
+
+          gh secret set IG_ACCESS_TOKEN --body "${novo}" -R "${GITHUB_REPOSITORY}"
+
+          dias="$(printf '%s' "$resp" \
+            | python3 -c 'import sys,json; print(int(json.load(sys.stdin).get("expires_in",0))//86400)')"
+          echo "Token renovado. Nova validade: ${dias} dias."
