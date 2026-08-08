@@ -54,6 +54,8 @@ REFERENCIAS = [
     "efesios 6:10", "filipenses 1:6", "filipenses 4:8", "colossenses 3:2",
     "1 tessalonicenses 5:11", "hebreus 4:16", "tiago 4:7", "1 pedro 4:8",
     "1 joao 1:9", "1 joao 4:7", "apocalipse 21:4",
+    # --- versículos para datas especiais (Natal, Páscoa) ---
+    "isaias 9:6", "lucas 2:11", "mateus 28:6",
 ]
 
 TAMANHO_MAXIMO = 260  # acima disso o texto não cai bem no quadrado 1080x1080

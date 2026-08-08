@@ -16,6 +16,9 @@ ARQUIVO_AGENDA = RAIZ / "dados" / "agenda.json"
 # um versículo sem inventar um post falso no histórico. O sorteio trata como já
 # usado; quando o pool inteiro se esgota, eles voltam à rotação normalmente.
 ARQUIVO_RESERVADOS = RAIZ / "dados" / "reservados.json"
+# Datas com versículo fixo (Natal, Páscoa, Ano Novo). Chave "MM-DD" vale todo
+# ano; "YYYY-MM-DD" vale só naquele dia (útil para a Páscoa, que muda de data).
+ARQUIVO_DATAS = RAIZ / "dados" / "datas_especiais.json"
 
 
 @dataclass(frozen=True)
@@ -42,6 +45,21 @@ def carregar_reservados() -> set[str]:
     if not ARQUIVO_RESERVADOS.exists():
         return set()
     return set(json.loads(ARQUIVO_RESERVADOS.read_text(encoding="utf-8")))
+
+
+def carregar_datas() -> dict:
+    if not ARQUIVO_DATAS.exists():
+        return {}
+    return json.loads(ARQUIVO_DATAS.read_text(encoding="utf-8"))
+
+
+def _versiculo_da_data(dia: date, pool: list[Versiculo]) -> Versiculo | None:
+    """Se o dia for uma data especial, devolve o versículo fixo dela (senão None)."""
+    datas = carregar_datas()
+    consulta = datas.get(dia.isoformat()) or datas.get(dia.strftime("%m-%d"))
+    if not consulta:
+        return None
+    return next((v for v in pool if v.consulta == consulta), None)
 
 
 def registrar(versiculo: Versiculo, dia: date, id_post: str | None) -> None:
@@ -83,6 +101,11 @@ def escolher(
         historico = carregar_historico()
     if reservados is None:
         reservados = carregar_reservados()
+
+    # Data especial manda: Natal, Páscoa, Ano Novo têm versículo fixo.
+    especial = _versiculo_da_data(dia, pool)
+    if especial is not None:
+        return especial
 
     ja_usados = {item["consulta"] for item in historico} | reservados
     ineditos = [v for v in pool if v.consulta not in ja_usados]
