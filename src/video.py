@@ -19,8 +19,9 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 AUDIO = RAIZ / "audio"
 # Trilhas em rotação — o vídeo escolhe uma por dia (seed), para o feed não soar
-# sempre igual. A primeira é o fallback quando nenhuma escolha é possível.
-TRILHAS = ["trilha.wav", "trilha2.wav", "trilha3.wav"]
+# sempre igual. São faixas royalty-free reais (Pixabay), creditadas em
+# audio/CREDITOS.md. Para variar mais, é só somar mais arquivos aqui.
+TRILHAS = ["piano-atlas.mp3"]
 TRILHA = AUDIO / TRILHAS[0]
 
 LADO = 1080
