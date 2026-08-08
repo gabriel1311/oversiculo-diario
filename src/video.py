@@ -74,12 +74,22 @@ def montar(
     # Frente: a imagem original 1080×1080 centralizada por cima.
     # split porque a mesma imagem alimenta duas cadeias (fundo borrado + frente
     # nítida); um rótulo de filtro só pode ser consumido uma vez.
+    #
+    # Animação leve: o FUNDO desfocado dá um zoom lento (Ken Burns) — como já é
+    # borrado, qualquer tremor do zoompan some. A FRENTE (versículo) fica parada
+    # e nítida, para o texto não tremer nem embaçar. Fade suave no início e no fim.
+    saida_fade = max(0.1, duracao - 0.8)
     filtro = (
         "[0:v]split=2[base][frente];"
-        "[base]scale=1080:1920:force_original_aspect_ratio=increase,"
-        "crop=1080:1920,boxblur=32:2,eq=brightness=-0.10[bg];"
+        "[base]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,"
+        "scale=1188:2112,"
+        "zoompan=z='min(1+0.00016*on,1.08)':d=1:"
+        "x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps=30,"
+        "boxblur=32:2,eq=brightness=-0.10[bg];"
         "[frente]scale=1080:1080[fg];"
-        "[bg][fg]overlay=(W-w)/2:(H-h)/2,format=yuv420p[v]"
+        "[bg][fg]overlay=(W-w)/2:(H-h)/2,"
+        f"fade=t=in:st=0:d=0.8,fade=t=out:st={saida_fade:.1f}:d=0.8,"
+        "format=yuv420p[v]"
     )
 
     comando = [
