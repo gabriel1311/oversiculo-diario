@@ -55,20 +55,48 @@ Pode ser feito pelo Safari do iPhone; se a tela ficar apertada, ative
 
 ---
 
-## Etapa 3 — Conectar a conta e gerar o token (10 min)
+## Etapa 3 — Atribuir o papel de Testador do Instagram (5 min)
 
-1. No painel, abra **"Personalizar o caso de uso"** (a primeira linha, na setinha
-   à direita). Pelo menu lateral, o mesmo lugar é **Casos de uso**.
-2. Procure a seção **API setup with Instagram login** (em português pode aparecer
-   como "Configuração da API com login do Instagram").
-3. Em **adicionar conta**, autorize com o **@oversiculo.diario**. Como sua Central
-   de Contas já liga Instagram e Facebook, o fluxo tende a ser rápido.
-4. Clique em **Gerar token**. Marque as duas permissões que a publicação exige:
-   - `instagram_business_basic`
-   - `instagram_business_content_publish`
-5. **Copie o token.** Ele já é de longa duração — vale **60 dias**.
-6. No mesmo painel, ao lado da conta conectada, copie o **número longo**: é o
-   `IG_ACCOUNT_ID`.
+**Este passo não está na documentação da Meta e é onde é fácil travar.** Sem ele,
+a conta não aparece para conectar na etapa seguinte. A única menção é uma frase
+solta na tela de configuração da API.
+
+1. No menu lateral, **Funções do app → Funções**.
+2. Clique em **Mais ▾** (ao lado de "Testadores") e escolha **Testadores do
+   Instagram**. Repare que "Testadores" e "Testadores do Instagram" são papéis
+   diferentes — o que vale é o segundo.
+3. **Adicionar pessoas** → marque **Testador do Instagram**, a última opção, sob
+   "Funções adicionais para este app" → **Adicionar**.
+4. Informe o usuário `oversiculo.diario`.
+5. **Aceite o convite pelo lado do Instagram**: no app, **Configurações → Apps e
+   sites → Convites de testador**. Enquanto o convite ficar pendente, nada
+   funciona.
+
+✅ Pronto quando o perfil aparece na lista de Testadores do Instagram.
+
+---
+
+## Etapa 4 — Conectar a conta e gerar o token (10 min)
+
+1. **Casos de uso → Personalizar.**
+2. Na barra lateral, **Configuração da API com login do Instagram**. Cuidado: há
+   duas entradas de nome quase igual, e a outra é **do Facebook** — essa é a errada.
+3. Vá até a seção **2. Gerar tokens de acesso**.
+
+   > ⚠️ **A seção 2 costuma vir recolhida.** Se você não achar o botão, olhe a
+   > setinha à direita do título: apontando para baixo (⌄) significa fechada.
+   > Clique nela para abrir. O botão está lá dentro.
+
+4. Clique em **Adicionar conta** e autorize com o **@oversiculo.diario**.
+5. Com a conta na lista, copie o **número longo abaixo do nome** — é o
+   `IG_ACCOUNT_ID`, no formato `17841…`. Não é segredo, é só um identificador.
+6. Clique em **Gerar token** e **copie o token na hora** — ele é exibido uma vez
+   só. Já é de longa duração: vale **60 dias**.
+
+Sobre as permissões: elas vêm do caso de uso, não precisam ser marcadas uma a uma.
+Confira em **Permissões e recursos** que `instagram_business_content_publish`
+aparece na lista — é a que autoriza publicar. Com o app em modo de desenvolvimento
+e a conta como testadora, **não é preciso App Review**.
 
 **Ignore o card "Torne-se um Provedor de Tecnologia".** Isso só serve para enviar
 o app à análise e acessar dados de terceiros. Publicando na própria conta, com o
@@ -81,7 +109,7 @@ conta. Guarde no gerenciador de senhas ou no app Notas com cadeado até a Etapa 
 
 ---
 
-## Etapa 4 — Chave do Claude (5 min, opcional)
+## Etapa 5 — Chave do Claude (5 min, opcional)
 
 1. **console.anthropic.com → API keys → Create key.**
 2. Adicione uns poucos dólares de crédito.
@@ -92,7 +120,7 @@ sem mexer em mais nada.
 
 ---
 
-## Etapa 5 — GitHub (5 min)
+## Etapa 6 — GitHub (5 min)
 
 No terminal:
 
@@ -107,7 +135,7 @@ arquivo nenhum:
 ```bash
 gh secret set IG_ACCESS_TOKEN
 gh secret set IG_ACCOUNT_ID
-gh secret set ANTHROPIC_API_KEY   # pule se não fez a Etapa 4
+gh secret set ANTHROPIC_API_KEY   # pule se não fez a Etapa 5
 ```
 
 **Por que público:** a Graph API precisa baixar a imagem de uma URL sem
@@ -118,7 +146,7 @@ aparecem nem em fork nem em pull request.
 
 ---
 
-## Etapa 6 — Ensaio antes de soltar (5 min)
+## Etapa 7 — Ensaio antes de soltar (5 min)
 
 1. No GitHub: **Actions → Publicar versículo do dia → Run workflow.**
 2. Marque **ensaio** e confirme.
@@ -138,7 +166,7 @@ mais nada.
 
 **A única manutenção é o token, que expira em ~60 dias.** A rotina confere a
 validade a cada execução e emite um aviso no log do Actions quando faltam 7 dias
-ou menos — o GitHub te manda e-mail. Aí é só repetir a Etapa 3 (passos 4 a 5) e
+ou menos — o GitHub te manda e-mail. Aí é só repetir a Etapa 4 (passo 6) e
 rodar `gh secret set IG_ACCESS_TOKEN` de novo.
 
 ---
@@ -155,3 +183,5 @@ claro. Os enganos mais prováveis:
 | o Instagram não baixa a imagem | repositório privado |
 | `container falhou` | imagem inacessível na URL, ou fora do formato JPEG |
 | parou de postar de repente | token de 60 dias expirou |
+| a conta não aparece para conectar | falta o papel de Testador do Instagram, ou o convite não foi aceito |
+| não acho o botão "Adicionar conta" | a seção 2 está recolhida — clique na setinha do título |
