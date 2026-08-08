@@ -10,7 +10,11 @@ import urllib.parse
 import urllib.request
 
 VERSAO = os.environ.get("IG_API_VERSION", "v23.0")
-BASE = f"https://graph.facebook.com/{VERSAO}"
+# graph.INSTAGRAM.com, não graph.facebook.com: o token vem do caminho
+# "Instagram Login", e esse token só é reconhecido no host do Instagram.
+# Mandá-lo ao host do Facebook devolve "OAuthException 190: Cannot parse
+# access token" — o Facebook não consegue nem decodificar um token de Instagram.
+BASE = f"https://graph.instagram.com/{VERSAO}"
 
 
 class ErroInstagram(RuntimeError):
@@ -92,17 +96,26 @@ def dias_ate_expirar() -> int | None:
     """
     Quantos dias faltam para o token expirar, ou None se não der para saber.
 
-    O token de longa duração vale ~60 dias. Sem esse aviso, a automação
-    simplesmente para de postar um dia e ninguém percebe.
+    O token de longa duração do Instagram Login vale ~60 dias. Diferente do
+    caminho do Facebook, ele não expõe a validade por um `debug_token`; o
+    endpoint de refresh devolve `expires_in`, e como refrescar também estende o
+    token, aproveitamos a mesma chamada para as duas coisas.
+
+    Retorna None em qualquer falha — sem derrubar a publicação por causa disso.
     """
     token = os.environ.get("IG_ACCESS_TOKEN")
     if not token:
         return None
     try:
-        dados = _get("debug_token", {"input_token": token, "access_token": token})
-    except ErroInstagram:
+        # host graph.instagram.com; refresh é um GET simples
+        url = f"https://graph.instagram.com/refresh_access_token?" + urllib.parse.urlencode(
+            {"grant_type": "ig_refresh_token", "access_token": token}
+        )
+        with urllib.request.urlopen(url, timeout=30) as resposta:
+            dados = json.load(resposta)
+    except Exception:
         return None
-    expira = dados.get("data", {}).get("expires_at")
-    if not expira:  # 0 significa que não expira
+    segundos = dados.get("expires_in")
+    if not segundos:
         return None
-    return max(0, int((expira - time.time()) // 86400))
+    return max(0, int(segundos) // 86400)
