@@ -25,7 +25,7 @@ TRILHA = AUDIO / TRILHAS[0]
 
 LADO = 1080
 ALTURA = 1920
-DURACAO = 15  # segundos; a trilha (16s) cobre com folga, o -shortest corta no vídeo
+DURACAO = 30  # segundos; a trilha (16s, laço perfeito) repete suave para cobrir
 
 
 def _fnv(texto: str) -> int:
