@@ -24,6 +24,7 @@ AUDIO = RAIZ / "audio"
 TRILHAS = [
     "piano-atlas.mp3", "piano-monda.mp3", "piano-atlas2.mp3",
     "piano-nastel.mp3", "violao-jonas.mp3",
+    "cinematic-leberch.mp3", "ambient-jonas.mp3", "cinematic-tunetank.mp3",
 ]
 TRILHA = AUDIO / TRILHAS[0]
 
