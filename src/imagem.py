@@ -64,10 +64,30 @@ PALETAS = [
         "topo": (34, 24, 18), "base": (58, 42, 30), "vinheta": (16, 10, 6),
         "ouro": (214, 184, 130), "ouro_fraco": (154, 130, 92), "texto": (242, 236, 226),
     },
+    {  # índigo
+        "topo": (22, 24, 64), "base": (40, 44, 104), "vinheta": (8, 10, 30),
+        "ouro": (198, 178, 126), "ouro_fraco": (138, 124, 88), "texto": (236, 238, 246),
+    },
+    {  # oliva
+        "topo": (34, 36, 16), "base": (56, 60, 28), "vinheta": (14, 15, 6),
+        "ouro": (208, 192, 124), "ouro_fraco": (148, 136, 90), "texto": (240, 240, 226),
+    },
+    {  # carmesim
+        "topo": (54, 12, 22), "base": (92, 24, 38), "vinheta": (24, 6, 10),
+        "ouro": (216, 170, 120), "ouro_fraco": (158, 120, 84), "texto": (246, 232, 230),
+    },
+    {  # ardósia (azul-ardósia)
+        "topo": (22, 30, 42), "base": (38, 52, 72), "vinheta": (8, 12, 18),
+        "ouro": (200, 186, 150), "ouro_fraco": (142, 130, 104), "texto": (236, 240, 244),
+    },
+    {  # cacau
+        "topo": (28, 18, 16), "base": (50, 32, 26), "vinheta": (12, 7, 6),
+        "ouro": (210, 178, 132), "ouro_fraco": (150, 126, 92), "texto": (240, 232, 226),
+    },
 ]
 
-MOLDURAS = ["dupla", "cantos"]
-ORNAMENTOS = ["losango", "cruz", "pontos"]
+MOLDURAS = ["dupla", "cantos", "linha"]
+ORNAMENTOS = ["losango", "cruz", "pontos", "estrela"]
 
 HANDLE = "@oversiculo.diario"
 
@@ -120,6 +140,13 @@ def _fundo(pal: dict) -> Image.Image:
 
 
 def _moldura(desenho: ImageDraw.ImageDraw, pal: dict, estilo: str) -> None:
+    if estilo == "linha":
+        # Uma linha só, fina e dourada — moldura minimalista.
+        desenho.rectangle(
+            [52, 52, LADO - 52 - 1, LADO - 52 - 1], outline=pal["ouro"], width=1
+        )
+        return
+
     if estilo == "cantos":
         # Só cantos: quatro cotovelos dourados, sem retângulo fechado.
         m, braco = 54, 70
@@ -189,7 +216,15 @@ def _ornamento(desenho: ImageDraw.ImageDraw, centro_y: int, pal: dict, estilo: s
     desenho.line([meio - largura, centro_y, meio - 16, centro_y], fill=pal["ouro_fraco"], width=1)
     desenho.line([meio + 16, centro_y, meio + largura, centro_y], fill=pal["ouro_fraco"], width=1)
 
-    if estilo == "cruz":
+    if estilo == "estrela":
+        # Estrela de 4 pontas (sparkle), preenchida.
+        pontos = [
+            (meio, centro_y - 9), (meio + 2, centro_y - 2), (meio + 9, centro_y),
+            (meio + 2, centro_y + 2), (meio, centro_y + 9), (meio - 2, centro_y + 2),
+            (meio - 9, centro_y), (meio - 2, centro_y - 2),
+        ]
+        desenho.polygon(pontos, fill=pal["ouro"])
+    elif estilo == "cruz":
         desenho.line([meio, centro_y - 8, meio, centro_y + 8], fill=pal["ouro"], width=2)
         desenho.line([meio - 6, centro_y - 2, meio + 6, centro_y - 2], fill=pal["ouro"], width=2)
     elif estilo == "pontos":
