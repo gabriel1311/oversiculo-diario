@@ -83,14 +83,13 @@ def gerar(texto: str, referencia: str) -> str:
 
     cliente = anthropic.Anthropic()
     try:
-        resposta = cliente.beta.messages.create(
+        resposta = cliente.messages.create(
             model=MODELO,
-            max_tokens=2000,
-            # Fallback do lado do servidor: se um classificador recusar, a própria
-            # API repete num modelo alternativo em vez de devolver erro. Numa
-            # rotina diária sem ninguém olhando, isso evita perder o post do dia.
-            betas=["server-side-fallback-2026-07-01"],
-            fallbacks="default",
+            # Folga grande: no Opus 5 o raciocínio vem ligado e divide o teto com
+            # a resposta. A saída (2-4 frases + hashtags) é pequena, e token não
+            # gerado não é cobrado — então um teto alto é só seguro contra
+            # truncar o JSON, sem custo.
+            max_tokens=8000,
             output_config={
                 "effort": "low",
                 "format": {"type": "json_schema", "schema": ESQUEMA},
