@@ -55,10 +55,15 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add posts
           if git diff --cached --quiet; then
-            echo "Nada novo para commitar" && exit 1
+            # A imagem de hoje já foi commitada (retry no mesmo dia, ou o post
+            # já rodou). Não é erro: o commit atual já contém o arquivo, então
+            # seguimos para publicar usando o HEAD como referência.
+            echo "Imagem do dia já commitada; usando o commit atual."
+          else
+            git commit -m "Post de $(date -u +%Y-%m-%d)"
+            git pull --rebase --autostash || true
+            git push
           fi
-          git commit -m "Post de $(date -u +%Y-%m-%d)"
-          git push
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Publicar no Instagram
