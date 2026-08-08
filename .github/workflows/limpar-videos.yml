@@ -1,0 +1,65 @@
+name: Limpar vídeos antigos
+
+# Cada post do dia commita um mp4 (~0,5 MB). Ao longo dos meses isso incha a
+# árvore do repositório. Este job roda uma vez por mês e remove os mp4 com mais
+# de N dias — mantém os .jpg (bem menores) que o painel usa como miniatura.
+#
+# Observação: o histórico do git ainda guarda os blobs antigos, então o .git em
+# si não encolhe; o que fica leve é a árvore de trabalho (o que se vê e se clona
+# no estado atual). Para um projeto de um post por dia, é o suficiente.
+
+on:
+  schedule:
+    - cron: "0 4 1 * *" # dia 1 de cada mês, 04:00 UTC
+  workflow_dispatch:
+    inputs:
+      dias:
+        description: "Remover mp4 com mais de N dias"
+        default: "60"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: limpar-videos
+  cancel-in-progress: false
+
+jobs:
+  limpar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Remover mp4 antigos
+        env:
+          DIAS: ${{ inputs.dias || '60' }}
+        run: |
+          python3 - "$DIAS" <<'PY'
+          import sys, datetime, pathlib, subprocess
+          dias = int(sys.argv[1])
+          corte = datetime.date.today() - datetime.timedelta(days=dias)
+          removidos = []
+          for p in sorted(pathlib.Path("posts").glob("*.mp4")):
+              try:
+                  d = datetime.date.fromisoformat(p.stem)
+              except ValueError:
+                  continue  # nome fora do padrão AAAA-MM-DD: não mexe
+              if d < corte:
+                  removidos.append(str(p))
+          if removidos:
+              subprocess.run(["git", "rm", "--quiet", *removidos], check=True)
+          print(f"removidos {len(removidos)} mp4 (anteriores a {corte})")
+          PY
+
+      - name: Commitar remoção
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --cached --quiet; then
+            echo "nada para remover"
+            exit 0
+          fi
+          n=$(git diff --cached --name-only | wc -l | tr -d ' ')
+          git commit -m "Limpeza: remove ${n} vídeo(s) antigo(s)"
+          git pull --rebase --autostash
+          git push
