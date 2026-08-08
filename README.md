@@ -55,11 +55,11 @@ gh secret set ANTHROPIC_API_KEY   # opcional; sem ele a legenda usa o texto padr
 |---|---|---|
 | `IG_ACCESS_TOKEN` | Meta for Developers → app → Instagram → API setup with Instagram login | sim |
 | `IG_ACCOUNT_ID` | mesmo painel, ao lado da conta conectada | sim |
+| `ANTHROPIC_API_KEY` | console.anthropic.com | não |
 
 Permissões necessárias no token: `instagram_business_basic` e
 `instagram_business_content_publish`. Com o app em modo de desenvolvimento e
 publicando só na própria conta, não é preciso passar pelo App Review.
-| `ANTHROPIC_API_KEY` | console.anthropic.com | não |
 
 ### 3. Testar sem publicar
 
