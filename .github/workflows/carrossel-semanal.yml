@@ -14,8 +14,9 @@ on:
         description: "Gerar as imagens sem publicar"
         type: boolean
         default: false
-  schedule:
-    - cron: "0 12 * * 0" # todo domingo, 12:00 UTC (9h Brasília)
+  # Desligado a pedido do Gabriel. Para religar o resumo semanal (domingo 12h UTC):
+  # schedule:
+  #   - cron: "0 12 * * 0"
 
 permissions:
   contents: write
