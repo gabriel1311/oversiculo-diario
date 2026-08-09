@@ -114,6 +114,9 @@ def publicar(dia: date) -> int:
         return 1
 
     versiculos.registrar(versiculos.escolher(dia), dia, id_reel)
+    # Regrava a agenda JÁ COM o post de hoje no histórico — senão o painel
+    # continua mostrando o dia publicado como "próximo a publicar".
+    versiculos.escrever_agenda()
     return 0
 
 
