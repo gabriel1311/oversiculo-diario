@@ -77,6 +77,13 @@
 
       .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
 
+      /* carrossel horizontal (deslizar de lado) para os próximos dias */
+      .carrossel { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 10px;
+        scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+      .carrossel .prev { flex: 0 0 190px; scroll-snap-align: start; }
+      .carrossel::-webkit-scrollbar { height: 8px; }
+      .carrossel::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
       /* seção de desempenho */
       .dGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
       .dCol { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
@@ -572,7 +579,7 @@
         const agBox = document.getElementById("agendaBox");
         const resto = agenda.slice(1);
         if (resto.length) {
-          agBox.className = "grid";
+          agBox.className = "carrossel";
           agBox.innerHTML = "";
           for (const item of resto) agBox.appendChild(cardPrevia(item, textoPorConsulta, 360));
         } else {
