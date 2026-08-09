@@ -99,6 +99,33 @@
       .dRef { font-family: var(--serif); font-size: 14.5px; color: var(--texto); }
       .dNums { font-size: 12.5px; color: var(--dim); margin-top: 2px; }
       .dEst { font-size: 11.5px; color: var(--faint); margin-top: 2px; text-transform: capitalize; }
+
+      /* relatório de crescimento */
+      .mcard .rot { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+      .mcard .mbig { font-family: var(--serif); font-weight: 700; font-size: 26px; color: var(--texto); margin-top: 3px; font-variant-numeric: tabular-nums; }
+      .chartWrap { margin-top: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+      .chartWrap .rot { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+      .chartWrap canvas { width: 100%; height: auto; display: block; }
+
+      /* acompanhamento do plano */
+      .planoWrap { display: grid; grid-template-columns: 220px 1fr; gap: 20px; }
+      @media (max-width: 620px) { .planoWrap { grid-template-columns: 1fr; } }
+      .planoResumo { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; height: fit-content; }
+      .pbig { font-family: var(--serif); font-weight: 700; font-size: 42px; color: var(--ouro); font-variant-numeric: tabular-nums; }
+      .pbig-l { font-size: 13px; color: var(--dim); margin: 2px 0 12px; }
+      .pbar { height: 8px; background: var(--bg-2); border-radius: 5px; overflow: hidden; }
+      .pbar.big { height: 10px; }
+      .pbar span { display: block; height: 100%; background: var(--ouro); border-radius: 5px; }
+      .fases { display: flex; flex-direction: column; gap: 14px; }
+      .fase { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+      .faseTop { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+      .faseNome { font-family: var(--serif); font-weight: 700; font-size: 15px; color: var(--texto); }
+      .faseProg { font-size: 12.5px; color: var(--dim); font-variant-numeric: tabular-nums; }
+      .planoLista { list-style: none; margin: 10px 0 0; padding: 0; }
+      .planoLista li { display: flex; gap: 10px; align-items: flex-start; padding: 5px 0; font-size: 14px; color: var(--dim); }
+      .planoLista li.ok { color: var(--texto); }
+      .cbox { flex: 0 0 18px; width: 18px; height: 18px; border: 1.5px solid var(--line); border-radius: 5px; display: grid; place-items: center; font-size: 12px; color: var(--ouro); margin-top: 1px; }
+      .planoLista li.ok .cbox { border-color: var(--ouro); }
       .prev { }
       .prev .meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; }
       .prev .meta .txt .ref { font-family: var(--serif); font-size: 13.5px; }
@@ -158,6 +185,12 @@
           <div class="pe" id="kpiSeguidoresPe"></div>
         </div>
       </div>
+
+      <h2>Relatório de crescimento</h2>
+      <div id="relatorioBox"><div class="carregando">o relatório aparece após a 1ª coleta de métricas (todo dia às 20h).</div></div>
+
+      <h2>Acompanhamento do plano</h2>
+      <div id="planoBox"><div class="carregando">carregando…</div></div>
 
       <h2>Próximo a publicar</h2>
       <div class="destaque" id="destaque"><span class="carregando">renderizando prévia…</span></div>
@@ -512,6 +545,66 @@
         return el;
       }
 
+      function renderPlano(plano) {
+        const box = document.getElementById("planoBox");
+        if (!plano || !plano.fases) { box.innerHTML = `<div class="aviso">Plano não encontrado.</div>`; return; }
+        let totF = 0, totT = 0;
+        const fasesHtml = plano.fases.map((f) => {
+          const feitos = f.itens.filter((i) => i.feito).length;
+          totF += feitos; totT += f.itens.length;
+          const pct = Math.round(feitos / f.itens.length * 100);
+          const itensHtml = f.itens.map((i) =>
+            `<li class="${i.feito ? "ok" : ""}"><span class="cbox">${i.feito ? "✓" : ""}</span><span>${i.t}</span></li>`).join("");
+          return `<div class="fase"><div class="faseTop"><span class="faseNome">${f.nome}</span><span class="faseProg">${feitos}/${f.itens.length}</span></div>` +
+            `<div class="pbar"><span style="width:${pct}%"></span></div><ul class="planoLista">${itensHtml}</ul></div>`;
+        }).join("");
+        const pctG = totT ? Math.round(totF / totT * 100) : 0;
+        box.innerHTML = `<div class="planoWrap"><div class="planoResumo"><div class="pbig">${pctG}%</div>` +
+          `<div class="pbig-l">${totF} de ${totT} passos concluídos</div><div class="pbar big"><span style="width:${pctG}%"></span></div></div>` +
+          `<div class="fases">${fasesHtml}</div></div>`;
+      }
+
+      function renderRelatorio(metricas, metHist) {
+        const box = document.getElementById("relatorioBox");
+        if (!metricas) return;
+        const serie = (metHist || []).filter((h) => h.seguidores != null);
+        const posts = metricas.posts || [];
+        const soma = (c) => posts.reduce((s, p) => s + (p[c] || 0), 0);
+        let deltaTxt = "acompanhando…";
+        if (serie.length >= 2) {
+          const ini = serie[Math.max(0, serie.length - 8)].seguidores;
+          const d = (metricas.seguidores ?? serie[serie.length - 1].seguidores) - ini;
+          deltaTxt = (d >= 0 ? "+" : "") + nf.format(d) + " na semana";
+        }
+        const card = (rot, val, d) => `<div class="mcard"><div class="rot">${rot}</div><div class="mbig">${val}</div><div class="d">${d}</div></div>`;
+        const cards = `<div class="metric-row">` +
+          card("Seguidores", nf.format(metricas.seguidores ?? 0), deltaTxt) +
+          card("Alcance acumulado", nf.format(soma("alcance")), "pessoas alcançadas nos posts") +
+          card("Salvos", nf.format(soma("salvos")), "sinal forte p/ o algoritmo") +
+          card("Curtidas", nf.format(soma("likes")), "total nos posts") + `</div>`;
+        const temChart = serie.length >= 2;
+        box.innerHTML = cards + (temChart ? `<div class="chartWrap"><div class="rot">Seguidores no tempo</div><canvas id="chartSeg" width="720" height="150"></canvas></div>` : "");
+        if (temChart) desenharChart(document.getElementById("chartSeg"), serie.map((h) => h.seguidores));
+      }
+
+      function desenharChart(canvas, valores) {
+        const ctx = canvas.getContext("2d"), W = canvas.width, H = canvas.height, pad = 22;
+        const max = Math.max(...valores, 1), min = Math.min(...valores, 0);
+        const x = (i) => pad + i * (W - 2 * pad) / Math.max(1, valores.length - 1);
+        const y = (v) => H - pad - (v - min) / Math.max(1, max - min) * (H - 2 * pad);
+        const gold = rgb(PALETAS[0].ouro);
+        ctx.clearRect(0, 0, W, H);
+        ctx.beginPath(); ctx.moveTo(x(0), y(valores[0]));
+        valores.forEach((v, i) => ctx.lineTo(x(i), y(v)));
+        ctx.lineTo(x(valores.length - 1), H - pad); ctx.lineTo(x(0), H - pad); ctx.closePath();
+        ctx.fillStyle = "rgba(206,170,106,.13)"; ctx.fill();
+        ctx.beginPath(); ctx.moveTo(x(0), y(valores[0]));
+        valores.forEach((v, i) => ctx.lineTo(x(i), y(v)));
+        ctx.strokeStyle = gold; ctx.lineWidth = 2; ctx.stroke();
+        const li = valores.length - 1;
+        ctx.beginPath(); ctx.arc(x(li), y(valores[li]), 4, 0, 7); ctx.fillStyle = gold; ctx.fill();
+      }
+
       async function main() {
         // fontes do próprio repositório (variáveis)
         try {
@@ -522,16 +615,21 @@
           document.fonts.add(g); document.fonts.add(c); document.fonts.add(d);
         } catch (e) { /* segue com fontes do sistema */ }
 
-        let historico = [], agenda = [], pool = [], metricas = null;
+        let historico = [], agenda = [], pool = [], metricas = null, plano = null, metHist = [];
         try {
-          [historico, agenda, pool, metricas] = await Promise.all([
+          [historico, agenda, pool, metricas, plano, metHist] = await Promise.all([
             buscarJSON("dados/historico.json").catch(() => []),
             buscarJSON("dados/agenda.json").catch(() => []),
             buscarJSON("dados/versiculos.json").catch(() => []),
             buscarJSON("dados/metricas.json").catch(() => null),
+            buscarJSON("dados/plano.json").catch(() => null),
+            buscarJSON("dados/metricas-historico.json").catch(() => []),
           ]);
           setStatus(true, "no ar");
         } catch (e) { setStatus(false, "erro ao carregar"); }
+
+        renderRelatorio(metricas, metHist);
+        renderPlano(plano);
 
         const textoPorConsulta = {};
         for (const v of pool) textoPorConsulta[v.consulta] = v.texto;

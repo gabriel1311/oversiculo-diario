@@ -20,6 +20,32 @@ from src import instagram, versiculos
 
 RAIZ = Path(__file__).resolve().parent.parent
 ARQUIVO = RAIZ / "dados" / "metricas.json"
+ARQUIVO_HISTORICO = RAIZ / "dados" / "metricas-historico.json"
+
+
+def _atualizar_historico(dados: dict) -> None:
+    """Guarda um snapshot por dia (seguidores + totais) para o relatório de crescimento."""
+    posts = dados.get("posts", [])
+    def soma(campo):
+        vals = [p.get(campo) for p in posts if p.get(campo) is not None]
+        return sum(vals) if vals else None
+    hoje = dados["atualizado"][:10]
+    snapshot = {
+        "data": hoje,
+        "seguidores": dados.get("seguidores"),
+        "posts": len(posts),
+        "curtidas": soma("likes"),
+        "comentarios": soma("comentarios"),
+        "alcance": soma("alcance"),
+        "salvos": soma("salvos"),
+    }
+    historico = []
+    if ARQUIVO_HISTORICO.exists():
+        historico = json.loads(ARQUIVO_HISTORICO.read_text(encoding="utf-8"))
+    historico = [h for h in historico if h.get("data") != hoje]  # 1 por dia
+    historico.append(snapshot)
+    historico.sort(key=lambda h: h["data"])
+    ARQUIVO_HISTORICO.write_text(json.dumps(historico, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 def _api(caminho: str, campos: dict) -> dict | None:
@@ -83,6 +109,7 @@ def main() -> int:
         return 0
     ARQUIVO.parent.mkdir(parents=True, exist_ok=True)
     ARQUIVO.write_text(json.dumps(dados, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    _atualizar_historico(dados)
     print(f"[metricas] gravado {ARQUIVO.name}: {len(dados['posts'])} posts")
     return 0
 
