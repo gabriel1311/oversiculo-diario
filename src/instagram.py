@@ -122,6 +122,16 @@ def publicar_story(url_video: str) -> str:
     )
 
 
+def publicar_story_imagem(url_imagem: str) -> str:
+    """Publica uma IMAGEM como Story (media_type=STORIES + image_url)."""
+    token, conta = _credenciais()
+    return _publicar_container(
+        conta, token,
+        {"media_type": "STORIES", "image_url": url_imagem},
+        tentativas=30,
+    )
+
+
 def publicar_carrossel(urls_imagens: list[str], legenda: str) -> str:
     """
     Publica um carrossel (2 a 10 imagens) no feed. Cada imagem vira um container
