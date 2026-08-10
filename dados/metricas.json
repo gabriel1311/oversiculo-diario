@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-08-09T23:09:53Z",
-  "seguidores": 8,
+  "atualizado": "2026-08-10T12:57:08Z",
+  "seguidores": 9,
   "posts": [
     {
       "data": "2026-08-08",
@@ -10,7 +10,7 @@
       "likes": 14,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DbypBLQCYvC/",
-      "alcance": 168,
+      "alcance": 169,
       "salvos": 1
     },
     {
@@ -21,10 +21,21 @@
       "likes": 9,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Db0TavXDiWC/",
-      "alcance": 162,
+      "alcance": 165,
       "salvos": 1
+    },
+    {
+      "data": "2026-08-10",
+      "referencia": "Provérbios 16:3",
+      "consulta": "proverbios 16:3",
+      "id": "18003528821779294",
+      "likes": 18,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/Db24ByTlIMP/",
+      "alcance": 169,
+      "salvos": 0
     }
   ],
-  "media_count": 5,
+  "media_count": 6,
   "username": "oversiculo.diario"
 }
