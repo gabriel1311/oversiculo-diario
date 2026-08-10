@@ -31,21 +31,40 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # O disparo de segurança (2º cron) e retries caem aqui: se o post do dia
+      # já está no histórico, não há nada a fazer — nem gerar, nem commitar.
+      # Evita push desnecessário (que pode falhar à toa) e alarme falso.
+      - name: Já publicou hoje?
+        id: ja
+        run: |
+          hoje=$(date -u +%Y-%m-%d)
+          if python3 -c "import json,sys; h=json.load(open('dados/historico.json')); sys.exit(0 if any(x.get('data')=='$hoje' for x in h) else 1)"; then
+            echo "pulado=true" >> "$GITHUB_OUTPUT"
+            echo "Post de $hoje já publicado — nada a fazer."
+          else
+            echo "pulado=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/setup-python@v5
+        if: ${{ inputs.ensaio || steps.ja.outputs.pulado != 'true' }}
         with:
           python-version: "3.12"
           cache: pip
 
-      - run: pip install -r requirements.txt
+      - if: ${{ inputs.ensaio || steps.ja.outputs.pulado != 'true' }}
+        run: pip install -r requirements.txt
 
       - name: Garantir ffmpeg
+        if: ${{ inputs.ensaio || steps.ja.outputs.pulado != 'true' }}
         run: ffmpeg -version >/dev/null 2>&1 || (sudo apt-get update && sudo apt-get install -y ffmpeg)
 
       - name: Gerar imagem, vídeo e legenda
+        if: ${{ inputs.ensaio || steps.ja.outputs.pulado != 'true' }}
         run: |
           python -m src.principal --fase ${{ inputs.ensaio && 'ensaio' || 'preparar' }}
 
       - name: Guardar os arquivos como artefato
+        if: ${{ inputs.ensaio || steps.ja.outputs.pulado != 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: post-do-dia
@@ -53,7 +72,7 @@ jobs:
           retention-days: 14
 
       - name: Publicar os arquivos no repositório
-        if: ${{ !inputs.ensaio }}
+        if: ${{ !inputs.ensaio && steps.ja.outputs.pulado != 'true' }}
         id: commit
         run: |
           git config user.name "github-actions[bot]"
@@ -72,7 +91,7 @@ jobs:
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Publicar no Instagram
-        if: ${{ !inputs.ensaio }}
+        if: ${{ !inputs.ensaio && steps.ja.outputs.pulado != 'true' }}
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
@@ -82,7 +101,7 @@ jobs:
         run: python -m src.principal --fase publicar
 
       - name: Registrar histórico e agenda
-        if: ${{ !inputs.ensaio }}
+        if: ${{ !inputs.ensaio && steps.ja.outputs.pulado != 'true' }}
         run: |
           git add dados/historico.json dados/agenda.json
           if git diff --cached --quiet; then exit 0; fi
