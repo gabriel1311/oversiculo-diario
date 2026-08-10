@@ -89,6 +89,13 @@ def preparar(dia: date, ensaio: bool) -> int:
 
 
 def publicar(dia: date) -> int:
+    # Idempotente: se o dia já está no histórico, o post de hoje já saiu (um
+    # retry, ou o cron acordou depois de um disparo manual). Não publica duas vezes.
+    ja_publicado = any(h.get("data") == dia.isoformat() for h in versiculos.carregar_historico())
+    if ja_publicado:
+        print(f"[instagram] o post de {dia.isoformat()} já foi publicado; nada a fazer")
+        return 0
+
     c = Caminhos(dia)
     if not c.mp4.exists() or not c.txt.exists():
         print("::error::Arquivos do dia não encontrados — a fase preparar rodou?", file=sys.stderr)
