@@ -2,9 +2,13 @@ name: Publicar versículo do dia
 
 on:
   schedule:
-    # 11:00 UTC = 08:00 em Brasília. O GitHub costuma atrasar alguns minutos
-    # em horários cheios; não é problema para um post diário.
-    - cron: "0 11 * * *"
+    # 11:03 UTC ≈ 08:00 em Brasília. Minuto fora da hora cheia de propósito:
+    # crons em ":00" são os que o GitHub mais atrasa ou pula (fila lotada).
+    - cron: "3 11 * * *"
+    # Rede de segurança: se o disparo das 11:03 atrasar muito ou for pulado,
+    # este publica. Se o primeiro já publicou, a checagem de idempotência
+    # (histórico do dia) faz este não fazer nada.
+    - cron: "43 11 * * *"
   workflow_dispatch:
     inputs:
       ensaio:
