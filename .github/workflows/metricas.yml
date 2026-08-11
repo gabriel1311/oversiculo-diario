@@ -35,15 +35,22 @@ jobs:
           IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
         run: python -m src.metricas
 
-      - name: Commitar métricas
+      # Re-treina a inteligência com os dados novos e regrava a agenda (as
+      # decisões de estilo/tamanho/hora dos próximos dias podem mudar).
+      - name: Aprender com os dados
+        run: |
+          python -m src.inteligencia
+          python -c "from src import versiculos; versiculos.escrever_agenda()"
+
+      - name: Commitar métricas e aprendizado
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add dados/metricas.json dados/metricas-historico.json
+          git add dados/metricas.json dados/metricas-historico.json dados/inteligencia.json dados/agenda.json
           if git diff --cached --quiet; then
-            echo "sem mudança nas métricas"
+            echo "sem mudança"
             exit 0
           fi
-          git commit -m "Métricas: $(date -u +%Y-%m-%d)"
+          git commit -m "Métricas e aprendizado: $(date -u +%Y-%m-%d)"
           git pull --rebase --autostash
           git push

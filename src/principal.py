@@ -120,7 +120,17 @@ def publicar(dia: date) -> int:
         print(f"::error::Falha ao publicar: {erro}", file=sys.stderr)
         return 1
 
-    versiculos.registrar(versiculos.escolher(dia), dia, id_reel)
+    # Registra também as características do post (a inteligência aprende delas).
+    import datetime as _dt
+    hora_brt = (_dt.datetime.now(_dt.timezone.utc).hour - 3) % 24
+    extras = {
+        "estilo": imagem.escolher_estilo(
+            versiculos.escolher(dia).texto, dia.isoformat()
+        ),
+        "hora": hora_brt,
+        "trilha": video.escolher_trilha(dia.isoformat()).name,
+    }
+    versiculos.registrar(versiculos.escolher(dia), dia, id_reel, extras)
     # Regrava a agenda JÁ COM o post de hoje no histórico — senão o painel
     # continua mostrando o dia publicado como "próximo a publicar".
     versiculos.escrever_agenda()

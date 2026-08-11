@@ -366,8 +366,14 @@ def _render_bilhete(texto: str, referencia: str, seed: str, W: int, H: int) -> I
 
 
 def escolher_estilo(texto: str, seed: str) -> str:
-    """Estilo do dia; versículo longo cai sempre no clássico (a cursiva aperta)."""
-    estilo = ESTILOS[_fnv(seed + "estilo") % len(ESTILOS)]
+    """Estilo do dia. Se a inteligência já aprendeu (dados/inteligencia.json),
+    a escolha é ponderada pelos estilos que mais rendem — determinística pela
+    data e sempre com exploração. Sem aprendizado, rotação por hash puro.
+    Versículo longo nunca cai no bilhete (a cursiva aperta)."""
+    from src import inteligencia
+    estilo = inteligencia.escolher_estilo_ponderado(seed)
+    if estilo is None:
+        estilo = ESTILOS[_fnv(seed + "estilo") % len(ESTILOS)]
     if estilo == "bilhete" and len(texto) > LIMITE_BILHETE:
         return "classico"
     return estilo

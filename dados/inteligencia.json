@@ -1,0 +1,46 @@
+{
+  "atualizado": "2026-08-11",
+  "amostras": 3,
+  "pesos_estilo": {
+    "classico": 23,
+    "bilhete": 25,
+    "livro": 27,
+    "foto": 25
+  },
+  "pesos_tamanho": {
+    "curto": 36,
+    "medio": 31,
+    "longo": 33
+  },
+  "pesos_hora": {
+    "8": 38,
+    "12": 31,
+    "19": 31
+  },
+  "ranking": [
+    {
+      "data": "2026-08-10",
+      "referencia": "Provérbios 16:3",
+      "score": 24,
+      "estilo": "livro",
+      "hora": 8,
+      "alcance": 240
+    },
+    {
+      "data": "2026-08-08",
+      "referencia": "1 Coríntios 13:4-7",
+      "score": 19,
+      "estilo": "classico",
+      "hora": 16,
+      "alcance": 169
+    },
+    {
+      "data": "2026-08-09",
+      "referencia": "Miquéias 6:8",
+      "score": 14,
+      "estilo": "classico",
+      "hora": 8,
+      "alcance": 165
+    }
+  ]
+}

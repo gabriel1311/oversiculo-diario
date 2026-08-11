@@ -192,6 +192,9 @@
       <h2>Relatório de crescimento</h2>
       <div id="relatorioBox"><div class="carregando">o relatório aparece após a 1ª coleta de métricas (todo dia às 20h).</div></div>
 
+      <h2>Inteligência</h2>
+      <div id="intelBox"><div class="carregando">a inteligência aparece após o 1º aprendizado.</div></div>
+
       <h2>Acompanhamento do plano</h2>
       <div id="planoBox"><div class="carregando">carregando…</div></div>
 
@@ -369,8 +372,19 @@
       const FOTO_TEXTO = [247,246,242], FOTO_HANDLE = [232,230,224];
       const ESTILOS_V = ["classico", "bilhete", "livro", "foto"];
 
+      // Inteligência: pesos aprendidos (dados/inteligencia.json), carregados no main.
+      let INTEL = null;
+      function escolhaPonderada(seed, opcoes, pesos) {
+        const total = opcoes.reduce((s, o) => s + (pesos[String(o)] || 1), 0);
+        const alvo = fnv(seed) % total;
+        let acc = 0;
+        for (const o of opcoes) { acc += (pesos[String(o)] || 1); if (alvo < acc) return String(o); }
+        return String(opcoes[opcoes.length - 1]);
+      }
       function escolherEstilo(texto, seed) {
-        let e = ESTILOS_V[fnv((seed || "") + "estilo") % ESTILOS_V.length];
+        let e = (INTEL && INTEL.pesos_estilo)
+          ? escolhaPonderada((seed || "") + "estilo", ESTILOS_V, INTEL.pesos_estilo)
+          : ESTILOS_V[fnv((seed || "") + "estilo") % ESTILOS_V.length];
         if (e === "bilhete" && (texto || "").length > 180) e = "classico";
         return e;
       }
@@ -567,6 +581,35 @@
           `<div class="fases">${fasesHtml}</div></div>`;
       }
 
+      function renderInteligencia(intel, historico) {
+        const box = document.getElementById("intelBox");
+        if (!intel || !intel.pesos_estilo) {
+          box.innerHTML = `<div class="aviso">A inteligência aprende após a próxima coleta de métricas.</div>`;
+          return;
+        }
+        const barra = (titulo, pesos, sufixo = "") => {
+          const entradas = Object.entries(pesos).sort((a, b) => b[1] - a[1]);
+          const max = Math.max(...entradas.map(([, v]) => v), 1);
+          const linhas = entradas.map(([k, v]) =>
+            `<div class="dLinha"><span class="dNome">${k}${sufixo}</span><span class="dBar"><span style="width:${Math.round(v / max * 100)}%"></span></span><span class="dVal">${v}%</span></div>`
+          ).join("");
+          return `<div class="dCol"><div class="dTit">${titulo}</div>${linhas}</div>`;
+        };
+        const top = (intel.ranking || [])[0];
+        const topHtml = top
+          ? `<div class="dCol"><div class="dTit">Post campeão (score = ❤ + 3×💬 + 5×🔖)</div>` +
+            `<div class="dPost"><div class="dRef">${top.referencia}</div>` +
+            `<div class="dNums">score ${top.score} · 👁 ${nf.format(top.alcance || 0)}</div>` +
+            `<div class="dEst">${top.estilo || ""} · ${fmtCurto(top.data)}</div></div>` +
+            `<div class="nota-previa" style="margin-top:10px">${nf.format(intel.amostras)} post(s) analisados · as decisões de estilo, tamanho e horário dos próximos posts seguem estes pesos (sempre com uma dose de exploração).</div></div>`
+          : "";
+        box.innerHTML = `<div class="dGrid">` +
+          barra("Peso por estilo", intel.pesos_estilo) +
+          barra("Peso por tamanho do versículo", intel.pesos_tamanho) +
+          barra("Peso por horário", intel.pesos_hora, "h") +
+          topHtml + `</div>`;
+      }
+
       function renderRelatorio(metricas, metHist) {
         const box = document.getElementById("relatorioBox");
         if (!metricas) return;
@@ -627,12 +670,14 @@
             buscarJSON("dados/metricas.json").catch(() => null),
             buscarJSON("dados/plano.json").catch(() => null),
             buscarJSON("dados/metricas-historico.json").catch(() => []),
+            buscarJSON("dados/inteligencia.json").catch(() => null).then((x) => (INTEL = x)),
           ]);
           setStatus(true, "no ar");
         } catch (e) { setStatus(false, "erro ao carregar"); }
 
         renderRelatorio(metricas, metHist);
         renderPlano(plano);
+        renderInteligencia(INTEL, historico);
 
         const textoPorConsulta = {};
         for (const v of pool) textoPorConsulta[v.consulta] = v.texto;
@@ -653,7 +698,8 @@
           const cv = document.createElement("canvas"); cv.width = 405; cv.height = 720; art.appendChild(cv);
           const lado = document.createElement("div"); lado.className = "lado";
           const temaTxt = prox.tema ? ` · tema: ${prox.tema}` : "";
-          lado.innerHTML = `<div class="quando">${fmtLongo(prox.data)} · 08h (Brasília)${temaTxt}</div><div class="ref">${prox.referencia}</div>`;
+          const horaTxt = `${String(prox.hora ?? 8).padStart(2, "0")}h (Brasília)`;
+          lado.innerHTML = `<div class="quando">${fmtLongo(prox.data)} · ${horaTxt}${temaTxt}</div><div class="ref">${prox.referencia}</div>`;
           const btn = document.createElement("button"); btn.className = "refazer"; btn.innerHTML = "🔄 Nova versão";
           lado.appendChild(btn);
           lado.appendChild(playerTrilha(prox.data));
@@ -706,9 +752,11 @@
           document.getElementById("kpiSeguidoresPe").textContent = metricas.username ? "@" + metricas.username : "";
         }
         const dBox = document.getElementById("desempenhoBox");
+        const estiloPorData = {};
+        for (const h of historico) if (h.estilo) estiloPorData[h.data] = h.estilo;
         const posts = ((metricas && metricas.posts) || []).map((p) => ({
           ...p, eng: (p.likes || 0) + (p.comentarios || 0),
-          estilo: escolherEstilo(textoPorConsulta[p.consulta] || "", p.data),
+          estilo: estiloPorData[p.data] || escolherEstilo(textoPorConsulta[p.consulta] || "", p.data),
         })).filter((p) => p.likes != null || p.comentarios != null);
         if (posts.length) {
           const porEstilo = {};

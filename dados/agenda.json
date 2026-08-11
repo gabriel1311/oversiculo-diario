@@ -1,86 +1,100 @@
 [
   {
     "data": "2026-08-12",
-    "referencia": "Provérbios 3:5-6",
-    "consulta": "proverbios 3:5-6",
-    "tema": "Sabedoria"
+    "referencia": "Provérbios 27:17",
+    "consulta": "proverbios 27:17",
+    "tema": "Sabedoria",
+    "hora": 19
   },
   {
     "data": "2026-08-13",
-    "referencia": "Salmos 136:1",
-    "consulta": "salmos 136:1",
-    "tema": "Amor"
+    "referencia": "Efésios 4:32",
+    "consulta": "efesios 4:32",
+    "tema": "Amor",
+    "hora": 19
   },
   {
     "data": "2026-08-14",
     "referencia": "1 Pedro 5:7",
     "consulta": "1 pedro 5:7",
-    "tema": "Paz e descanso"
+    "tema": "Paz e descanso",
+    "hora": 19
   },
   {
     "data": "2026-08-15",
-    "referencia": "Provérbios 3:9-10",
-    "consulta": "proverbios 3:9-10",
-    "tema": "Proteção e cuidado"
+    "referencia": "Provérbios 18:10",
+    "consulta": "proverbios 18:10",
+    "tema": "Proteção e cuidado",
+    "hora": 8
   },
   {
     "data": "2026-08-16",
-    "referencia": "Salmos 37:4",
-    "consulta": "salmos 37:4",
-    "tema": "Gratidão e louvor"
+    "referencia": "Romanos 5:8",
+    "consulta": "romanos 5:8",
+    "tema": "Gratidão e louvor",
+    "hora": 19
   },
   {
     "data": "2026-08-17",
-    "referencia": "2 Coríntios 12:9",
-    "consulta": "2 corintios 12:9",
-    "tema": "Força e recomeço"
+    "referencia": "Colossenses 3:23",
+    "consulta": "colossenses 3:23",
+    "tema": "Força e recomeço",
+    "hora": 8
   },
   {
     "data": "2026-08-18",
-    "referencia": "Efésios 3:20",
-    "consulta": "efesios 3:20",
-    "tema": "Fé e esperança"
+    "referencia": "Salmos 55:22",
+    "consulta": "salmos 55:22",
+    "tema": "Fé e esperança",
+    "hora": 19
   },
   {
     "data": "2026-08-19",
-    "referencia": "Filipenses 4:8",
-    "consulta": "filipenses 4:8",
-    "tema": "Sabedoria"
+    "referencia": "Provérbios 17:17",
+    "consulta": "proverbios 17:17",
+    "tema": "Sabedoria",
+    "hora": 12
   },
   {
     "data": "2026-08-20",
-    "referencia": "Gálatas 2:20",
-    "consulta": "galatas 2:20",
-    "tema": "Amor"
+    "referencia": "1 João 4:7",
+    "consulta": "1 joao 4:7",
+    "tema": "Amor",
+    "hora": 8
   },
   {
     "data": "2026-08-21",
-    "referencia": "Isaías 43:2",
-    "consulta": "isaias 43:2",
-    "tema": "Paz e descanso"
+    "referencia": "Salmos 147:3",
+    "consulta": "salmos 147:3",
+    "tema": "Paz e descanso",
+    "hora": 12
   },
   {
     "data": "2026-08-22",
-    "referencia": "Salmos 51:10",
-    "consulta": "salmos 51:10",
-    "tema": "Proteção e cuidado"
+    "referencia": "Hebreus 13:8",
+    "consulta": "hebreus 13:8",
+    "tema": "Proteção e cuidado",
+    "hora": 8
   },
   {
     "data": "2026-08-23",
-    "referencia": "Salmos 103:2-4",
-    "consulta": "salmos 103:2-4",
-    "tema": "Gratidão e louvor"
+    "referencia": "Salmos 136:1",
+    "consulta": "salmos 136:1",
+    "tema": "Gratidão e louvor",
+    "hora": 8
   },
   {
     "data": "2026-08-24",
-    "referencia": "Salmos 42:11",
-    "consulta": "salmos 42:11",
-    "tema": "Força e recomeço"
+    "referencia": "Efésios 6:10",
+    "consulta": "efesios 6:10",
+    "tema": "Força e recomeço",
+    "hora": 12
   },
   {
     "data": "2026-08-25",
-    "referencia": "Jeremias 29:11",
-    "consulta": "jeremias 29:11",
-    "tema": "Fé e esperança"
+    "referencia": "Salmos 46:1",
+    "consulta": "salmos 46:1",
+    "tema": "Fé e esperança",
+    "hora": 12
   }
 ]

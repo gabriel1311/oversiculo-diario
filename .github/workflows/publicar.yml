@@ -2,13 +2,17 @@ name: Publicar versículo do dia
 
 on:
   schedule:
-    # 11:03 UTC ≈ 08:00 em Brasília. Minuto fora da hora cheia de propósito:
-    # crons em ":00" são os que o GitHub mais atrasa ou pula (fila lotada).
-    - cron: "3 11 * * *"
-    # Rede de segurança: se o disparo das 11:03 atrasar muito ou for pulado,
-    # este publica. Se o primeiro já publicou, a checagem de idempotência
-    # (histórico do dia) faz este não fazer nada.
-    - cron: "43 11 * * *"
+    # A inteligência (dados/inteligencia.json) escolhe a hora do post de cada
+    # dia entre 8h, 12h e 19h de Brasília. Os crons cobrem os três horários
+    # (minutos fora da hora cheia, que é onde o GitHub mais atrasa), e o passo
+    # "É a hora de hoje?" decide qual deles publica. Os disparos seguintes ao
+    # que publicou funcionam como rede de segurança e não fazem nada.
+    - cron: "3 11 * * *"   # 08:00 Brasília
+    - cron: "43 11 * * *"  # segurança das 8h
+    - cron: "3 15 * * *"   # 12:00 Brasília
+    - cron: "43 15 * * *"  # segurança das 12h
+    - cron: "3 22 * * *"   # 19:00 Brasília
+    - cron: "43 22 * * *"  # segurança das 19h
   workflow_dispatch:
     inputs:
       ensaio:
@@ -45,26 +49,53 @@ jobs:
             echo "pulado=false" >> "$GITHUB_OUTPUT"
           fi
 
+      # A inteligência escolhe a hora do dia (8h/12h/19h Brasília). Um disparo
+      # antes da hora escolhida não publica; os depois dela publicam (o que
+      # também cobre o caso de um cron anterior ter sido pulado). Disparo
+      # manual (workflow_dispatch) publica sempre.
+      - name: É a hora de hoje?
+        id: hora
+        if: ${{ steps.ja.outputs.pulado != 'true' }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "agora=true" >> "$GITHUB_OUTPUT"
+            echo "Disparo manual: publica agora."
+          elif python3 -c "
+          import sys, datetime
+          sys.path.insert(0, '.')
+          from src import inteligencia
+          alvo = inteligencia.hora_do_dia(datetime.date.today())
+          agora_utc = datetime.datetime.now(datetime.timezone.utc)
+          agora_brt = (agora_utc.hour - 3) % 24
+          print(f'hora escolhida: {alvo}h Brasília; agora: {agora_brt}h')
+          sys.exit(0 if agora_brt >= alvo else 1)
+          "; then
+            echo "agora=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "agora=false" >> "$GITHUB_OUTPUT"
+            echo "Ainda não é a hora escolhida de hoje — nada a fazer."
+          fi
+
       - uses: actions/setup-python@v5
-        if: ${{ inputs.ensaio || steps.ja.outputs.pulado != 'true' }}
+        if: ${{ inputs.ensaio || (steps.ja.outputs.pulado != 'true' && steps.hora.outputs.agora == 'true') }}
         with:
           python-version: "3.12"
           cache: pip
 
-      - if: ${{ inputs.ensaio || steps.ja.outputs.pulado != 'true' }}
+      - if: ${{ inputs.ensaio || (steps.ja.outputs.pulado != 'true' && steps.hora.outputs.agora == 'true') }}
         run: pip install -r requirements.txt
 
       - name: Garantir ffmpeg
-        if: ${{ inputs.ensaio || steps.ja.outputs.pulado != 'true' }}
+        if: ${{ inputs.ensaio || (steps.ja.outputs.pulado != 'true' && steps.hora.outputs.agora == 'true') }}
         run: ffmpeg -version >/dev/null 2>&1 || (sudo apt-get update && sudo apt-get install -y ffmpeg)
 
       - name: Gerar imagem, vídeo e legenda
-        if: ${{ inputs.ensaio || steps.ja.outputs.pulado != 'true' }}
+        if: ${{ inputs.ensaio || (steps.ja.outputs.pulado != 'true' && steps.hora.outputs.agora == 'true') }}
         run: |
           python -m src.principal --fase ${{ inputs.ensaio && 'ensaio' || 'preparar' }}
 
       - name: Guardar os arquivos como artefato
-        if: ${{ inputs.ensaio || steps.ja.outputs.pulado != 'true' }}
+        if: ${{ inputs.ensaio || (steps.ja.outputs.pulado != 'true' && steps.hora.outputs.agora == 'true') }}
         uses: actions/upload-artifact@v4
         with:
           name: post-do-dia
@@ -72,7 +103,7 @@ jobs:
           retention-days: 14
 
       - name: Publicar os arquivos no repositório
-        if: ${{ !inputs.ensaio && steps.ja.outputs.pulado != 'true' }}
+        if: ${{ !inputs.ensaio && steps.ja.outputs.pulado != 'true' && steps.hora.outputs.agora == 'true' }}
         id: commit
         run: |
           git config user.name "github-actions[bot]"
@@ -91,7 +122,7 @@ jobs:
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Publicar no Instagram
-        if: ${{ !inputs.ensaio && steps.ja.outputs.pulado != 'true' }}
+        if: ${{ !inputs.ensaio && steps.ja.outputs.pulado != 'true' && steps.hora.outputs.agora == 'true' }}
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
@@ -101,7 +132,7 @@ jobs:
         run: python -m src.principal --fase publicar
 
       - name: Registrar histórico e agenda
-        if: ${{ !inputs.ensaio && steps.ja.outputs.pulado != 'true' }}
+        if: ${{ !inputs.ensaio && steps.ja.outputs.pulado != 'true' && steps.hora.outputs.agora == 'true' }}
         run: |
           git add dados/historico.json dados/agenda.json
           if git diff --cached --quiet; then exit 0; fi

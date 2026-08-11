@@ -104,16 +104,21 @@ def _consultas_exclusivas() -> set[str]:
     }
 
 
-def registrar(versiculo: Versiculo, dia: date, id_post: str | None) -> None:
+def registrar(
+    versiculo: Versiculo, dia: date, id_post: str | None, extras: dict | None = None
+) -> None:
+    """Grava o post no histórico. `extras` guarda as características do post
+    (estilo, hora, trilha) — é o que permite à inteligência aprender o que rende."""
     historico = carregar_historico()
-    historico.append(
-        {
-            "data": dia.isoformat(),
-            "consulta": versiculo.consulta,
-            "referencia": versiculo.referencia,
-            "id_post": id_post,
-        }
-    )
+    registro = {
+        "data": dia.isoformat(),
+        "consulta": versiculo.consulta,
+        "referencia": versiculo.referencia,
+        "id_post": id_post,
+    }
+    if extras:
+        registro.update(extras)
+    historico.append(registro)
     ARQUIVO_HISTORICO.parent.mkdir(parents=True, exist_ok=True)
     ARQUIVO_HISTORICO.write_text(
         json.dumps(historico, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
@@ -165,6 +170,14 @@ def escolher(
         tags_dia = TEMAS_DIA.get(dia.weekday(), set())
         tematicos = [v for v in ineditos if temas.get(v.consulta, set()) & tags_dia]
         candidatos = tematicos or ineditos
+        # Segundo viés: a inteligência aprende qual TAMANHO de versículo rende
+        # mais (curto/médio/longo) e puxa a escolha para lá — com fallback se
+        # não houver candidato daquele tamanho.
+        from src import inteligencia
+        bucket = inteligencia.bucket_ponderado(dia.isoformat())
+        if bucket:
+            do_tamanho = [v for v in candidatos if inteligencia.tamanho_do_texto(v.texto) == bucket]
+            candidatos = do_tamanho or candidatos
     else:
         # Pool esgotado: reabre pelos publicados há mais tempo.
         ultima_vez = {}
@@ -202,11 +215,13 @@ def simular_agenda(dias: int = 14, hoje: date | None = None) -> list[dict]:
     agenda = []
     for _ in range(dias):
         v = escolher(d, pool=pool, historico=historico, reservados=reservados, temas=temas)
+        from src import inteligencia
         agenda.append({
             "data": d.isoformat(),
             "referencia": v.referencia,
             "consulta": v.consulta,
             "tema": TEMAS_NOME.get(d.weekday(), ""),
+            "hora": inteligencia.hora_do_dia(d),
         })
         historico.append(
             {"data": d.isoformat(), "consulta": v.consulta, "referencia": v.referencia, "id_post": None}
