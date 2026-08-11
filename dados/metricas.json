@@ -1,5 +1,5 @@
 {
-  "atualizado": "2026-08-10T23:14:13Z",
+  "atualizado": "2026-08-11T14:30:46Z",
   "seguidores": 10,
   "posts": [
     {
@@ -32,10 +32,21 @@
       "likes": 24,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Db24ByTlIMP/",
-      "alcance": 227,
+      "alcance": 240,
+      "salvos": 0
+    },
+    {
+      "data": "2026-08-11",
+      "referencia": "Mateus 5:6",
+      "consulta": "mateus 5:6",
+      "id": "17904708903469087",
+      "likes": 6,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/Db5ePfNALFZ/",
+      "alcance": 125,
       "salvos": 0
     }
   ],
-  "media_count": 6,
+  "media_count": 7,
   "username": "oversiculo.diario"
 }
