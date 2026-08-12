@@ -1,0 +1,62 @@
+name: Responder comentários
+
+# Responde automaticamente os comentários deixados nos nossos posts (a API
+# permite responder nos PRÓPRIOS posts — comentar em post alheio não existe).
+# Roda várias vezes ao dia; quem comenta recebe resposta em até ~2 horas.
+# O estado (dados/respondidos.json) é commitado para garantir idempotência.
+
+on:
+  schedule:
+    # A cada 2h entre 8h e 20h de Brasília (11–23 UTC), minuto fora da hora
+    # cheia — mesmo motivo dos outros crons: hora cheia é onde o GitHub atrasa.
+    - cron: "27 11,13,15,17,19,21,23 * * *"
+  workflow_dispatch:
+    inputs:
+      teste:
+        description: "Testar permissões (cria, responde e apaga um comentário próprio)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: responder-comentarios
+  cancel-in-progress: false
+
+jobs:
+  responder:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Responder comentários novos
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
+        run: |
+          if [ "${{ inputs.teste }}" = "true" ]; then
+            python -m src.respostas --teste
+          else
+            python -m src.respostas
+          fi
+
+      - name: Commitar estado
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dados/respondidos.json
+          if git diff --cached --quiet; then
+            echo "sem mudança"
+            exit 0
+          fi
+          git commit -m "Respostas a comentários: $(date -u '+%Y-%m-%d %H:%M')"
+          git pull --rebase --autostash
+          git push
