@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-08-12",
-    "referencia": "Provérbios 27:17",
-    "consulta": "proverbios 27:17",
-    "tema": "Sabedoria",
-    "hora": 19
-  },
-  {
     "data": "2026-08-13",
     "referencia": "Efésios 4:32",
     "consulta": "efesios 4:32",
@@ -96,5 +89,12 @@
     "consulta": "salmos 46:1",
     "tema": "Fé e esperança",
     "hora": 12
+  },
+  {
+    "data": "2026-08-26",
+    "referencia": "Filipenses 4:8",
+    "consulta": "filipenses 4:8",
+    "tema": "Sabedoria",
+    "hora": 19
   }
 ]
