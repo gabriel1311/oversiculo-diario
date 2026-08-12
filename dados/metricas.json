@@ -1,5 +1,5 @@
 {
-  "atualizado": "2026-08-11T23:17:50Z",
+  "atualizado": "2026-08-12T23:16:42Z",
   "seguidores": 10,
   "posts": [
     {
@@ -43,10 +43,21 @@
       "likes": 9,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Db5ePfNALFZ/",
-      "alcance": 192,
+      "alcance": 200,
+      "salvos": 0
+    },
+    {
+      "data": "2026-08-12",
+      "referencia": "Provérbios 27:17",
+      "consulta": "proverbios 27:17",
+      "id": "18103805288234899",
+      "likes": 0,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/Db9ORJfj6TI/",
+      "alcance": 28,
       "salvos": 0
     }
   ],
-  "media_count": 7,
+  "media_count": 8,
   "username": "oversiculo.diario"
 }

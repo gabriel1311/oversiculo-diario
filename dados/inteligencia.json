@@ -1,16 +1,16 @@
 {
-  "atualizado": "2026-08-11",
-  "amostras": 3,
+  "atualizado": "2026-08-12",
+  "amostras": 4,
   "pesos_estilo": {
-    "classico": 23,
-    "bilhete": 25,
-    "livro": 27,
+    "classico": 25,
+    "bilhete": 22,
+    "livro": 28,
     "foto": 25
   },
   "pesos_tamanho": {
-    "curto": 36,
-    "medio": 31,
-    "longo": 33
+    "curto": 33,
+    "medio": 32,
+    "longo": 35
   },
   "pesos_hora": {
     "8": 38,
@@ -41,6 +41,14 @@
       "estilo": "classico",
       "hora": 8,
       "alcance": 165
+    },
+    {
+      "data": "2026-08-11",
+      "referencia": "Mateus 5:6",
+      "score": 9,
+      "estilo": "bilhete",
+      "hora": 8,
+      "alcance": 200
     }
   ]
 }
