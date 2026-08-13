@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-08-13",
-    "referencia": "Efésios 4:32",
-    "consulta": "efesios 4:32",
-    "tema": "Amor",
-    "hora": 19
-  },
-  {
     "data": "2026-08-14",
     "referencia": "1 Pedro 5:7",
     "consulta": "1 pedro 5:7",
@@ -95,6 +88,13 @@
     "referencia": "Filipenses 4:8",
     "consulta": "filipenses 4:8",
     "tema": "Sabedoria",
+    "hora": 19
+  },
+  {
+    "data": "2026-08-27",
+    "referencia": "João 3:16",
+    "consulta": "joao 3:16",
+    "tema": "Amor",
     "hora": 19
   }
 ]
