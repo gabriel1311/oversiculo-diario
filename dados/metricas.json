@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-08-12T23:16:42Z",
-  "seguidores": 10,
+  "atualizado": "2026-08-13T23:17:56Z",
+  "seguidores": 12,
   "posts": [
     {
       "data": "2026-08-08",
@@ -43,7 +43,7 @@
       "likes": 9,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Db5ePfNALFZ/",
-      "alcance": 200,
+      "alcance": 201,
       "salvos": 0
     },
     {
@@ -51,13 +51,24 @@
       "referencia": "Provérbios 27:17",
       "consulta": "proverbios 27:17",
       "id": "18103805288234899",
-      "likes": 0,
+      "likes": 2,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Db9ORJfj6TI/",
-      "alcance": 28,
+      "alcance": 147,
+      "salvos": 0
+    },
+    {
+      "data": "2026-08-13",
+      "referencia": "Efésios 4:32",
+      "consulta": "efesios 4:32",
+      "id": "17895308322584758",
+      "likes": 7,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/Db_zBEFgR8S/",
+      "alcance": 96,
       "salvos": 0
     }
   ],
-  "media_count": 8,
+  "media_count": 9,
   "username": "oversiculo.diario"
 }
