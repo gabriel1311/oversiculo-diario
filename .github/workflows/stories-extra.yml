@@ -1,0 +1,85 @@
+name: Stories extras
+
+# Dois stories por dia além do que sai com o Reel (plano: "3 stories por dia"):
+# teaser ao meio-dia chamando para o post, replay à noite com a arte do dia.
+# Duas fases como o post principal: o cartaz do teaser precisa estar commitado
+# antes de a Graph API buscar a imagem (o replay usa o .jpg que o post commitou).
+
+on:
+  schedule:
+    - cron: "33 15 * * *" # 12h33 Brasília — teaser
+    - cron: "33 23 * * *" # 20h33 Brasília — replay
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: "Qual story publicar"
+        type: choice
+        options: [teaser, replay]
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stories-extra
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Decidir o modo
+        id: modo
+        run: |
+          if [ -n "${{ inputs.modo }}" ]; then
+            echo "modo=${{ inputs.modo }}" >> "$GITHUB_OUTPUT"
+          elif [ "$(date -u +%H)" -ge 20 ]; then
+            echo "modo=replay" >> "$GITHUB_OUTPUT"
+          else
+            echo "modo=teaser" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Gerar cartaz (se preciso)
+        run: python -m src.story_extra --fase preparar --modo ${{ steps.modo.outputs.modo }}
+
+      - name: Commitar cartaz
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add posts/stories 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "sem cartaz novo; usando o commit atual"
+          else
+            git commit -m "Story extra (${{ steps.modo.outputs.modo }}): $(date -u +%Y-%m-%d)"
+            git pull --rebase --autostash || true
+            git push
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Publicar o Story
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
+          IMAGEM_REF: ${{ steps.commit.outputs.sha }}
+        run: python -m src.story_extra --fase publicar --modo ${{ steps.modo.outputs.modo }}
+
+      - name: Commitar estado
+        run: |
+          git add dados/stories-extra.json
+          if git diff --cached --quiet; then
+            echo "sem mudança"
+            exit 0
+          fi
+          git commit -m "Stories extras: $(date -u '+%Y-%m-%d %H:%M')"
+          git pull --rebase --autostash
+          git push
