@@ -42,8 +42,8 @@
       "nome": "Semana 1 · Presença",
       "itens": [
         {
-          "t": "3 stories por dia",
-          "feito": false
+          "t": "3 stories por dia (automático: post + teaser 12h33 + replay 20h33)",
+          "feito": true
         },
         {
           "t": "Responder 100% dos comentários (automático, a cada 2h)",
