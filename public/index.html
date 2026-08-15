@@ -469,43 +469,77 @@
       }
 
       function pintarMarcador(canvas, { texto, referencia, seed }) {
-        // Espelha src/imagem.py:_render_marcador — página de Bíblia + versículo
-        // inteiro grifado de marca-texto (jitter aproximado; o grão do papel e a
-        // inclinação dos traços variam do PNG real, o layout é o mesmo).
+        // Espelha src/imagem.py:_render_marcador — foto de Bíblia desfocada,
+        // texto central inclinado, marca-texto na referência e nas palavras-chave.
         const W = canvas.width, H = canvas.height, k = W/1080, S = x => x*k;
         const ctx = canvas.getContext("2d");
-        ctx.fillStyle = rgb(MARC_BG); ctx.fillRect(0, 0, W, H);
-        const rg = ctx.createRadialGradient(W/2, H/2, S(300), W/2, H/2, Math.max(W,H)*0.72);
-        rg.addColorStop(0, "rgba(214,203,178,0)"); rg.addColorStop(1, "rgba(214,203,178,.18)");
-        ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
-        const ml = 130, maxW = 1080 - 2*ml, refAlt = 92, gap = 54;
-        const { size, linhas, esp } = ajustarMax(ctx, texto, maxW, 1034, 66, "EB Garamond", 1.58);
-        const bloco = refAlt + gap + linhas.length * esp;
-        let y = (1920 - bloco) / 2;
-        ctx.textAlign = "left"; ctx.textBaseline = "top";
-        ctx.fillStyle = rgb(MARC_REF); ctx.font = `800 ${S(82)}px "EB Garamond"`;
-        ctx.fillText(referencia, S(ml), S(y));
-        y += refAlt + gap;
-        ctx.font = `500 ${S(size)}px "EB Garamond"`;
-        let yg = y;
-        for (let i = 0; i < linhas.length; i++) {
-          const larg = ctx.measureText(linhas[i]).width / k;
-          const altG = esp * 0.88, r = altG / 2;
-          const x0 = ml + (fnv(seed + "g" + i) % 11) - 10;
-          const x1 = ml + larg + 2 + (fnv(seed + "h" + i) % 15);
-          ctx.fillStyle = "rgba(255,221,58,.71)";
-          ctx.beginPath();
-          ctx.roundRect(S(x0), S(yg + esp*0.02), S(x1 - x0), S(altG), S(r));
-          ctx.fill();
-          yg += esp;
-        }
-        for (const l of linhas) {
-          ctx.fillStyle = rgb(MARC_TEXTO); ctx.fillText(l, S(ml), S(y)); y += esp;
-        }
-        ctx.strokeStyle = rgb(MARC_TEXTO); ctx.lineWidth = Math.max(1, S(3));
-        ctx.beginPath(); ctx.moveTo(S(ml), S(y+34)); ctx.lineTo(S(ml+96), S(y+34)); ctx.stroke();
-        ctx.textAlign = "right"; ctx.fillStyle = rgb(MARC_HANDLE);
-        ctx.font = `500 ${S(34)}px "EB Garamond"`; ctx.fillText(HANDLE, S(1080 - ml), S(1770));
+        const COMUNS = new Set(["o","a","os","as","e","de","do","da","dos","das","em","no","na","nos","nas","que","se","ao","aos","por","para","com","um","uma","não","nao","seu","sua","seus","suas","me","te","lhe","nós","vos","é","à","às","mas","como","pois","porque"]);
+        const limpar = p => p.replace(/[.,;:!?"'()\u201c\u201d]/g, "").toLowerCase();
+        const grifadas = (linha, idx) => {
+          const palavras = linha.split(" ");
+          const cand = palavras.map((p,i)=>i).filter(i => !COMUNS.has(limpar(palavras[i])) && limpar(palavras[i]).length >= 3);
+          if (cand.length <= 2) return cand;
+          const passo = cand.length / 2, desloc = fnv(seed + "gr" + idx) % cand.length;
+          return [...new Set([0,1].map(i => cand[(desloc + Math.round(i*passo)) % cand.length]))].sort((a,b)=>a-b);
+        };
+        const desenharTudo = () => {
+          ctx.save();
+          ctx.translate(W/2, H/2); ctx.rotate(3.2 * Math.PI/180); ctx.translate(-W/2, -H/2);
+          const maxW = 1080 - 2*150, tamRef = 96, refAlt = Math.round(tamRef*1.12), gap = 58;
+          let size, linhas, esp;
+          ({ size, linhas, esp } = ajustarMax(ctx, texto, maxW, 1150, 84, "EB Garamond", 1.42));
+          const bloco = refAlt + gap + linhas.length * esp;
+          let y = (1920 - bloco)/2 - 40;
+          ctx.textAlign = "center"; ctx.textBaseline = "top";
+          const grifo = (x0, x1, yl, alt) => {
+            ctx.fillStyle = "rgba(255,221,58,.76)";
+            ctx.beginPath();
+            ctx.roundRect(S(x0-14), S(yl), S(x1-x0+28), S(alt), S(alt/2));
+            ctx.fill();
+          };
+          ctx.font = `800 ${S(tamRef)}px "EB Garamond"`;
+          const lr = ctx.measureText(referencia).width / k;
+          grifo(540 - lr/2, 540 + lr/2, y + refAlt*0.16, refAlt*0.82);
+          ctx.fillStyle = rgb(MARC_REF); ctx.fillText(referencia, S(540), S(y));
+          y += refAlt + gap;
+          ctx.font = `600 ${S(size)}px "EB Garamond"`;
+          const espaco = ctx.measureText(" ").width / k;
+          for (let idx = 0; idx < linhas.length; idx++) {
+            const palavras = linhas[idx].split(" ");
+            const larg = ctx.measureText(linhas[idx]).width / k;
+            const xIni = 540 - larg/2;
+            for (const i of grifadas(linhas[idx], idx)) {
+              const antes = palavras.slice(0, i).join(" ");
+              const x0 = xIni + (antes ? ctx.measureText(antes).width/k + espaco : 0);
+              const x1 = x0 + ctx.measureText(palavras[i]).width/k;
+              grifo(x0, x1, y + esp*0.10, esp*0.74);
+            }
+            ctx.fillStyle = rgb(MARC_TEXTO); ctx.fillText(linhas[idx], S(540), S(y));
+            y += esp;
+          }
+          const sepia = "rgb(92,66,40)", fy = y + 56;
+          ctx.strokeStyle = sepia; ctx.lineWidth = S(4);
+          ctx.beginPath(); ctx.moveTo(S(350), S(fy)); ctx.lineTo(S(484), S(fy));
+          ctx.moveTo(S(596), S(fy)); ctx.lineTo(S(730), S(fy)); ctx.stroke();
+          ctx.font = `500 ${S(44)}px "EB Garamond"`; ctx.fillStyle = sepia;
+          ctx.fillText("\u2661", S(540), S(fy - 26));
+          ctx.restore();
+          ctx.textAlign = "center"; ctx.fillStyle = "rgb(120,96,66)";
+          ctx.font = `500 ${S(36)}px "EB Garamond"`; ctx.fillText(HANDLE, W/2, S(1780));
+        };
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+          const escala = Math.max(W/img.width, H/img.height);
+          const dw = img.width*escala, dh = img.height*escala;
+          ctx.filter = "blur(" + S(7) + "px)";
+          ctx.drawImage(img, (W-dw)/2, (H-dh)/2, dw, dh);
+          ctx.filter = "none";
+          ctx.fillStyle = "rgba(247,239,218,.42)"; ctx.fillRect(0, 0, W, H);
+          desenharTudo();
+        };
+        img.onerror = () => { ctx.fillStyle = rgb(MARC_BG); ctx.fillRect(0,0,W,H); desenharTudo(); };
+        img.src = `${RAW}/fotos/pagina-biblia.jpg`;
       }
 
       function _textoFoto(ctx, W, H, texto, referencia) {
