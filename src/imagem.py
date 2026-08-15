@@ -100,9 +100,7 @@ VERT_W, VERT_H = 1080, 1920
 #   classico = fundo escuro + serifada + dourado
 #   bilhete  = papel creme + cursiva azul + coração
 #   livro    = cinza clean + serifada + última linha grifada de amarelo
-#   foto     = versículo branco sobre foto esmaecida
-#   marcador = página de Bíblia + versículo inteiro grifado de marca-texto
-ESTILOS = ["classico", "bilhete", "livro", "foto", "marcador"]
+ESTILOS = ["classico", "bilhete", "livro", "foto"]
 
 # A cursiva do bilhete só fica boa em versículo curto/médio; acima disso o texto
 # aperta e perde legibilidade, então versículos longos vão sempre no clássico.
@@ -423,140 +421,6 @@ def _render_livro(texto: str, referencia: str, seed: str, W: int, H: int) -> Ima
     return imagem
 
 
-# Paleta do estilo "marcador" (página de Bíblia + marca-texto amarelo).
-MARCADOR_BG = (243, 236, 216)
-MARCADOR_BORDA = (214, 203, 178)
-MARCADOR_TEXTO = (46, 40, 33)
-MARCADOR_REF = (26, 22, 17)
-MARCADOR_GRIFO = (255, 221, 58)
-MARCADOR_HANDLE = (152, 140, 116)
-
-
-def _fundo_pagina(seed: str, W: int, H: int) -> Image.Image:
-    """Fundo do estilo marcador: foto real de Bíblia aberta, desfocada e
-    clareada até virar textura — o texto impresso vira grão, como na arte de
-    referência. Cai no papel liso se a foto não estiver no acervo."""
-    from PIL import ImageFilter
-    caminho = FOTOS_DIR / "pagina-biblia.jpg"
-    if not caminho.exists():
-        return _papel(seed, W, H, MARCADOR_BG, MARCADOR_BORDA, forca_vin=0.18)
-    im = Image.open(caminho).convert("RGB")
-    escala = max(W / im.width, H / im.height)
-    im = im.resize((round(im.width * escala), round(im.height * escala)), Image.Resampling.LANCZOS)
-    x = (im.width - W) // 2
-    y = (im.height - H) // 2
-    im = im.crop((x, y, x + W, y + H))
-    im = im.filter(ImageFilter.GaussianBlur(7))
-    im = Image.blend(im, Image.new("RGB", (W, H), (247, 239, 218)), 0.42)
-    # luz dourada vindo do alto direito, como na referência
-    luz = Image.radial_gradient("L").resize((W * 2, H * 2))
-    luz = luz.crop((W - round(W * 0.75), H - round(H * 0.35), 2 * W - round(W * 0.75), 2 * H - round(H * 0.35)))
-    dourado = Image.new("RGB", (W, H), (255, 232, 180))
-    return Image.composite(im, dourado, luz.point(lambda v: 255 - int((255 - v) * 0.35)))
-
-
-_MARCADOR_COMUNS = {
-    "o", "a", "os", "as", "e", "de", "do", "da", "dos", "das", "em", "no",
-    "na", "nos", "nas", "que", "se", "ao", "aos", "por", "para", "com", "um",
-    "uma", "não", "nao", "seu", "sua", "seus", "suas", "me", "te", "lhe",
-    "nós", "vos", "é", "à", "às", "mas", "como", "pois", "porque",
-}
-
-
-def _palavras_grifadas(linha: str, seed: str, idx: int) -> list[int]:
-    """Índices das palavras da linha que recebem marca-texto: as palavras de
-    conteúdo (fora da lista de comuns), limitadas a ~2 por linha, escolhidas
-    de forma determinística pela seed."""
-    palavras = linha.split()
-    candidatas = [
-        i for i, p in enumerate(palavras)
-        if p.strip(".,;:!?\u201c\u201d\"'()").lower() not in _MARCADOR_COMUNS
-        and len(p.strip(".,;:!?\u201c\u201d\"'()")) >= 3
-    ]
-    if not candidatas:
-        return []
-    if len(candidatas) <= 2:
-        return candidatas
-    # escolhe 2 espalhadas, com deslocamento semeado para variar entre linhas
-    passo = len(candidatas) / 2
-    desloc = _fnv(f"{seed}gr{idx}") % max(1, len(candidatas))
-    escolhidas = sorted({candidatas[(desloc + round(i * passo)) % len(candidatas)] for i in range(2)})
-    return escolhidas
-
-
-def _render_marcador(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
-    """Estilo 'marcador': foto de Bíblia aberta desfocada ao fundo, versículo
-    grande e centralizado levemente inclinado (acompanhando a página) e
-    marca-texto amarelo na referência e nas palavras-chave — reprodução da
-    arte de página grifada que o Gabriel pediu."""
-    fundo = _fundo_pagina(seed, W, H).convert("RGBA")
-
-    # O bloco de texto é desenhado num overlay próprio e depois inclinado.
-    overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    desenho = ImageDraw.Draw(overlay)
-
-    vertical = H > W
-    largura_util = W - 2 * 150
-    tam_ref = 96 if vertical else 84
-
-    fonte_ref = _fonte("EBGaramond.ttf", tam_ref, "ExtraBold")
-    ref_alt = round(tam_ref * 1.12)
-    gap = 58 if vertical else 40
-
-    for tam in range(84 if vertical else 72, 39, -2):
-        fonte = _fonte("EBGaramond.ttf", tam, "SemiBold")
-        linhas = _quebrar(texto, fonte, largura_util, desenho)
-        esp = round(tam * 1.42)
-        if ref_alt + gap + len(linhas) * esp <= (1150 if vertical else 620):
-            break
-
-    bloco = ref_alt + gap + len(linhas) * esp
-    y0 = (H - bloco) // 2 - (40 if vertical else 20)
-    cx = W // 2
-
-    def _grifo(x0: float, x1: float, yl: float, altura: float, alpha: int) -> None:
-        r = altura / 2
-        desenho.rounded_rectangle([x0 - 14, yl, x1 + 14, yl + altura], radius=r,
-                                  fill=MARCADOR_GRIFO + (alpha,))
-
-    # Referência: grande, central, toda grifada.
-    larg_ref = desenho.textlength(referencia, font=fonte_ref)
-    _grifo(cx - larg_ref / 2, cx + larg_ref / 2, y0 + ref_alt * 0.16, ref_alt * 0.82, 196)
-    desenho.text((cx, y0), referencia, font=fonte_ref, fill=MARCADOR_REF, anchor="ma")
-
-    # Versículo: centralizado, grifo só nas palavras de conteúdo.
-    y = y0 + ref_alt + gap
-    espaco = desenho.textlength(" ", font=fonte)
-    for idx, linha in enumerate(linhas):
-        larg = desenho.textlength(linha, font=fonte)
-        x_ini = cx - larg / 2
-        for i_palavra in _palavras_grifadas(linha, seed, idx):
-            palavras = linha.split()
-            antes = " ".join(palavras[:i_palavra])
-            x0 = x_ini + (desenho.textlength(antes, font=fonte) + espaco if antes else 0)
-            x1 = x0 + desenho.textlength(palavras[i_palavra], font=fonte)
-            _grifo(x0, x1, y + esp * 0.10, esp * 0.74, 188)
-        desenho.text((cx, y), linha, font=fonte, fill=MARCADOR_TEXTO, anchor="ma")
-        y += esp
-
-    # Fecho: linha — coração — linha, e florzinha de pontos abaixo (tinta sépia).
-    sepia = (92, 66, 40)
-    fy = y + (56 if vertical else 36)
-    desenho.line([cx - 190, fy, cx - 56, fy], fill=sepia, width=4)
-    desenho.line([cx + 56, fy, cx + 190, fy], fill=sepia, width=4)
-    _coracao(desenho, cx, fy, 1.6, sepia)
-
-    # Inclinação sutil, como a página fotografada.
-    overlay = overlay.rotate(3.2, resample=Image.Resampling.BICUBIC, center=(cx, H // 2))
-    fundo.alpha_composite(overlay)
-
-    desenho = ImageDraw.Draw(fundo)
-    fonte_handle = _fonte("EBGaramond.ttf", 36, "Medium")
-    desenho.text((W // 2, H - (140 if vertical else 96)), HANDLE, font=fonte_handle,
-                 fill=(120, 96, 66), anchor="ma")
-    return fundo.convert("RGB")
-
-
 # Estilo "foto": versículo em branco sobre uma foto livre, com escurecimento.
 FOTOS = [
     "foto-campo.jpg", "foto-montanha-rosa.jpg", "foto-floresta.jpg",
@@ -617,8 +481,6 @@ def _renderizar(texto: str, referencia: str, seed: str, W: int, H: int) -> Image
         return _render_livro(texto, referencia, seed, W, H)
     if estilo == "foto":
         return _render_foto(texto, referencia, seed, W, H)
-    if estilo == "marcador":
-        return _render_marcador(texto, referencia, seed, W, H)
     return _render_classico(texto, referencia, seed, W, H)
 
 
