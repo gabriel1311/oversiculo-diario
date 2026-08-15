@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-08-15",
-    "referencia": "Provérbios 18:10",
-    "consulta": "proverbios 18:10",
-    "tema": "Proteção e cuidado",
-    "hora": 8
-  },
-  {
     "data": "2026-08-16",
     "referencia": "Romanos 5:8",
     "consulta": "romanos 5:8",
@@ -95,6 +88,13 @@
     "referencia": "João 16:33",
     "consulta": "joao 16:33",
     "tema": "Paz e descanso",
+    "hora": 19
+  },
+  {
+    "data": "2026-08-29",
+    "referencia": "Salmos 145:18",
+    "consulta": "salmos 145:18",
+    "tema": "Proteção e cuidado",
     "hora": 19
   }
 ]
