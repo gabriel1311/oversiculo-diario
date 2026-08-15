@@ -49,7 +49,7 @@ HORAS = [8, 12, 19]                        # horários candidatos (Brasília)
 # vale atualizar a bio junto.
 # Gabriel gosta do estilo foto (paisagem) — piso maior garante presença
 # constante na rotação mesmo enquanto as métricas ainda não o favorecem.
-PISO_ESTILO = {"classico": 12, "bilhete": 12, "livro": 12, "foto": 25}
+PISO_ESTILO = {"classico": 12, "bilhete": 12, "livro": 12, "foto": 35}
 PISO_TAMANHO = 15
 PISO_HORA = {8: 40, 12: 15, 19: 15}
 
@@ -166,7 +166,9 @@ def escolher_estilo_ponderado(seed: str) -> str | None:
     pesos = carregar().get("pesos_estilo")
     if not pesos:
         return None
-    return _escolha_ponderada(seed + "estilo", ESTILOS, pesos)
+    # sal "estiloD": re-rolagem escolhida em 15/08 — o sal original deixava a
+    # janela de agosto quase sem o estilo foto (azar do hash, não viés)
+    return _escolha_ponderada(seed + "estiloD", ESTILOS, pesos)
 
 
 def bucket_ponderado(seed: str) -> str | None:

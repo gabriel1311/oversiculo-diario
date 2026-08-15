@@ -383,8 +383,8 @@
       }
       function escolherEstilo(texto, seed) {
         let e = (INTEL && INTEL.pesos_estilo)
-          ? escolhaPonderada((seed || "") + "estilo", ESTILOS_V, INTEL.pesos_estilo)
-          : ESTILOS_V[fnv((seed || "") + "estilo") % ESTILOS_V.length];
+          ? escolhaPonderada((seed || "") + "estiloD", ESTILOS_V, INTEL.pesos_estilo)
+          : ESTILOS_V[fnv((seed || "") + "estiloD") % ESTILOS_V.length];
         if (e === "bilhete" && (texto || "").length > 180) e = "classico";
         return e;
       }

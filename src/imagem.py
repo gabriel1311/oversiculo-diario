@@ -373,7 +373,7 @@ def escolher_estilo(texto: str, seed: str) -> str:
     from src import inteligencia
     estilo = inteligencia.escolher_estilo_ponderado(seed)
     if estilo is None:
-        estilo = ESTILOS[_fnv(seed + "estilo") % len(ESTILOS)]
+        estilo = ESTILOS[_fnv(seed + "estiloD") % len(ESTILOS)]
     if estilo == "bilhete" and len(texto) > LIMITE_BILHETE:
         return "classico"
     return estilo
