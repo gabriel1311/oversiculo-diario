@@ -100,7 +100,9 @@ VERT_W, VERT_H = 1080, 1920
 #   classico = fundo escuro + serifada + dourado
 #   bilhete  = papel creme + cursiva azul + coração
 #   livro    = cinza clean + serifada + última linha grifada de amarelo
-ESTILOS = ["classico", "bilhete", "livro", "foto"]
+#   foto     = versículo branco sobre foto esmaecida
+#   marcador = página de Bíblia + versículo inteiro grifado de marca-texto
+ESTILOS = ["classico", "bilhete", "livro", "foto", "marcador"]
 
 # A cursiva do bilhete só fica boa em versículo curto/médio; acima disso o texto
 # aperta e perde legibilidade, então versículos longos vão sempre no clássico.
@@ -421,6 +423,77 @@ def _render_livro(texto: str, referencia: str, seed: str, W: int, H: int) -> Ima
     return imagem
 
 
+# Paleta do estilo "marcador" (página de Bíblia + marca-texto amarelo).
+MARCADOR_BG = (243, 236, 216)
+MARCADOR_BORDA = (214, 203, 178)
+MARCADOR_TEXTO = (46, 40, 33)
+MARCADOR_REF = (26, 22, 17)
+MARCADOR_GRIFO = (255, 221, 58)
+MARCADOR_HANDLE = (152, 140, 116)
+
+
+def _render_marcador(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
+    """Estilo 'marcador': página de Bíblia (papel quente), referência grande em
+    negrito e o versículo inteiro grifado linha a linha com marca-texto amarelo —
+    traços levemente tortos e de comprimento irregular, como grifo de verdade."""
+    imagem = _papel(seed, W, H, MARCADOR_BG, MARCADOR_BORDA, forca_vin=0.18).convert("RGBA")
+
+    margem_l = 130
+    largura_util = W - 2 * margem_l
+    desenho = ImageDraw.Draw(imagem)
+
+    fonte_ref = _fonte("EBGaramond.ttf", 82, "ExtraBold")
+    ref_alt = 92
+    gap = 54
+
+    for tam in range(66, 35, -2):
+        fonte = _fonte("EBGaramond.ttf", tam, "Medium")
+        linhas = _quebrar(texto, fonte, largura_util, desenho)
+        esp = round(tam * 1.58)
+        if ref_alt + gap + len(linhas) * esp <= (1180 if H > W else 640):
+            break
+
+    bloco = ref_alt + gap + len(linhas) * esp
+    y0 = (H - bloco) // 2
+    desenho.text((margem_l, y0), referencia, font=fonte_ref, fill=MARCADOR_REF, anchor="la")
+
+    # Grifos primeiro (por baixo do texto), cada um num overlay próprio para
+    # poder inclinar de leve. Jitter determinístico pela seed + índice da linha.
+    y = y0 + ref_alt + gap
+    rnd = random.Random(_fnv(seed + "grifo"))
+    for idx, linha in enumerate(linhas):
+        larg = round(desenho.textlength(linha, font=fonte))
+        alt_g = round(esp * 0.88)
+        pad = 26
+        tira = Image.new("RGBA", (larg + 2 * pad, alt_g + 2 * pad), (0, 0, 0, 0))
+        td = ImageDraw.Draw(tira)
+        x0 = pad + rnd.randint(-10, 0)
+        x1 = pad + larg + rnd.randint(2, 16)
+        td.rounded_rectangle([x0, pad, x1, pad + alt_g], radius=alt_g // 2,
+                             fill=MARCADOR_GRIFO + (182,))
+        tira = tira.rotate(rnd.uniform(-0.9, 0.9), resample=Image.Resampling.BICUBIC,
+                           expand=False)
+        imagem.alpha_composite(tira, (margem_l - pad, y - pad + round(esp * 0.02)))
+        y += esp
+
+    # Texto por cima dos grifos.
+    desenho = ImageDraw.Draw(imagem)
+    y = y0 + ref_alt + gap
+    for linha in linhas:
+        desenho.text((margem_l, y), linha, font=fonte, fill=MARCADOR_TEXTO, anchor="la")
+        y += esp
+
+    # Fecho: linha curta + coração de tinta, como anotação de leitor.
+    fy = y + 34
+    desenho.line([margem_l, fy, margem_l + 96, fy], fill=MARCADOR_TEXTO, width=3)
+    _coracao(desenho, margem_l + 132, fy, 0.9, MARCADOR_TEXTO)
+
+    fonte_handle = _fonte("EBGaramond.ttf", 34, "Medium")
+    desenho.text((W - margem_l, H - (150 if H > W else 120)), HANDLE, font=fonte_handle,
+                 fill=MARCADOR_HANDLE, anchor="ra")
+    return imagem.convert("RGB")
+
+
 # Estilo "foto": versículo em branco sobre uma foto livre, com escurecimento.
 FOTOS = [
     "foto-campo.jpg", "foto-montanha-rosa.jpg", "foto-floresta.jpg",
@@ -481,6 +554,8 @@ def _renderizar(texto: str, referencia: str, seed: str, W: int, H: int) -> Image
         return _render_livro(texto, referencia, seed, W, H)
     if estilo == "foto":
         return _render_foto(texto, referencia, seed, W, H)
+    if estilo == "marcador":
+        return _render_marcador(texto, referencia, seed, W, H)
     return _render_classico(texto, referencia, seed, W, H)
 
 

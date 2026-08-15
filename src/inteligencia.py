@@ -40,7 +40,7 @@ ARQ_SAIDA = RAIZ / "dados" / "inteligencia.json"
 PESO_CURTIDA, PESO_COMENTARIO, PESO_SALVO = 1, 3, 5
 SUAVIZACAO = 3  # pseudo-amostras puxando cada opção para a média global
 
-ESTILOS = ["classico", "bilhete", "livro", "foto"]
+ESTILOS = ["classico", "bilhete", "livro", "foto", "marcador"]
 TAMANHOS = ["curto", "medio", "longo"]     # ≤100 / 101–180 / >180 caracteres
 HORAS = [8, 12, 19]                        # horários candidatos (Brasília)
 

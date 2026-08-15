@@ -1,11 +1,12 @@
 {
-  "atualizado": "2026-08-14",
-  "amostras": 6,
+  "atualizado": "2026-08-15",
+  "amostras": 7,
   "pesos_estilo": {
-    "classico": 28,
-    "bilhete": 19,
-    "livro": 30,
-    "foto": 23
+    "classico": 23,
+    "bilhete": 16,
+    "livro": 22,
+    "foto": 19,
+    "marcador": 20
   },
   "pesos_tamanho": {
     "curto": 31,
@@ -13,8 +14,8 @@
     "longo": 37
   },
   "pesos_hora": {
-    "8": 39,
-    "12": 34,
+    "8": 40,
+    "12": 33,
     "19": 27
   },
   "ranking": [
@@ -57,6 +58,14 @@
       "estilo": "bilhete",
       "hora": 8,
       "alcance": 202
+    },
+    {
+      "data": "2026-08-14",
+      "referencia": "1 Pedro 5:7",
+      "score": 8,
+      "estilo": "livro",
+      "hora": 19,
+      "alcance": 95
     },
     {
       "data": "2026-08-12",

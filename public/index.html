@@ -368,9 +368,10 @@
       // ---- estilo bilhete (papel creme + cursiva azul) ----
       const AZUL = [36,44,122], CREME = [236,228,210], AZUL_SOMBRA = [196,190,176], BIL_HANDLE = [92,98,150];
       const LIVRO_BG = [216,214,208], LIVRO_TEXTO = [38,36,34], LIVRO_REF = [18,18,18], LIVRO_GRIFO = [216,228,96], LIVRO_HANDLE = [120,120,112];
+      const MARC_BG = [243,236,216], MARC_TEXTO = [46,40,33], MARC_REF = [26,22,17], MARC_GRIFO = [255,221,58], MARC_HANDLE = [152,140,116];
       const FOTOS_V = ["foto-campo.jpg", "foto-montanha-rosa.jpg", "foto-floresta.jpg", "foto-ceu-dourado.jpg", "foto-praia.jpg"];
       const FOTO_TEXTO = [247,246,242], FOTO_HANDLE = [232,230,224];
-      const ESTILOS_V = ["classico", "bilhete", "livro", "foto"];
+      const ESTILOS_V = ["classico", "bilhete", "livro", "foto", "marcador"];
 
       // Inteligência: pesos aprendidos (dados/inteligencia.json), carregados no main.
       let INTEL = null;
@@ -389,7 +390,7 @@
         return e;
       }
       function estiloAleatorio(texto) {
-        const ops = (texto || "").length <= 180 ? ESTILOS_V : ["classico", "livro", "foto"];
+        const ops = (texto || "").length <= 180 ? ESTILOS_V : ["classico", "livro", "foto", "marcador"];
         return ops[Math.floor(Math.random() * ops.length)];
       }
 
@@ -467,6 +468,46 @@
         ctx.font = `500 ${S(34)}px "EB Garamond"`; ctx.fillText(HANDLE, S(1080 - ml), S(1770));
       }
 
+      function pintarMarcador(canvas, { texto, referencia, seed }) {
+        // Espelha src/imagem.py:_render_marcador — página de Bíblia + versículo
+        // inteiro grifado de marca-texto (jitter aproximado; o grão do papel e a
+        // inclinação dos traços variam do PNG real, o layout é o mesmo).
+        const W = canvas.width, H = canvas.height, k = W/1080, S = x => x*k;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = rgb(MARC_BG); ctx.fillRect(0, 0, W, H);
+        const rg = ctx.createRadialGradient(W/2, H/2, S(300), W/2, H/2, Math.max(W,H)*0.72);
+        rg.addColorStop(0, "rgba(214,203,178,0)"); rg.addColorStop(1, "rgba(214,203,178,.18)");
+        ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+        const ml = 130, maxW = 1080 - 2*ml, refAlt = 92, gap = 54;
+        const { size, linhas, esp } = ajustarMax(ctx, texto, maxW, 1034, 66, "EB Garamond", 1.58);
+        const bloco = refAlt + gap + linhas.length * esp;
+        let y = (1920 - bloco) / 2;
+        ctx.textAlign = "left"; ctx.textBaseline = "top";
+        ctx.fillStyle = rgb(MARC_REF); ctx.font = `800 ${S(82)}px "EB Garamond"`;
+        ctx.fillText(referencia, S(ml), S(y));
+        y += refAlt + gap;
+        ctx.font = `500 ${S(size)}px "EB Garamond"`;
+        let yg = y;
+        for (let i = 0; i < linhas.length; i++) {
+          const larg = ctx.measureText(linhas[i]).width / k;
+          const altG = esp * 0.88, r = altG / 2;
+          const x0 = ml + (fnv(seed + "g" + i) % 11) - 10;
+          const x1 = ml + larg + 2 + (fnv(seed + "h" + i) % 15);
+          ctx.fillStyle = "rgba(255,221,58,.71)";
+          ctx.beginPath();
+          ctx.roundRect(S(x0), S(yg + esp*0.02), S(x1 - x0), S(altG), S(r));
+          ctx.fill();
+          yg += esp;
+        }
+        for (const l of linhas) {
+          ctx.fillStyle = rgb(MARC_TEXTO); ctx.fillText(l, S(ml), S(y)); y += esp;
+        }
+        ctx.strokeStyle = rgb(MARC_TEXTO); ctx.lineWidth = Math.max(1, S(3));
+        ctx.beginPath(); ctx.moveTo(S(ml), S(y+34)); ctx.lineTo(S(ml+96), S(y+34)); ctx.stroke();
+        ctx.textAlign = "right"; ctx.fillStyle = rgb(MARC_HANDLE);
+        ctx.font = `500 ${S(34)}px "EB Garamond"`; ctx.fillText(HANDLE, S(1080 - ml), S(1770));
+      }
+
       function _textoFoto(ctx, W, H, texto, referencia) {
         const S = x => x * (W/1080);
         const maxW = 1080 - 2*96 - 40, maxH = 820, topo = 560;
@@ -507,6 +548,7 @@
         if (estilo === "bilhete") pintarBilhete(canvas, opts);
         else if (estilo === "livro") pintarLivro(canvas, opts);
         else if (estilo === "foto") pintarFoto(canvas, opts);
+        else if (estilo === "marcador") pintarMarcador(canvas, opts);
         else pintarClassico(canvas, opts);
       }
 
