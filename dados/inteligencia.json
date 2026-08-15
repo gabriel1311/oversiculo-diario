@@ -3,8 +3,8 @@
   "amostras": 7,
   "pesos_estilo": {
     "classico": 25,
-    "bilhete": 18,
-    "livro": 25,
+    "bilhete": 17,
+    "livro": 26,
     "foto": 32
   },
   "pesos_tamanho": {
@@ -13,9 +13,9 @@
     "longo": 37
   },
   "pesos_hora": {
-    "8": 40,
+    "8": 39,
     "12": 33,
-    "19": 27
+    "19": 28
   },
   "ranking": [
     {
@@ -24,7 +24,7 @@
       "score": 24,
       "estilo": "livro",
       "hora": 8,
-      "alcance": 241
+      "alcance": 242
     },
     {
       "data": "2026-08-08",
@@ -32,7 +32,7 @@
       "score": 19,
       "estilo": "classico",
       "hora": 16,
-      "alcance": 170
+      "alcance": 171
     },
     {
       "data": "2026-08-09",
@@ -40,7 +40,15 @@
       "score": 14,
       "estilo": "classico",
       "hora": 8,
-      "alcance": 166
+      "alcance": 167
+    },
+    {
+      "data": "2026-08-14",
+      "referencia": "1 Pedro 5:7",
+      "score": 12,
+      "estilo": "livro",
+      "hora": 19,
+      "alcance": 161
     },
     {
       "data": "2026-08-13",
@@ -48,7 +56,7 @@
       "score": 10,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 159
+      "alcance": 160
     },
     {
       "data": "2026-08-11",
@@ -57,14 +65,6 @@
       "estilo": "bilhete",
       "hora": 8,
       "alcance": 202
-    },
-    {
-      "data": "2026-08-14",
-      "referencia": "1 Pedro 5:7",
-      "score": 8,
-      "estilo": "livro",
-      "hora": 19,
-      "alcance": 95
     },
     {
       "data": "2026-08-12",
