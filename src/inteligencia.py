@@ -47,7 +47,9 @@ HORAS = [8, 12, 19]                        # horários candidatos (Brasília)
 # Pisos de exploração (%). A bio promete "às 8h", então as 8h têm piso maior —
 # os outros horários são testados aos poucos; se um deles vencer com folga,
 # vale atualizar a bio junto.
-PISO_ESTILO = 12
+# Gabriel gosta do estilo foto (paisagem) — piso maior garante presença
+# constante na rotação mesmo enquanto as métricas ainda não o favorecem.
+PISO_ESTILO = {"classico": 12, "bilhete": 12, "livro": 12, "foto": 25, "marcador": 12}
 PISO_TAMANHO = 15
 PISO_HORA = {8: 40, 12: 15, 19: 15}
 

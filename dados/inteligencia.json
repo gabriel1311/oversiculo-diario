@@ -2,11 +2,11 @@
   "atualizado": "2026-08-15",
   "amostras": 7,
   "pesos_estilo": {
-    "classico": 23,
-    "bilhete": 16,
-    "livro": 22,
-    "foto": 19,
-    "marcador": 20
+    "classico": 21,
+    "bilhete": 15,
+    "livro": 21,
+    "foto": 24,
+    "marcador": 19
   },
   "pesos_tamanho": {
     "curto": 31,
