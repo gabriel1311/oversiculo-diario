@@ -1,10 +1,10 @@
 {
-  "atualizado": "2026-08-15",
-  "amostras": 7,
+  "atualizado": "2026-08-16",
+  "amostras": 8,
   "pesos_estilo": {
     "classico": 25,
-    "bilhete": 17,
-    "livro": 26,
+    "bilhete": 18,
+    "livro": 25,
     "foto": 32
   },
   "pesos_tamanho": {
@@ -13,9 +13,9 @@
     "longo": 37
   },
   "pesos_hora": {
-    "8": 39,
+    "8": 40,
     "12": 33,
-    "19": 28
+    "19": 27
   },
   "ranking": [
     {
@@ -48,7 +48,7 @@
       "score": 12,
       "estilo": "livro",
       "hora": 19,
-      "alcance": 161
+      "alcance": 162
     },
     {
       "data": "2026-08-13",
@@ -57,6 +57,14 @@
       "estilo": "foto",
       "hora": 19,
       "alcance": 160
+    },
+    {
+      "data": "2026-08-15",
+      "referencia": "Provérbios 18:10",
+      "score": 10,
+      "estilo": "livro",
+      "hora": 8,
+      "alcance": 168
     },
     {
       "data": "2026-08-11",
