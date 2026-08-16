@@ -1,102 +1,102 @@
 {
-  "atualizado": "2026-08-14",
-  "fases": [
+ "atualizado": "2026-08-16",
+ "fases": [
+  {
+   "nome": "Semana 0 · Fundações",
+   "itens": [
     {
-      "nome": "Semana 0 · Fundações",
-      "itens": [
-        {
-          "t": "Automação publicando 1 post por dia",
-          "feito": true
-        },
-        {
-          "t": "Painel de controle com prévias e métricas",
-          "feito": true
-        },
-        {
-          "t": "CTA de engajamento na legenda (salve / marque alguém)",
-          "feito": true
-        },
-        {
-          "t": "Bio otimizada (nome com palavra-chave + o que é + CTA)",
-          "feito": true
-        },
-        {
-          "t": "Foto de perfil legível",
-          "feito": true
-        },
-        {
-          "t": "3 destaques nos Stories (Sobre · Versículos · Oração)",
-          "feito": true
-        },
-        {
-          "t": "Convidar 30–50 pessoas da rede",
-          "feito": false
-        },
-        {
-          "t": "Seguir e engajar 30 contas do nicho (19/30 seguidas)",
-          "feito": false
-        }
-      ]
+     "t": "Automação publicando 1 post por dia",
+     "feito": true
     },
     {
-      "nome": "Semana 1 · Presença",
-      "itens": [
-        {
-          "t": "3 stories por dia (automático: post + teaser 12h33 + replay 20h33)",
-          "feito": true
-        },
-        {
-          "t": "Responder 100% dos comentários (automático, a cada 2h)",
-          "feito": true
-        },
-        {
-          "t": "Comentar em 15 posts por dia do nicho",
-          "feito": false
-        }
-      ]
+     "t": "Painel de controle com prévias e métricas",
+     "feito": true
     },
     {
-      "nome": "Semana 2 · Alcance",
-      "itens": [
-        {
-          "t": "1ª colab / troca de story com conta parecida",
-          "feito": false
-        },
-        {
-          "t": "Testar 2 conjuntos de hashtags",
-          "feito": false
-        },
-        {
-          "t": "Carrossel temático (ex.: 5 versículos para a ansiedade)",
-          "feito": false
-        }
-      ]
+     "t": "CTA de engajamento na legenda (salve / marque alguém)",
+     "feito": true
     },
     {
-      "nome": "Semana 3 · Dobrar no que funciona",
-      "itens": [
-        {
-          "t": "Analisar estilo/versículo/horário que mais rendeu",
-          "feito": false
-        },
-        {
-          "t": "Enquete / caixinha de oração nos stories",
-          "feito": false
-        }
-      ]
+     "t": "Bio otimizada (nome com palavra-chave + o que é + CTA)",
+     "feito": true
     },
     {
-      "nome": "Semana 4 · Ajuste & escala",
-      "itens": [
-        {
-          "t": "Ajustar horário do post pelo alcance",
-          "feito": false
-        },
-        {
-          "t": "Planejar colabs do mês 2",
-          "feito": false
-        }
-      ]
+     "t": "Foto de perfil legível",
+     "feito": true
+    },
+    {
+     "t": "3 destaques nos Stories (Sobre · Versículos · Oração)",
+     "feito": true
+    },
+    {
+     "t": "Convidar 30–50 pessoas da rede",
+     "feito": false
+    },
+    {
+     "t": "Seguir e engajar 30 contas do nicho (30/30 seguidas)",
+     "feito": true
     }
-  ]
+   ]
+  },
+  {
+   "nome": "Semana 1 · Presença",
+   "itens": [
+    {
+     "t": "3 stories por dia (automático: post + teaser 12h33 + replay 20h33)",
+     "feito": true
+    },
+    {
+     "t": "Responder 100% dos comentários (automático, a cada 2h)",
+     "feito": true
+    },
+    {
+     "t": "Comentar em 15 posts por dia do nicho",
+     "feito": false
+    }
+   ]
+  },
+  {
+   "nome": "Semana 2 · Alcance",
+   "itens": [
+    {
+     "t": "1ª colab / troca de story com conta parecida",
+     "feito": false
+    },
+    {
+     "t": "Testar 2 conjuntos de hashtags",
+     "feito": false
+    },
+    {
+     "t": "Carrossel temático (ex.: 5 versículos para a ansiedade)",
+     "feito": false
+    }
+   ]
+  },
+  {
+   "nome": "Semana 3 · Dobrar no que funciona",
+   "itens": [
+    {
+     "t": "Analisar estilo/versículo/horário que mais rendeu",
+     "feito": false
+    },
+    {
+     "t": "Enquete / caixinha de oração nos stories",
+     "feito": false
+    }
+   ]
+  },
+  {
+   "nome": "Semana 4 · Ajuste & escala",
+   "itens": [
+    {
+     "t": "Ajustar horário do post pelo alcance",
+     "feito": false
+    },
+    {
+     "t": "Planejar colabs do mês 2",
+     "feito": false
+    }
+   ]
+  }
+ ]
 }
