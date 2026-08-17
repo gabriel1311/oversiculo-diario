@@ -1,21 +1,21 @@
 {
-  "atualizado": "2026-08-16",
-  "amostras": 8,
+  "atualizado": "2026-08-17",
+  "amostras": 9,
   "pesos_estilo": {
     "classico": 25,
     "bilhete": 18,
-    "livro": 25,
-    "foto": 32
+    "livro": 26,
+    "foto": 31
   },
   "pesos_tamanho": {
-    "curto": 31,
-    "medio": 32,
+    "curto": 32,
+    "medio": 31,
     "longo": 37
   },
   "pesos_hora": {
-    "8": 40,
+    "8": 39,
     "12": 33,
-    "19": 27
+    "19": 28
   },
   "ranking": [
     {
@@ -73,6 +73,14 @@
       "estilo": "bilhete",
       "hora": 8,
       "alcance": 202
+    },
+    {
+      "data": "2026-08-16",
+      "referencia": "Romanos 5:8",
+      "score": 8,
+      "estilo": "foto",
+      "hora": 19,
+      "alcance": 97
     },
     {
       "data": "2026-08-12",
