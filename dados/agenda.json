@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-08-18",
-    "referencia": "Filipenses 1:6",
-    "consulta": "filipenses 1:6",
-    "tema": "Fé e esperança",
-    "hora": 19
-  },
-  {
     "data": "2026-08-19",
     "referencia": "Tiago 1:5",
     "consulta": "tiago 1:5",
@@ -95,6 +88,13 @@
     "referencia": "Salmos 27:1",
     "consulta": "salmos 27:1",
     "tema": "Força e recomeço",
+    "hora": 19
+  },
+  {
+    "data": "2026-09-01",
+    "referencia": "Mateus 6:33",
+    "consulta": "mateus 6:33",
+    "tema": "Fé e esperança",
     "hora": 19
   }
 ]
