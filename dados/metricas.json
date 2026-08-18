@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-08-16T23:05:51Z",
-  "seguidores": 13,
+  "atualizado": "2026-08-18T11:51:16Z",
+  "seguidores": 14,
   "posts": [
     {
       "data": "2026-08-08",
@@ -65,7 +65,7 @@
       "likes": 10,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Db_zBEFgR8S/",
-      "alcance": 160,
+      "alcance": 161,
       "salvos": 0
     },
     {
@@ -95,13 +95,24 @@
       "referencia": "Romanos 5:8",
       "consulta": "romanos 5:8",
       "id": "18211396492348347",
-      "likes": 8,
+      "likes": 12,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcHgEZMERKe/",
-      "alcance": 97,
+      "alcance": 150,
+      "salvos": 1
+    },
+    {
+      "data": "2026-08-17",
+      "referencia": "Colossenses 3:23",
+      "consulta": "colossenses 3:23",
+      "id": "18331572325257195",
+      "likes": 5,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DcI5yovjSzA/",
+      "alcance": 141,
       "salvos": 0
     }
   ],
-  "media_count": 12,
+  "media_count": 13,
   "username": "oversiculo.diario"
 }
