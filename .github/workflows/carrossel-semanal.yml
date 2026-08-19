@@ -2,10 +2,9 @@ name: Carrossel semanal
 
 # Monta um carrossel com os versículos dos próximos 7 dias e publica no feed.
 #
-# Fica em disparo MANUAL de propósito: um post novo em conta pública é coisa que
-# vale a pena acompanhar na primeira vez. Rode com "ensaio" ligado para só gerar
-# as imagens (sem publicar) e conferir. Quando estiver confiante e quiser que
-# saia sozinho todo domingo, descomente o bloco `schedule` abaixo.
+# Sai sozinho todo domingo de manhã (religado a pedido do Gabriel em 19/08 —
+# carrossel é o formato que mais gera salvamento/compartilhamento). O disparo
+# manual continua disponível, com "ensaio" para gerar sem publicar.
 
 on:
   workflow_dispatch:
@@ -14,9 +13,8 @@ on:
         description: "Gerar as imagens sem publicar"
         type: boolean
         default: false
-  # Desligado a pedido do Gabriel. Para religar o resumo semanal (domingo 12h UTC):
-  # schedule:
-  #   - cron: "0 12 * * 0"
+  schedule:
+    - cron: "33 13 * * 0" # 10h33 Brasília, domingo
 
 permissions:
   contents: write
