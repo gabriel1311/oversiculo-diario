@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-08-19",
-    "referencia": "Tiago 1:5",
-    "consulta": "tiago 1:5",
-    "tema": "Sabedoria",
-    "hora": 12
-  },
-  {
     "data": "2026-08-20",
     "referencia": "1 João 4:7",
     "consulta": "1 joao 4:7",
@@ -96,5 +89,12 @@
     "consulta": "mateus 6:33",
     "tema": "Fé e esperança",
     "hora": 19
+  },
+  {
+    "data": "2026-09-02",
+    "referencia": "Provérbios 3:5-6",
+    "consulta": "proverbios 3:5-6",
+    "tema": "Sabedoria",
+    "hora": 12
   }
 ]
