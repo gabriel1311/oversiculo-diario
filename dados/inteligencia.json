@@ -1,21 +1,21 @@
 {
-  "atualizado": "2026-08-18",
-  "amostras": 10,
+  "atualizado": "2026-08-19",
+  "amostras": 11,
   "pesos_estilo": {
-    "classico": 26,
-    "bilhete": 18,
-    "livro": 25,
-    "foto": 31
+    "classico": 27,
+    "bilhete": 15,
+    "livro": 26,
+    "foto": 32
   },
   "pesos_tamanho": {
-    "curto": 29,
-    "medio": 34,
-    "longo": 37
+    "curto": 31,
+    "medio": 31,
+    "longo": 38
   },
   "pesos_hora": {
-    "8": 38,
+    "8": 40,
     "12": 32,
-    "19": 30
+    "19": 28
   },
   "ranking": [
     {
@@ -96,7 +96,7 @@
       "score": 2,
       "estilo": "bilhete",
       "hora": 19,
-      "alcance": 148
+      "alcance": 149
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "atualizado": "2026-08-18T23:07:34Z",
+  "atualizado": "2026-08-19T23:07:44Z",
   "seguidores": 14,
   "posts": [
     {
@@ -54,7 +54,7 @@
       "likes": 2,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Db9ORJfj6TI/",
-      "alcance": 148,
+      "alcance": 149,
       "salvos": 0
     },
     {
@@ -120,10 +120,21 @@
       "likes": 1,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcMpp3LibEF/",
-      "alcance": 63,
+      "alcance": 147,
       "salvos": 0
+    },
+    {
+      "data": "2026-08-19",
+      "referencia": "Tiago 1:5",
+      "consulta": "tiago 1:5",
+      "id": "18107994208850107",
+      "likes": 8,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DcOinrgmp8v/",
+      "alcance": 144,
+      "salvos": 1
     }
   ],
-  "media_count": 14,
+  "media_count": 15,
   "username": "oversiculo.diario"
 }
