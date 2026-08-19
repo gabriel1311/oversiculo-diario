@@ -32,12 +32,29 @@ PERGUNTAS = [
     "Qual palavra dessa passagem mais falou com você?",
 ]
 
-# Hashtags gerais de alcance, somadas às específicas do versículo (sem repetir).
-HASHTAGS_EXTRA = [
-    "jesus", "gratidao", "reflexao", "mensagemdodia", "deusefiel",
-    "palavradodia", "cristaos", "gospel", "biblia", "versiculos",
+# Hashtags gerais somadas às específicas do versículo (sem repetir). Três
+# conjuntos que alternam por versículo: tags gigantes (#deus, #biblia) afogam
+# conta pequena, então cada conjunto mistura poucas grandes com cauda média,
+# onde um post novo ainda aparece no topo — e o bloco não sai sempre idêntico
+# (bloco repetido todo dia perde alcance).
+POOLS_HASHTAGS = [
+    [
+        "versiculododia", "palavradedeus", "devocional", "bomdiacomdeus",
+        "deusnocontrole", "mensagemdefe", "versiculosbiblicos", "fecrista",
+        "jesuscristo", "biblia",
+    ],
+    [
+        "versiculododia", "palavradodia", "devocionaldiario", "deusefiel",
+        "palavraprohoje", "mensagemdodia", "versiculos", "cristaos",
+        "gratidao", "deus",
+    ],
+    [
+        "versiculododia", "palavradedeus", "reflexaododia", "amanhecercomdeus",
+        "confianodeus", "fortalecendoafe", "salmos", "gospel",
+        "oracaododia", "jesus",
+    ],
 ]
-MAX_HASHTAGS = 15
+MAX_HASHTAGS = 12
 
 
 def _reflexoes() -> dict:
@@ -51,9 +68,10 @@ def _semente(consulta: str) -> int:
     return sum(ord(c) for c in consulta)
 
 
-def _hashtags(especificas: list[str]) -> str:
+def _hashtags(especificas: list[str], consulta: str) -> str:
+    pool = POOLS_HASHTAGS[_semente(consulta + "tags") % len(POOLS_HASHTAGS)]
     vistas: list[str] = []
-    for tag in especificas + HASHTAGS_EXTRA:
+    for tag in especificas + pool:
         if tag not in vistas:
             vistas.append(tag)
         if len(vistas) >= MAX_HASHTAGS:
@@ -73,5 +91,5 @@ def gerar(texto: str, referencia: str, consulta: str) -> str:
         f"— {referencia}\n\n"
         f"{reflexao}\n\n"
         f"{pergunta}\n\n"
-        + _hashtags(hashtags)
+        + _hashtags(hashtags, consulta)
     )
