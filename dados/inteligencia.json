@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-08-19",
-  "amostras": 11,
+  "atualizado": "2026-08-20",
+  "amostras": 12,
   "pesos_estilo": {
     "classico": 27,
     "bilhete": 15,
@@ -8,13 +8,13 @@
     "foto": 32
   },
   "pesos_tamanho": {
-    "curto": 31,
-    "medio": 31,
+    "curto": 30,
+    "medio": 32,
     "longo": 38
   },
   "pesos_hora": {
-    "8": 40,
-    "12": 32,
+    "8": 38,
+    "12": 34,
     "19": 28
   },
   "ranking": [
@@ -49,6 +49,14 @@
       "estilo": "classico",
       "hora": 8,
       "alcance": 167
+    },
+    {
+      "data": "2026-08-19",
+      "referencia": "Tiago 1:5",
+      "score": 13,
+      "estilo": "foto",
+      "hora": 12,
+      "alcance": 147
     },
     {
       "data": "2026-08-14",
@@ -89,14 +97,6 @@
       "estilo": "foto",
       "hora": 8,
       "alcance": 141
-    },
-    {
-      "data": "2026-08-12",
-      "referencia": "Provérbios 27:17",
-      "score": 2,
-      "estilo": "bilhete",
-      "hora": 19,
-      "alcance": 149
     }
   ]
 }
