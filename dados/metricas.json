@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-08-20T23:08:45Z",
-  "seguidores": 14,
+  "atualizado": "2026-08-21T23:08:00Z",
+  "seguidores": 15,
   "posts": [
     {
       "data": "2026-08-08",
@@ -54,7 +54,7 @@
       "likes": 2,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Db9ORJfj6TI/",
-      "alcance": 149,
+      "alcance": 150,
       "salvos": 0
     },
     {
@@ -144,8 +144,19 @@
       "permalink": "https://www.instagram.com/reel/DcQoQQmgPmI/",
       "alcance": 153,
       "salvos": 3
+    },
+    {
+      "data": "2026-08-21",
+      "referencia": "Salmos 55:22",
+      "consulta": "salmos 55:22",
+      "id": "18125371621789640",
+      "likes": 3,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DcTo4yYjdHl/",
+      "alcance": 75,
+      "salvos": 0
     }
   ],
-  "media_count": 16,
+  "media_count": 17,
   "username": "oversiculo.diario"
 }
