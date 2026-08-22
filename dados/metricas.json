@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-08-21T23:08:00Z",
-  "seguidores": 15,
+  "atualizado": "2026-08-22T23:06:35Z",
+  "seguidores": 16,
   "posts": [
     {
       "data": "2026-08-08",
@@ -54,7 +54,7 @@
       "likes": 2,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Db9ORJfj6TI/",
-      "alcance": 150,
+      "alcance": 151,
       "salvos": 0
     },
     {
@@ -65,7 +65,7 @@
       "likes": 10,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Db_zBEFgR8S/",
-      "alcance": 161,
+      "alcance": 162,
       "salvos": 0
     },
     {
@@ -109,7 +109,7 @@
       "likes": 5,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcI5yovjSzA/",
-      "alcance": 141,
+      "alcance": 142,
       "salvos": 0
     },
     {
@@ -139,10 +139,10 @@
       "referencia": "1 João 4:7",
       "consulta": "1 joao 4:7",
       "id": "17980912725099313",
-      "likes": 11,
+      "likes": 12,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcQoQQmgPmI/",
-      "alcance": 153,
+      "alcance": 154,
       "salvos": 3
     },
     {
@@ -150,13 +150,24 @@
       "referencia": "Salmos 55:22",
       "consulta": "salmos 55:22",
       "id": "18125371621789640",
-      "likes": 3,
+      "likes": 4,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcTo4yYjdHl/",
-      "alcance": 75,
+      "alcance": 117,
+      "salvos": 0
+    },
+    {
+      "data": "2026-08-22",
+      "referencia": "Hebreus 13:8",
+      "consulta": "hebreus 13:8",
+      "id": "18028808537849198",
+      "likes": 13,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DcVxiubE-8p/",
+      "alcance": 126,
       "salvos": 0
     }
   ],
-  "media_count": 17,
+  "media_count": 18,
   "username": "oversiculo.diario"
 }

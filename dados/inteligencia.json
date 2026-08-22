@@ -1,30 +1,30 @@
 {
-  "atualizado": "2026-08-21",
-  "amostras": 13,
+  "atualizado": "2026-08-22",
+  "amostras": 14,
   "pesos_estilo": {
-    "classico": 26,
-    "bilhete": 16,
+    "classico": 27,
+    "bilhete": 14,
     "livro": 26,
-    "foto": 32
+    "foto": 33
   },
   "pesos_tamanho": {
-    "curto": 29,
-    "medio": 34,
+    "curto": 28,
+    "medio": 35,
     "longo": 37
   },
   "pesos_hora": {
-    "8": 39,
-    "12": 34,
-    "19": 27
+    "8": 41,
+    "12": 31,
+    "19": 28
   },
   "ranking": [
     {
       "data": "2026-08-20",
       "referencia": "1 João 4:7",
-      "score": 26,
+      "score": 27,
       "estilo": "foto",
       "hora": 8,
-      "alcance": 153
+      "alcance": 154
     },
     {
       "data": "2026-08-10",
@@ -80,7 +80,7 @@
       "score": 10,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 161
+      "alcance": 162
     },
     {
       "data": "2026-08-15",
