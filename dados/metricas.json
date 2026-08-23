@@ -1,5 +1,5 @@
 {
-  "atualizado": "2026-08-22T23:06:35Z",
+  "atualizado": "2026-08-23T23:06:10Z",
   "seguidores": 16,
   "posts": [
     {
@@ -164,10 +164,21 @@
       "likes": 13,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcVxiubE-8p/",
-      "alcance": 126,
+      "alcance": 140,
+      "salvos": 0
+    },
+    {
+      "data": "2026-08-23",
+      "referencia": "Salmos 136:1",
+      "consulta": "salmos 136:1",
+      "id": "17953963758014055",
+      "likes": 1,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DcYa_WolEpF/",
+      "alcance": 1,
       "salvos": 0
     }
   ],
-  "media_count": 18,
+  "media_count": 21,
   "username": "oversiculo.diario"
 }

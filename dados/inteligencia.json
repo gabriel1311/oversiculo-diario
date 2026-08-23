@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-08-22",
-  "amostras": 14,
+  "atualizado": "2026-08-23",
+  "amostras": 15,
   "pesos_estilo": {
     "classico": 27,
     "bilhete": 14,
@@ -13,9 +13,9 @@
     "longo": 37
   },
   "pesos_hora": {
-    "8": 41,
+    "8": 40,
     "12": 31,
-    "19": 28
+    "19": 29
   },
   "ranking": [
     {
@@ -67,6 +67,14 @@
       "alcance": 147
     },
     {
+      "data": "2026-08-22",
+      "referencia": "Hebreus 13:8",
+      "score": 13,
+      "estilo": "classico",
+      "hora": 8,
+      "alcance": 140
+    },
+    {
       "data": "2026-08-14",
       "referencia": "1 Pedro 5:7",
       "score": 12,
@@ -89,14 +97,6 @@
       "estilo": "livro",
       "hora": 8,
       "alcance": 168
-    },
-    {
-      "data": "2026-08-11",
-      "referencia": "Mateus 5:6",
-      "score": 9,
-      "estilo": "bilhete",
-      "hora": 8,
-      "alcance": 202
     }
   ]
 }
