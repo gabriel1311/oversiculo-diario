@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-08-23T23:06:10Z",
-  "seguidores": 16,
+  "atualizado": "2026-08-24T23:08:00Z",
+  "seguidores": 17,
   "posts": [
     {
       "data": "2026-08-08",
@@ -76,7 +76,7 @@
       "likes": 12,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcCWhWejPuv/",
-      "alcance": 162,
+      "alcance": 163,
       "salvos": 0
     },
     {
@@ -177,8 +177,19 @@
       "permalink": "https://www.instagram.com/reel/DcYa_WolEpF/",
       "alcance": 1,
       "salvos": 0
+    },
+    {
+      "data": "2026-08-24",
+      "referencia": "Salmos 139:14",
+      "consulta": "salmos 139:14",
+      "id": "18194933836340322",
+      "likes": 15,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DcbXvd_ibeV/",
+      "alcance": 185,
+      "salvos": 0
     }
   ],
-  "media_count": 21,
+  "media_count": 22,
   "username": "oversiculo.diario"
 }
