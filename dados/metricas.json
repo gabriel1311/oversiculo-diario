@@ -1,5 +1,5 @@
 {
-  "atualizado": "2026-08-24T23:08:00Z",
+  "atualizado": "2026-08-25T23:09:03Z",
   "seguidores": 17,
   "posts": [
     {
@@ -98,7 +98,7 @@
       "likes": 12,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcHgEZMERKe/",
-      "alcance": 150,
+      "alcance": 152,
       "salvos": 1
     },
     {
@@ -186,10 +186,21 @@
       "likes": 15,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcbXvd_ibeV/",
-      "alcance": 185,
+      "alcance": 215,
       "salvos": 0
+    },
+    {
+      "data": "2026-08-25",
+      "referencia": "Salmos 46:1",
+      "consulta": "salmos 46:1",
+      "id": "18126952789744859",
+      "likes": 19,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/Dcd81GsgYBw/",
+      "alcance": 135,
+      "salvos": 2
     }
   ],
-  "media_count": 22,
+  "media_count": 23,
   "username": "oversiculo.diario"
 }
