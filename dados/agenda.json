@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-08-25",
-    "referencia": "Salmos 46:1",
-    "consulta": "salmos 46:1",
-    "tema": "Fé e esperança",
-    "hora": 12
-  },
-  {
     "data": "2026-08-26",
     "referencia": "Filipenses 4:8",
     "consulta": "filipenses 4:8",
@@ -95,6 +88,13 @@
     "referencia": "Salmos 42:11",
     "consulta": "salmos 42:11",
     "tema": "Força e recomeço",
+    "hora": 19
+  },
+  {
+    "data": "2026-09-08",
+    "referencia": "Salmos 34:18",
+    "consulta": "salmos 34:18",
+    "tema": "Fé e esperança",
     "hora": 19
   }
 ]
