@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-08-26",
-    "referencia": "Filipenses 4:8",
-    "consulta": "filipenses 4:8",
-    "tema": "Sabedoria",
-    "hora": 19
-  },
-  {
     "data": "2026-08-27",
     "referencia": "João 3:16",
     "consulta": "joao 3:16",
@@ -96,5 +89,12 @@
     "consulta": "salmos 34:18",
     "tema": "Fé e esperança",
     "hora": 19
+  },
+  {
+    "data": "2026-09-09",
+    "referencia": "Provérbios 4:23",
+    "consulta": "provérbios 4:23",
+    "tema": "Sabedoria",
+    "hora": 8
   }
 ]
