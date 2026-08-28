@@ -1,19 +1,5 @@
 [
   {
-    "data": "2026-08-27",
-    "referencia": "João 3:16",
-    "consulta": "joao 3:16",
-    "tema": "Amor",
-    "hora": 19
-  },
-  {
-    "data": "2026-08-28",
-    "referencia": "João 16:33",
-    "consulta": "joao 16:33",
-    "tema": "Paz e descanso",
-    "hora": 19
-  },
-  {
     "data": "2026-08-29",
     "referencia": "Romanos 12:12",
     "consulta": "romanos 12:12",
@@ -22,8 +8,8 @@
   },
   {
     "data": "2026-08-30",
-    "referencia": "Efésios 2:8-9",
-    "consulta": "efesios 2:8-9",
+    "referencia": "João 3:16",
+    "consulta": "joao 3:16",
     "tema": "Gratidão e louvor",
     "hora": 19
   },
@@ -71,15 +57,15 @@
   },
   {
     "data": "2026-09-06",
-    "referencia": "Lamentações 3:22-23",
-    "consulta": "lamentacoes 3:22-23",
+    "referencia": "Efésios 2:8-9",
+    "consulta": "efesios 2:8-9",
     "tema": "Gratidão e louvor",
     "hora": 19
   },
   {
     "data": "2026-09-07",
-    "referencia": "Salmos 42:11",
-    "consulta": "salmos 42:11",
+    "referencia": "Isaías 43:2",
+    "consulta": "isaias 43:2",
     "tema": "Força e recomeço",
     "hora": 19
   },
@@ -96,5 +82,19 @@
     "consulta": "provérbios 4:23",
     "tema": "Sabedoria",
     "hora": 8
+  },
+  {
+    "data": "2026-09-10",
+    "referencia": "Gálatas 5:22-23",
+    "consulta": "galatas 5:22-23",
+    "tema": "Amor",
+    "hora": 8
+  },
+  {
+    "data": "2026-09-11",
+    "referencia": "Isaías 26:3",
+    "consulta": "isaias 26:3",
+    "tema": "Paz e descanso",
+    "hora": 12
   }
 ]
