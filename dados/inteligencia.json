@@ -1,21 +1,21 @@
 {
-  "atualizado": "2026-08-29",
-  "amostras": 20,
+  "atualizado": "2026-08-30",
+  "amostras": 21,
   "pesos_estilo": {
-    "classico": 25,
-    "bilhete": 15,
+    "classico": 26,
+    "bilhete": 14,
     "livro": 27,
     "foto": 33
   },
   "pesos_tamanho": {
-    "curto": 31,
-    "medio": 36,
+    "curto": 29,
+    "medio": 38,
     "longo": 33
   },
   "pesos_hora": {
-    "8": 38,
-    "12": 37,
-    "19": 25
+    "8": 37,
+    "12": 35,
+    "19": 28
   },
   "ranking": [
     {
@@ -33,6 +33,14 @@
       "estilo": "foto",
       "hora": 8,
       "alcance": 156
+    },
+    {
+      "data": "2026-08-29",
+      "referencia": "Provérbios 3:9-10",
+      "score": 26,
+      "estilo": "foto",
+      "hora": 19,
+      "alcance": 122
     },
     {
       "data": "2026-08-10",
@@ -89,14 +97,6 @@
       "estilo": "classico",
       "hora": 8,
       "alcance": 142
-    },
-    {
-      "data": "2026-08-14",
-      "referencia": "1 Pedro 5:7",
-      "score": 12,
-      "estilo": "livro",
-      "hora": 19,
-      "alcance": 164
     }
   ]
 }

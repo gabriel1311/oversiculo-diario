@@ -1,5 +1,5 @@
 {
-  "atualizado": "2026-08-29T23:10:44Z",
+  "atualizado": "2026-08-30T23:11:21Z",
   "seguidores": 20,
   "posts": [
     {
@@ -153,7 +153,7 @@
       "likes": 4,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcTo4yYjdHl/",
-      "alcance": 117,
+      "alcance": 118,
       "salvos": 0
     },
     {
@@ -175,7 +175,7 @@
       "likes": 1,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcYa_WolEpF/",
-      "alcance": 2,
+      "alcance": 3,
       "salvos": 0
     },
     {
@@ -227,13 +227,24 @@
       "referencia": "Provérbios 3:9-10",
       "consulta": "proverbios 3:9-10",
       "id": "18027728360895637",
-      "likes": 0,
+      "likes": 21,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Dco_Sqpgaz_/",
-      "alcance": 4,
-      "salvos": 0
+      "alcance": 122,
+      "salvos": 1
+    },
+    {
+      "data": "2026-08-30",
+      "referencia": "João 3:16",
+      "consulta": "joao 3:16",
+      "id": "18058720403795613",
+      "likes": 11,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DcrkE1nmg5a/",
+      "alcance": 109,
+      "salvos": 1
     }
   ],
-  "media_count": 26,
+  "media_count": 28,
   "username": "oversiculo.diario"
 }
