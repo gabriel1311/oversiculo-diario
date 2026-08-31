@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-08-30T23:11:21Z",
-  "seguidores": 20,
+  "atualizado": "2026-08-31T23:11:58Z",
+  "seguidores": 23,
   "posts": [
     {
       "data": "2026-08-08",
@@ -153,7 +153,7 @@
       "likes": 4,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcTo4yYjdHl/",
-      "alcance": 118,
+      "alcance": 119,
       "salvos": 0
     },
     {
@@ -208,7 +208,7 @@
       "likes": 6,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DchWuE2jO2n/",
-      "alcance": 125,
+      "alcance": 126,
       "salvos": 0
     },
     {
@@ -230,7 +230,7 @@
       "likes": 21,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Dco_Sqpgaz_/",
-      "alcance": 122,
+      "alcance": 123,
       "salvos": 1
     },
     {
@@ -241,10 +241,21 @@
       "likes": 11,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcrkE1nmg5a/",
-      "alcance": 109,
+      "alcance": 123,
       "salvos": 1
+    },
+    {
+      "data": "2026-08-31",
+      "referencia": "Salmos 27:1",
+      "consulta": "salmos 27:1",
+      "id": "17934628407362546",
+      "likes": 3,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DcuJEXWChZ4/",
+      "alcance": 16,
+      "salvos": 0
     }
   ],
-  "media_count": 28,
+  "media_count": 29,
   "username": "oversiculo.diario"
 }
