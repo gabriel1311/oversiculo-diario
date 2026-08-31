@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-08-31",
-    "referencia": "Salmos 27:1",
-    "consulta": "salmos 27:1",
-    "tema": "Força e recomeço",
-    "hora": 19
-  },
-  {
     "data": "2026-09-01",
     "referencia": "Mateus 6:33",
     "consulta": "mateus 6:33",
@@ -96,5 +89,12 @@
     "consulta": "hebreus 4:16",
     "tema": "Gratidão e louvor",
     "hora": 8
+  },
+  {
+    "data": "2026-09-14",
+    "referencia": "1 Coríntios 10:13",
+    "consulta": "1 corintios 10:13",
+    "tema": "Força e recomeço",
+    "hora": 12
   }
 ]
