@@ -98,9 +98,8 @@ VERT_W, VERT_H = 1080, 1920
 
 # Estilos que se alternam por dia:
 #   classico = fundo escuro + serifada + dourado
-#   bilhete  = papel creme + cursiva azul + coração
 #   livro    = cinza clean + serifada + última linha grifada de amarelo
-ESTILOS = ["classico", "bilhete", "livro", "foto"]
+ESTILOS = ["classico", "livro", "foto"]  # bilhete aposentado 31/08; renderizador mantido p/ overrides antigos
 
 # A cursiva do bilhete só fica boa em versículo curto/médio; acima disso o texto
 # aperta e perde legibilidade, então versículos longos vão sempre no clássico.
@@ -368,14 +367,11 @@ def _render_bilhete(texto: str, referencia: str, seed: str, W: int, H: int) -> I
 def escolher_estilo(texto: str, seed: str) -> str:
     """Estilo do dia. Se a inteligência já aprendeu (dados/inteligencia.json),
     a escolha é ponderada pelos estilos que mais rendem — determinística pela
-    data e sempre com exploração. Sem aprendizado, rotação por hash puro.
-    Versículo longo nunca cai no bilhete (a cursiva aperta)."""
+    data e sempre com exploração. Sem aprendizado, rotação por hash puro."""
     from src import inteligencia
     estilo = inteligencia.escolher_estilo_ponderado(seed)
     if estilo is None:
         estilo = ESTILOS[_fnv(seed + "estiloD") % len(ESTILOS)]
-    if estilo == "bilhete" and len(texto) > LIMITE_BILHETE:
-        return "classico"
     return estilo
 
 

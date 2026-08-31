@@ -370,7 +370,7 @@
       const LIVRO_BG = [216,214,208], LIVRO_TEXTO = [38,36,34], LIVRO_REF = [18,18,18], LIVRO_GRIFO = [216,228,96], LIVRO_HANDLE = [120,120,112];
       const FOTOS_V = ["foto-campo.jpg", "foto-montanha-rosa.jpg", "foto-floresta.jpg", "foto-ceu-dourado.jpg", "foto-praia.jpg"];
       const FOTO_TEXTO = [247,246,242], FOTO_HANDLE = [232,230,224];
-      const ESTILOS_V = ["classico", "bilhete", "livro", "foto"];
+      const ESTILOS_V = ["classico", "livro", "foto"]; // bilhete aposentado 31/08
 
       // Inteligência: pesos aprendidos (dados/inteligencia.json), carregados no main.
       let INTEL = null;
@@ -385,11 +385,10 @@
         let e = (INTEL && INTEL.pesos_estilo)
           ? escolhaPonderada((seed || "") + "estiloD", ESTILOS_V, INTEL.pesos_estilo)
           : ESTILOS_V[fnv((seed || "") + "estiloD") % ESTILOS_V.length];
-        if (e === "bilhete" && (texto || "").length > 180) e = "classico";
         return e;
       }
       function estiloAleatorio(texto) {
-        const ops = (texto || "").length <= 180 ? ESTILOS_V : ["classico", "livro", "foto"];
+        const ops = ESTILOS_V;
         return ops[Math.floor(Math.random() * ops.length)];
       }
 
