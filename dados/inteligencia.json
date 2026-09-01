@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-08-31",
-  "amostras": 22,
+  "atualizado": "2026-09-01",
+  "amostras": 23,
   "pesos_estilo": {
     "classico": 31,
     "livro": 34,
@@ -23,7 +23,7 @@
       "score": 29,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 139
+      "alcance": 140
     },
     {
       "data": "2026-08-20",
@@ -31,7 +31,7 @@
       "score": 27,
       "estilo": "foto",
       "hora": 8,
-      "alcance": 156
+      "alcance": 157
     },
     {
       "data": "2026-08-29",
@@ -39,7 +39,7 @@
       "score": 26,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 123
+      "alcance": 124
     },
     {
       "data": "2026-08-10",
@@ -47,7 +47,7 @@
       "score": 24,
       "estilo": "livro",
       "hora": 8,
-      "alcance": 242
+      "alcance": 243
     },
     {
       "data": "2026-08-08",
@@ -55,7 +55,7 @@
       "score": 19,
       "estilo": "classico",
       "hora": 16,
-      "alcance": 171
+      "alcance": 172
     },
     {
       "data": "2026-08-24",
@@ -63,7 +63,7 @@
       "score": 19,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 220
+      "alcance": 221
     },
     {
       "data": "2026-08-16",
@@ -71,7 +71,7 @@
       "score": 17,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 152
+      "alcance": 153
     },
     {
       "data": "2026-08-30",
@@ -79,7 +79,15 @@
       "score": 16,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 123
+      "alcance": 124
+    },
+    {
+      "data": "2026-08-31",
+      "referencia": "Salmos 27:1",
+      "score": 16,
+      "estilo": "livro",
+      "hora": 19,
+      "alcance": 132
     },
     {
       "data": "2026-08-09",
@@ -87,15 +95,7 @@
       "score": 14,
       "estilo": "classico",
       "hora": 8,
-      "alcance": 167
-    },
-    {
-      "data": "2026-08-19",
-      "referencia": "Tiago 1:5",
-      "score": 13,
-      "estilo": "foto",
-      "hora": 12,
-      "alcance": 147
+      "alcance": 168
     }
   ]
 }
