@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-01",
-    "referencia": "Mateus 6:33",
-    "consulta": "mateus 6:33",
-    "tema": "Fé e esperança",
-    "hora": 19
-  },
-  {
     "data": "2026-09-02",
     "referencia": "Provérbios 3:5-6",
     "consulta": "proverbios 3:5-6",
@@ -96,5 +89,12 @@
     "consulta": "1 corintios 10:13",
     "tema": "Força e recomeço",
     "hora": 12
+  },
+  {
+    "data": "2026-09-15",
+    "referencia": "Apocalipse 21:4",
+    "consulta": "apocalipse 21:4",
+    "tema": "Fé e esperança",
+    "hora": 19
   }
 ]
