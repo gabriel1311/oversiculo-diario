@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-02",
-    "referencia": "Provérbios 3:5-6",
-    "consulta": "proverbios 3:5-6",
-    "tema": "Sabedoria",
-    "hora": 12
-  },
-  {
     "data": "2026-09-03",
     "referencia": "1 João 4:19",
     "consulta": "1 joao 4:19",
@@ -96,5 +89,12 @@
     "consulta": "apocalipse 21:4",
     "tema": "Fé e esperança",
     "hora": 19
+  },
+  {
+    "data": "2026-09-16",
+    "referencia": "Provérbios 17:17",
+    "consulta": "proverbios 17:17",
+    "tema": "Sabedoria",
+    "hora": 8
   }
 ]
