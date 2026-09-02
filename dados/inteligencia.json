@@ -1,14 +1,14 @@
 {
-  "atualizado": "2026-09-01",
-  "amostras": 23,
+  "atualizado": "2026-09-02",
+  "amostras": 24,
   "pesos_estilo": {
     "classico": 31,
     "livro": 34,
     "foto": 35
   },
   "pesos_tamanho": {
-    "curto": 29,
-    "medio": 38,
+    "curto": 30,
+    "medio": 37,
     "longo": 33
   },
   "pesos_hora": {
@@ -23,7 +23,7 @@
       "score": 29,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 140
+      "alcance": 141
     },
     {
       "data": "2026-08-20",
@@ -31,7 +31,7 @@
       "score": 27,
       "estilo": "foto",
       "hora": 8,
-      "alcance": 157
+      "alcance": 159
     },
     {
       "data": "2026-08-29",
@@ -39,7 +39,7 @@
       "score": 26,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 124
+      "alcance": 125
     },
     {
       "data": "2026-08-10",
@@ -47,7 +47,15 @@
       "score": 24,
       "estilo": "livro",
       "hora": 8,
-      "alcance": 243
+      "alcance": 244
+    },
+    {
+      "data": "2026-08-24",
+      "referencia": "Salmos 139:14",
+      "score": 20,
+      "estilo": "foto",
+      "hora": 12,
+      "alcance": 223
     },
     {
       "data": "2026-08-08",
@@ -55,15 +63,15 @@
       "score": 19,
       "estilo": "classico",
       "hora": 16,
-      "alcance": 172
+      "alcance": 173
     },
     {
-      "data": "2026-08-24",
-      "referencia": "Salmos 139:14",
+      "data": "2026-09-01",
+      "referencia": "Mateus 6:33",
       "score": 19,
       "estilo": "foto",
-      "hora": 12,
-      "alcance": 221
+      "hora": 19,
+      "alcance": 110
     },
     {
       "data": "2026-08-16",
@@ -71,7 +79,7 @@
       "score": 17,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 153
+      "alcance": 154
     },
     {
       "data": "2026-08-30",
@@ -79,7 +87,7 @@
       "score": 16,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 124
+      "alcance": 127
     },
     {
       "data": "2026-08-31",
@@ -87,15 +95,7 @@
       "score": 16,
       "estilo": "livro",
       "hora": 19,
-      "alcance": 132
-    },
-    {
-      "data": "2026-08-09",
-      "referencia": "Miquéias 6:8",
-      "score": 14,
-      "estilo": "classico",
-      "hora": 8,
-      "alcance": 168
+      "alcance": 134
     }
   ]
 }
