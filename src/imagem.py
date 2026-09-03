@@ -424,6 +424,8 @@ FOTOS = [
     # Leva de 03/09 (Pixabay _1280 ampliada p/ 1080x1920; ver fotos/CREDITOS.md):
     "foto-lago-nevoa.jpg", "foto-arvore-nevoa.jpg", "foto-ceu-estrelado.jpg",
     "foto-trigal.jpg", "foto-cachoeira.jpg",
+    "foto-raios-floresta.jpg", "foto-girassois.jpg", "foto-montanha-sol.jpg",
+    "foto-falesia.jpg", "foto-lavanda.jpg",
 ]
 FOTO_TEXTO = (247, 246, 242)
 FOTO_HANDLE = (232, 230, 224)
