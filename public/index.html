@@ -510,7 +510,7 @@
       }
 
       // Trilha do dia (mesma escolha do vídeo: hash FNV do seed entre as 3).
-      const TRILHAS = ["trilha.wav", "trilha2.wav", "trilha3.wav"];
+      const TRILHAS = ["piano-atlas.mp3", "piano-monda.mp3", "piano-atlas2.mp3", "piano-nastel.mp3", "violao-jonas.mp3", "cinematic-leberch.mp3", "ambient-jonas.mp3", "cinematic-tunetank.mp3", "piano-atlas3.mp3", "piano-dmitry.mp3", "violao-lemon.mp3", "violao-universfield.mp3", "ambiente-jesse.mp3", "worship-andriig.mp3"];
       function trilhaDoDia(seed) { return TRILHAS[fnv((seed || "") + "trilha") % TRILHAS.length]; }
       function playerTrilha(seed) {
         const wrap = document.createElement("div"); wrap.className = "trilha";

@@ -14,6 +14,12 @@ não como arquivos de música para download avulso.
 | cinematic-leberch.mp3 | Cinematic Emotional | leberch  | Pixabay (pixabay.com/music) | Pixabay Content License (uso comercial livre) |
 | ambient-jonas.mp3  | Emotional       | JonasBlakewood | Pixabay (pixabay.com/music) | Pixabay Content License (uso comercial livre) |
 | cinematic-tunetank.mp3 | Inspiring Cinematic Music | Tunetank | Pixabay (pixabay.com/music) | Pixabay Content License (uso comercial livre) |
+| piano-atlas3.mp3   | Inspirational Piano | AtlasAudio | Pixabay (pixabay.com/music) | Pixabay Content License (uso comercial livre) |
+| piano-dmitry.mp3   | Inspirational Piano | SoundGalleryByDmitryTaras | Pixabay (pixabay.com/music) | Pixabay Content License (uso comercial livre) |
+| violao-lemon.mp3   | The Cradle of Your Soul | lemonmusicstudio | Pixabay (pixabay.com/music) | Pixabay Content License (uso comercial livre) |
+| violao-universfield.mp3 | Warm Acoustic Guitar | Universfield | Pixabay (pixabay.com/music) | Pixabay Content License (uso comercial livre) |
+| ambiente-jesse.mp3 | Christian Instrumental Piano Worship (Soaking Prayer) | JesseQuinnMedia | Pixabay (pixabay.com/music) | Pixabay Content License (uso comercial livre) |
+| worship-andriig.mp3 | Christian Worship Instrumental Music | andriig | Pixabay (pixabay.com/music) | Pixabay Content License (uso comercial livre) |
 
 Para acrescentar uma trilha: baixe uma faixa livre, coloque o arquivo em
 `audio/`, adicione o nome em `TRILHAS` (em `src/video.py`) e credite aqui.

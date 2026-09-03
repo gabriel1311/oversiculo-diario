@@ -25,6 +25,9 @@ TRILHAS = [
     "piano-atlas.mp3", "piano-monda.mp3", "piano-atlas2.mp3",
     "piano-nastel.mp3", "violao-jonas.mp3",
     "cinematic-leberch.mp3", "ambient-jonas.mp3", "cinematic-tunetank.mp3",
+    # Leva de 03/09 (Pixabay, ver CREDITOS.md):
+    "piano-atlas3.mp3", "piano-dmitry.mp3", "violao-lemon.mp3",
+    "violao-universfield.mp3", "ambiente-jesse.mp3", "worship-andriig.mp3",
 ]
 TRILHA = AUDIO / TRILHAS[0]
 
@@ -35,6 +38,9 @@ CLIMAS = {
     "violao-jonas.mp3": "violao",
     "cinematic-leberch.mp3": "cinematic", "cinematic-tunetank.mp3": "cinematic",
     "ambient-jonas.mp3": "ambiente",
+    "piano-atlas3.mp3": "piano", "piano-dmitry.mp3": "piano",
+    "violao-lemon.mp3": "violao", "violao-universfield.mp3": "violao",
+    "ambiente-jesse.mp3": "ambiente", "worship-andriig.mp3": "ambiente",
 }
 # Tema do dia (weekday do Python: seg=0 … dom=6) → climas ACEITOS naquele dia.
 # Escolhe entre todas as trilhas desses climas (com variedade). Casa com os temas
