@@ -421,6 +421,9 @@ def _render_livro(texto: str, referencia: str, seed: str, W: int, H: int) -> Ima
 FOTOS = [
     "foto-campo.jpg", "foto-montanha-rosa.jpg", "foto-floresta.jpg",
     "foto-ceu-dourado.jpg", "foto-praia.jpg",
+    # Leva de 03/09 (Pixabay _1280 ampliada p/ 1080x1920; ver fotos/CREDITOS.md):
+    "foto-lago-nevoa.jpg", "foto-arvore-nevoa.jpg", "foto-ceu-estrelado.jpg",
+    "foto-trigal.jpg", "foto-cachoeira.jpg",
 ]
 FOTO_TEXTO = (247, 246, 242)
 FOTO_HANDLE = (232, 230, 224)
