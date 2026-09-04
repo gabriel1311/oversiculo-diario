@@ -12,18 +12,18 @@
     "longo": 32
   },
   "pesos_hora": {
-    "8": 36,
+    "8": 37,
     "12": 37,
-    "19": 27
+    "19": 26
   },
   "ranking": [
     {
       "data": "2026-09-03",
       "referencia": "1 João 4:19",
-      "score": 32,
+      "score": 35,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 127
+      "alcance": 132
     },
     {
       "data": "2026-08-20",
