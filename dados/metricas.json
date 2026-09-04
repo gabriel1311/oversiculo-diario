@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-03T23:11:25Z",
-  "seguidores": 32,
+  "atualizado": "2026-09-04T17:12:59Z",
+  "seguidores": 35,
   "posts": [
     {
       "data": "2026-08-08",
@@ -241,7 +241,7 @@
       "likes": 11,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcrkE1nmg5a/",
-      "alcance": 128,
+      "alcance": 129,
       "salvos": 1
     },
     {
@@ -274,7 +274,7 @@
       "likes": 21,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcyjMJnDCSi/",
-      "alcance": 116,
+      "alcance": 117,
       "salvos": 1
     },
     {
@@ -282,13 +282,24 @@
       "referencia": "1 João 4:19",
       "consulta": "1 joao 4:19",
       "id": "18103647062229257",
-      "likes": 16,
+      "likes": 24,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/Dc1IBIzki3j/",
-      "alcance": 62,
+      "alcance": 127,
+      "salvos": 1
+    },
+    {
+      "data": "2026-09-04",
+      "referencia": "Salmos 23:1-3",
+      "consulta": "salmos 23:1-3",
+      "id": "18113762788951700",
+      "likes": 31,
+      "comentarios": 2,
+      "permalink": "https://www.instagram.com/reel/Dc3sf-vE2Ar/",
+      "alcance": 98,
       "salvos": 0
     }
   ],
-  "media_count": 32,
+  "media_count": 33,
   "username": "oversiculo.diario"
 }

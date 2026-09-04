@@ -1,22 +1,30 @@
 {
-  "atualizado": "2026-09-03",
-  "amostras": 25,
+  "atualizado": "2026-09-04",
+  "amostras": 26,
   "pesos_estilo": {
-    "classico": 30,
-    "livro": 35,
+    "classico": 31,
+    "livro": 34,
     "foto": 35
   },
   "pesos_tamanho": {
-    "curto": 29,
-    "medio": 38,
-    "longo": 33
+    "curto": 31,
+    "medio": 37,
+    "longo": 32
   },
   "pesos_hora": {
-    "8": 37,
-    "12": 35,
-    "19": 28
+    "8": 36,
+    "12": 37,
+    "19": 27
   },
   "ranking": [
+    {
+      "data": "2026-09-03",
+      "referencia": "1 João 4:19",
+      "score": 32,
+      "estilo": "foto",
+      "hora": 12,
+      "alcance": 127
+    },
     {
       "data": "2026-08-20",
       "referencia": "1 João 4:7",
@@ -47,7 +55,7 @@
       "score": 26,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 116
+      "alcance": 117
     },
     {
       "data": "2026-08-10",
@@ -88,14 +96,6 @@
       "estilo": "foto",
       "hora": 19,
       "alcance": 154
-    },
-    {
-      "data": "2026-08-30",
-      "referencia": "João 3:16",
-      "score": 16,
-      "estilo": "foto",
-      "hora": 19,
-      "alcance": 128
     }
   ]
 }
