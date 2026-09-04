@@ -126,6 +126,8 @@ def responder_novos() -> int:
             print(f"[respostas] pulei {post['referencia']}: {erro}")
             continue
 
+        if comentarios:
+            print(f"[respostas] {post['referencia']}: {len(comentarios)} comentário(s) na API")
         for c in comentarios:
             cid = c.get("id")
             texto = (c.get("text") or "").strip()
