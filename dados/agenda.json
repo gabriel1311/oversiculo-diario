@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-05",
-    "referencia": "Filipenses 4:6-7",
-    "consulta": "filipenses 4:6-7",
-    "tema": "Proteção e cuidado",
-    "hora": 12
-  },
-  {
     "data": "2026-09-06",
     "referencia": "Efésios 2:8-9",
     "consulta": "efesios 2:8-9",
@@ -96,5 +89,12 @@
     "consulta": "salmos 37:5",
     "tema": "Paz e descanso",
     "hora": 12
+  },
+  {
+    "data": "2026-09-19",
+    "referencia": "Salmos 121:1-2",
+    "consulta": "salmos 121:1-2",
+    "tema": "Proteção e cuidado",
+    "hora": 8
   }
 ]
