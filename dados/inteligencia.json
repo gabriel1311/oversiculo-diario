@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-05",
-  "amostras": 27,
+  "atualizado": "2026-09-06",
+  "amostras": 28,
   "pesos_estilo": {
     "classico": 29,
     "livro": 36,
@@ -8,13 +8,13 @@
   },
   "pesos_tamanho": {
     "curto": 29,
-    "medio": 33,
-    "longo": 38
+    "medio": 32,
+    "longo": 39
   },
   "pesos_hora": {
     "8": 36,
-    "12": 39,
-    "19": 25
+    "12": 38,
+    "19": 26
   },
   "ranking": [
     {
@@ -23,15 +23,23 @@
       "score": 39,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 114
+      "alcance": 116
     },
     {
       "data": "2026-09-03",
       "referencia": "1 João 4:19",
-      "score": 35,
+      "score": 36,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 134
+      "alcance": 137
+    },
+    {
+      "data": "2026-08-25",
+      "referencia": "Salmos 46:1",
+      "score": 30,
+      "estilo": "livro",
+      "hora": 12,
+      "alcance": 143
     },
     {
       "data": "2026-08-20",
@@ -42,20 +50,12 @@
       "alcance": 161
     },
     {
-      "data": "2026-08-25",
-      "referencia": "Salmos 46:1",
-      "score": 29,
-      "estilo": "livro",
-      "hora": 12,
-      "alcance": 142
-    },
-    {
       "data": "2026-08-29",
       "referencia": "Provérbios 3:9-10",
-      "score": 27,
+      "score": 28,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 126
+      "alcance": 127
     },
     {
       "data": "2026-09-02",
@@ -74,28 +74,28 @@
       "alcance": 244
     },
     {
+      "data": "2026-09-05",
+      "referencia": "Filipenses 4:6-7",
+      "score": 22,
+      "estilo": "foto",
+      "hora": 12,
+      "alcance": 131
+    },
+    {
       "data": "2026-08-24",
       "referencia": "Salmos 139:14",
       "score": 21,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 225
-    },
-    {
-      "data": "2026-08-08",
-      "referencia": "1 Coríntios 13:4-7",
-      "score": 19,
-      "estilo": "classico",
-      "hora": 16,
-      "alcance": 173
+      "alcance": 226
     },
     {
       "data": "2026-09-01",
       "referencia": "Mateus 6:33",
-      "score": 19,
+      "score": 20,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 110
+      "alcance": 111
     }
   ]
 }
