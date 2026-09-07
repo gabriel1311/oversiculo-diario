@@ -128,6 +128,9 @@ def responder_novos() -> int:
 
         if comentarios:
             print(f"[respostas] {post['referencia']}: {len(comentarios)} comentário(s) na API")
+        else:
+            bruto = instagram._get(f"{mid}/comments", {"fields": "id,text,username,hidden", "limit": "50", "access_token": token})
+            print(f"[respostas] {post['referencia']} ({mid}): resposta crua = {json.dumps(bruto, ensure_ascii=False)[:300]}")
         for c in comentarios:
             cid = c.get("id")
             texto = (c.get("text") or "").strip()
