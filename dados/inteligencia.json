@@ -1,22 +1,30 @@
 {
-  "atualizado": "2026-09-06",
-  "amostras": 28,
+  "atualizado": "2026-09-07",
+  "amostras": 29,
   "pesos_estilo": {
     "classico": 29,
-    "livro": 36,
-    "foto": 35
+    "livro": 35,
+    "foto": 36
   },
   "pesos_tamanho": {
-    "curto": 29,
-    "medio": 32,
-    "longo": 39
+    "curto": 28,
+    "medio": 34,
+    "longo": 38
   },
   "pesos_hora": {
-    "8": 36,
-    "12": 38,
-    "19": 26
+    "8": 35,
+    "12": 40,
+    "19": 25
   },
   "ranking": [
+    {
+      "data": "2026-09-06",
+      "referencia": "Efésios 2:8-9",
+      "score": 40,
+      "estilo": "foto",
+      "hora": 12,
+      "alcance": 145
+    },
     {
       "data": "2026-09-04",
       "referencia": "Salmos 23:1-3",
@@ -60,10 +68,10 @@
     {
       "data": "2026-09-02",
       "referencia": "Provérbios 3:5-6",
-      "score": 26,
+      "score": 27,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 119
+      "alcance": 120
     },
     {
       "data": "2026-08-10",
@@ -88,14 +96,6 @@
       "estilo": "foto",
       "hora": 12,
       "alcance": 226
-    },
-    {
-      "data": "2026-09-01",
-      "referencia": "Mateus 6:33",
-      "score": 20,
-      "estilo": "foto",
-      "hora": 19,
-      "alcance": 111
     }
   ]
 }
