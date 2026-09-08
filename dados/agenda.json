@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-08",
-    "referencia": "Salmos 147:3",
-    "consulta": "salmos 147:3",
-    "tema": "Fé e esperança",
-    "hora": 19
-  },
-  {
     "data": "2026-09-09",
     "referencia": "Provérbios 4:23",
     "consulta": "provérbios 4:23",
@@ -96,5 +89,12 @@
     "consulta": "salmos 51:10",
     "tema": "Força e recomeço",
     "hora": 12
+  },
+  {
+    "data": "2026-09-22",
+    "referencia": "Hebreus 11:1",
+    "consulta": "hebreus 11:1",
+    "tema": "Fé e esperança",
+    "hora": 19
   }
 ]
