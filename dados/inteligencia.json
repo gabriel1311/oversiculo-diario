@@ -1,29 +1,37 @@
 {
-  "atualizado": "2026-09-08",
-  "amostras": 30,
+  "atualizado": "2026-09-09",
+  "amostras": 31,
   "pesos_estilo": {
-    "classico": 29,
-    "livro": 35,
-    "foto": 36
+    "classico": 27,
+    "livro": 38,
+    "foto": 35
   },
   "pesos_tamanho": {
-    "curto": 27,
-    "medio": 34,
-    "longo": 39
+    "curto": 30,
+    "medio": 32,
+    "longo": 38
   },
   "pesos_hora": {
     "8": 35,
-    "12": 39,
-    "19": 26
+    "12": 37,
+    "19": 28
   },
   "ranking": [
+    {
+      "data": "2026-09-08",
+      "referencia": "Salmos 147:3",
+      "score": 52,
+      "estilo": "livro",
+      "hora": 19,
+      "alcance": 198
+    },
     {
       "data": "2026-09-06",
       "referencia": "Efésios 2:8-9",
       "score": 40,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 146
+      "alcance": 149
     },
     {
       "data": "2026-09-04",
@@ -31,7 +39,7 @@
       "score": 39,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 117
+      "alcance": 119
     },
     {
       "data": "2026-09-03",
@@ -39,7 +47,7 @@
       "score": 36,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 138
+      "alcance": 139
     },
     {
       "data": "2026-08-25",
@@ -63,23 +71,23 @@
       "score": 28,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 129
+      "alcance": 130
     },
     {
       "data": "2026-09-02",
       "referencia": "Provérbios 3:5-6",
-      "score": 27,
+      "score": 28,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 122
+      "alcance": 124
     },
     {
       "data": "2026-09-07",
       "referencia": "1 Coríntios 10:13",
-      "score": 26,
+      "score": 27,
       "estilo": "livro",
       "hora": 19,
-      "alcance": 149
+      "alcance": 151
     },
     {
       "data": "2026-08-10",
@@ -88,14 +96,6 @@
       "estilo": "livro",
       "hora": 8,
       "alcance": 244
-    },
-    {
-      "data": "2026-09-05",
-      "referencia": "Filipenses 4:6-7",
-      "score": 22,
-      "estilo": "foto",
-      "hora": 12,
-      "alcance": 132
     }
   ]
 }
