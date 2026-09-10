@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-10",
-    "referencia": "Gálatas 5:22-23",
-    "consulta": "galatas 5:22-23",
-    "tema": "Amor",
-    "hora": 8
-  },
-  {
     "data": "2026-09-11",
     "referencia": "Isaías 26:3",
     "consulta": "isaias 26:3",
@@ -95,6 +88,13 @@
     "referencia": "Salmos 90:12",
     "consulta": "salmos 90:12",
     "tema": "Sabedoria",
+    "hora": 12
+  },
+  {
+    "data": "2026-09-24",
+    "referencia": "Gálatas 2:20",
+    "consulta": "galatas 2:20",
+    "tema": "Amor",
     "hora": 12
   }
 ]
