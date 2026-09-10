@@ -1,29 +1,37 @@
 {
-  "atualizado": "2026-09-09",
-  "amostras": 31,
+  "atualizado": "2026-09-10",
+  "amostras": 32,
   "pesos_estilo": {
-    "classico": 27,
+    "classico": 28,
     "livro": 38,
-    "foto": 35
+    "foto": 34
   },
   "pesos_tamanho": {
-    "curto": 30,
+    "curto": 31,
     "medio": 32,
-    "longo": 38
+    "longo": 37
   },
   "pesos_hora": {
-    "8": 35,
-    "12": 37,
+    "8": 36,
+    "12": 36,
     "19": 28
   },
   "ranking": [
     {
       "data": "2026-09-08",
       "referencia": "Salmos 147:3",
-      "score": 52,
+      "score": 53,
       "estilo": "livro",
       "hora": 19,
-      "alcance": 198
+      "alcance": 200
+    },
+    {
+      "data": "2026-09-04",
+      "referencia": "Salmos 23:1-3",
+      "score": 40,
+      "estilo": "livro",
+      "hora": 12,
+      "alcance": 121
     },
     {
       "data": "2026-09-06",
@@ -31,23 +39,23 @@
       "score": 40,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 149
-    },
-    {
-      "data": "2026-09-04",
-      "referencia": "Salmos 23:1-3",
-      "score": 39,
-      "estilo": "livro",
-      "hora": 12,
-      "alcance": 119
+      "alcance": 150
     },
     {
       "data": "2026-09-03",
       "referencia": "1 João 4:19",
-      "score": 36,
+      "score": 37,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 139
+      "alcance": 140
+    },
+    {
+      "data": "2026-09-09",
+      "referencia": "Provérbios 4:23",
+      "score": 36,
+      "estilo": "livro",
+      "hora": 8,
+      "alcance": 143
     },
     {
       "data": "2026-08-25",
@@ -68,10 +76,10 @@
     {
       "data": "2026-08-29",
       "referencia": "Provérbios 3:9-10",
-      "score": 28,
+      "score": 29,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 130
+      "alcance": 132
     },
     {
       "data": "2026-09-02",
@@ -79,23 +87,15 @@
       "score": 28,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 124
+      "alcance": 125
     },
     {
       "data": "2026-09-07",
       "referencia": "1 Coríntios 10:13",
-      "score": 27,
+      "score": 28,
       "estilo": "livro",
       "hora": 19,
-      "alcance": 151
-    },
-    {
-      "data": "2026-08-10",
-      "referencia": "Provérbios 16:3",
-      "score": 24,
-      "estilo": "livro",
-      "hora": 8,
-      "alcance": 244
+      "alcance": 152
     }
   ]
 }
