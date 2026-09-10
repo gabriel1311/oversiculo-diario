@@ -5,3 +5,6 @@ __pycache__/
 
 # cache local do deploy do Firebase
 .firebase/
+
+# Rodada diária local (relatórios e receitas privadas)
+rodada/
