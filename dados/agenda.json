@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-11",
-    "referencia": "Isaías 26:3",
-    "consulta": "isaias 26:3",
-    "tema": "Paz e descanso",
-    "hora": 12
-  },
-  {
     "data": "2026-09-12",
     "referencia": "Salmos 143:8",
     "consulta": "salmos 143:8",
@@ -96,5 +89,12 @@
     "consulta": "galatas 2:20",
     "tema": "Amor",
     "hora": 12
+  },
+  {
+    "data": "2026-09-25",
+    "referencia": "Mateus 11:28",
+    "consulta": "mateus 11:28",
+    "tema": "Paz e descanso",
+    "hora": 8
   }
 ]
