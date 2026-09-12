@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-12",
-    "referencia": "Salmos 143:8",
-    "consulta": "salmos 143:8",
-    "tema": "Proteção e cuidado",
-    "hora": 12
-  },
-  {
     "data": "2026-09-13",
     "referencia": "Hebreus 4:16",
     "consulta": "hebreus 4:16",
@@ -96,5 +89,12 @@
     "consulta": "mateus 11:28",
     "tema": "Paz e descanso",
     "hora": 8
+  },
+  {
+    "data": "2026-09-26",
+    "referencia": "Salmos 121:1-2",
+    "consulta": "salmos 121:1-2",
+    "tema": "Proteção e cuidado",
+    "hora": 19
   }
 ]
