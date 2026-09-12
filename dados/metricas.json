@@ -1,5 +1,5 @@
 {
-  "atualizado": "2026-09-11T23:11:30Z",
+  "atualizado": "2026-09-12T23:11:13Z",
   "seguidores": 50,
   "posts": [
     {
@@ -340,7 +340,7 @@
       "likes": 32,
       "comentarios": 4,
       "permalink": "https://www.instagram.com/reel/DdCvT_pCkG7/",
-      "alcance": 203,
+      "alcance": 204,
       "salvos": 2
     },
     {
@@ -351,7 +351,7 @@
       "likes": 34,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/DdEIy7CDM-v/",
-      "alcance": 145,
+      "alcance": 146,
       "salvos": 0
     },
     {
@@ -370,13 +370,24 @@
       "referencia": "Isaías 26:3",
       "consulta": "isaias 26:3",
       "id": "18117678038475481",
-      "likes": 18,
+      "likes": 19,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/DdJuANalVqg/",
-      "alcance": 109,
+      "alcance": 112,
       "salvos": 1
+    },
+    {
+      "data": "2026-09-12",
+      "referencia": "Salmos 143:8",
+      "consulta": "salmos 143:8",
+      "id": "18124503394862626",
+      "likes": 18,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DdMScFsDeYC/",
+      "alcance": 112,
+      "salvos": 0
     }
   ],
-  "media_count": 41,
+  "media_count": 42,
   "username": "oversiculo.diario"
 }
