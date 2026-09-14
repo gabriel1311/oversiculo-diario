@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-13",
-  "amostras": 35,
+  "atualizado": "2026-09-14",
+  "amostras": 36,
   "pesos_estilo": {
     "classico": 26,
     "livro": 39,
@@ -12,9 +12,9 @@
     "longo": 37
   },
   "pesos_hora": {
-    "8": 36,
+    "8": 35,
     "12": 36,
-    "19": 28
+    "19": 29
   },
   "ranking": [
     {
@@ -66,6 +66,14 @@
       "alcance": 144
     },
     {
+      "data": "2026-09-11",
+      "referencia": "Isaías 26:3",
+      "score": 30,
+      "estilo": "foto",
+      "hora": 12,
+      "alcance": 114
+    },
+    {
       "data": "2026-08-20",
       "referencia": "1 João 4:7",
       "score": 29,
@@ -88,14 +96,6 @@
       "estilo": "livro",
       "hora": 12,
       "alcance": 126
-    },
-    {
-      "data": "2026-09-07",
-      "referencia": "1 Coríntios 10:13",
-      "score": 28,
-      "estilo": "livro",
-      "hora": 19,
-      "alcance": 155
     }
   ]
 }
