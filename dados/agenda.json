@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-15",
-    "referencia": "Isaías 55:8-9",
-    "consulta": "isaias 55:8-9",
-    "tema": "Fé e esperança",
-    "hora": 19
-  },
-  {
     "data": "2026-09-16",
     "referencia": "Provérbios 17:17",
     "consulta": "proverbios 17:17",
@@ -96,5 +89,12 @@
     "consulta": "tiago 1:2-3",
     "tema": "Força e recomeço",
     "hora": 19
+  },
+  {
+    "data": "2026-09-29",
+    "referencia": "Jeremias 17:7",
+    "consulta": "jeremias 17:7",
+    "tema": "Fé e esperança",
+    "hora": 12
   }
 ]
