@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-16",
-    "referencia": "Provérbios 17:17",
-    "consulta": "proverbios 17:17",
-    "tema": "Sabedoria",
-    "hora": 8
-  },
-  {
     "data": "2026-09-17",
     "referencia": "Romanos 8:38-39",
     "consulta": "romanos 8:38-39",
@@ -96,5 +89,12 @@
     "consulta": "jeremias 17:7",
     "tema": "Fé e esperança",
     "hora": 12
+  },
+  {
+    "data": "2026-09-30",
+    "referencia": "Provérbios 15:1",
+    "consulta": "proverbios 15:1",
+    "tema": "Sabedoria",
+    "hora": 19
   }
 ]
