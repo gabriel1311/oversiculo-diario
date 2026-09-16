@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-15",
-  "amostras": 37,
+  "atualizado": "2026-09-16",
+  "amostras": 38,
   "pesos_estilo": {
     "classico": 25,
     "livro": 40,
@@ -23,7 +23,7 @@
       "score": 56,
       "estilo": "livro",
       "hora": 19,
-      "alcance": 205
+      "alcance": 206
     },
     {
       "data": "2026-09-06",
@@ -44,10 +44,10 @@
     {
       "data": "2026-09-03",
       "referencia": "1 João 4:19",
-      "score": 38,
+      "score": 39,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 142
+      "alcance": 143
     },
     {
       "data": "2026-09-09",
@@ -87,7 +87,7 @@
       "score": 30,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 299
+      "alcance": 300
     },
     {
       "data": "2026-08-20",
