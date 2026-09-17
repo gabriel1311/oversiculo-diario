@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-17",
-    "referencia": "Romanos 8:38-39",
-    "consulta": "romanos 8:38-39",
-    "tema": "Amor",
-    "hora": 8
-  },
-  {
     "data": "2026-09-18",
     "referencia": "Salmos 37:5",
     "consulta": "salmos 37:5",
@@ -96,5 +89,12 @@
     "consulta": "proverbios 15:1",
     "tema": "Sabedoria",
     "hora": 19
+  },
+  {
+    "data": "2026-10-01",
+    "referencia": "1 Tessalonicenses 5:11",
+    "consulta": "1 tessalonicenses 5:11",
+    "tema": "Amor",
+    "hora": 12
   }
 ]
