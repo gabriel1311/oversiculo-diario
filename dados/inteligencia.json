@@ -1,14 +1,14 @@
 {
-  "atualizado": "2026-09-16",
-  "amostras": 38,
+  "atualizado": "2026-09-17",
+  "amostras": 39,
   "pesos_estilo": {
     "classico": 25,
     "livro": 40,
     "foto": 35
   },
   "pesos_tamanho": {
-    "curto": 31,
-    "medio": 31,
+    "curto": 32,
+    "medio": 30,
     "longo": 38
   },
   "pesos_hora": {
@@ -31,7 +31,7 @@
       "score": 42,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 154
+      "alcance": 155
     },
     {
       "data": "2026-09-04",
@@ -52,10 +52,18 @@
     {
       "data": "2026-09-09",
       "referencia": "Provérbios 4:23",
-      "score": 38,
+      "score": 39,
       "estilo": "livro",
       "hora": 8,
-      "alcance": 147
+      "alcance": 148
+    },
+    {
+      "data": "2026-09-14",
+      "referencia": "2 Coríntios 12:9",
+      "score": 31,
+      "estilo": "livro",
+      "hora": 12,
+      "alcance": 301
     },
     {
       "data": "2026-08-25",
@@ -79,15 +87,7 @@
       "score": 30,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 114
-    },
-    {
-      "data": "2026-09-14",
-      "referencia": "2 Coríntios 12:9",
-      "score": 30,
-      "estilo": "livro",
-      "hora": 12,
-      "alcance": 300
+      "alcance": 115
     },
     {
       "data": "2026-08-20",
