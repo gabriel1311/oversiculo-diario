@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-17T23:11:00Z",
-  "seguidores": 56,
+  "atualizado": "2026-09-18T23:12:34Z",
+  "seguidores": 57,
   "posts": [
     {
       "data": "2026-08-08",
@@ -10,7 +10,7 @@
       "likes": 14,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DbypBLQCYvC/",
-      "alcance": 173,
+      "alcance": 174,
       "salvos": 1
     },
     {
@@ -337,10 +337,10 @@
       "referencia": "Salmos 147:3",
       "consulta": "salmos 147:3",
       "id": "17885609964616802",
-      "likes": 34,
-      "comentarios": 4,
+      "likes": 35,
+      "comentarios": 5,
       "permalink": "https://www.instagram.com/reel/DdCvT_pCkG7/",
-      "alcance": 206,
+      "alcance": 207,
       "salvos": 2
     },
     {
@@ -428,7 +428,7 @@
       "likes": 16,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DdWKgwCjcuZ/",
-      "alcance": 122,
+      "alcance": 123,
       "salvos": 1
     },
     {
@@ -437,12 +437,23 @@
       "consulta": "romanos 8:38-39",
       "id": "18413235562089820",
       "likes": 22,
-      "comentarios": 1,
+      "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DdYvWeqgG34/",
-      "alcance": 153,
+      "alcance": 160,
+      "salvos": 0
+    },
+    {
+      "data": "2026-09-18",
+      "referencia": "Salmos 37:5",
+      "consulta": "salmos 37:5",
+      "id": "17901226065667457",
+      "likes": 34,
+      "comentarios": 3,
+      "permalink": "https://www.instagram.com/reel/DdbviW3mz6f/",
+      "alcance": 124,
       "salvos": 0
     }
   ],
-  "media_count": 48,
+  "media_count": 49,
   "username": "oversiculo.diario"
 }
