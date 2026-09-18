@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-18",
-    "referencia": "Salmos 37:5",
-    "consulta": "salmos 37:5",
-    "tema": "Paz e descanso",
-    "hora": 12
-  },
-  {
     "data": "2026-09-19",
     "referencia": "Efésios 3:20",
     "consulta": "efesios 3:20",
@@ -96,5 +89,12 @@
     "consulta": "1 tessalonicenses 5:11",
     "tema": "Amor",
     "hora": 12
+  },
+  {
+    "data": "2026-10-02",
+    "referencia": "Salmos 42:11",
+    "consulta": "salmos 42:11",
+    "tema": "Paz e descanso",
+    "hora": 19
   }
 ]
