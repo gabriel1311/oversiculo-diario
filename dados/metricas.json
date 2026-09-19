@@ -1,5 +1,5 @@
 {
-  "atualizado": "2026-09-18T23:12:34Z",
+  "atualizado": "2026-09-19T23:10:55Z",
   "seguidores": 57,
   "posts": [
     {
@@ -183,10 +183,10 @@
       "referencia": "Salmos 139:14",
       "consulta": "salmos 139:14",
       "id": "18194933836340322",
-      "likes": 18,
+      "likes": 19,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/DcbXvd_ibeV/",
-      "alcance": 228,
+      "alcance": 229,
       "salvos": 0
     },
     {
@@ -392,10 +392,10 @@
       "referencia": "Hebreus 4:16",
       "consulta": "hebreus 4:16",
       "id": "18119199086297160",
-      "likes": 17,
+      "likes": 18,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DdObqvok16z/",
-      "alcance": 133,
+      "alcance": 134,
       "salvos": 2
     },
     {
@@ -447,13 +447,24 @@
       "referencia": "Salmos 37:5",
       "consulta": "salmos 37:5",
       "id": "17901226065667457",
-      "likes": 34,
-      "comentarios": 3,
+      "likes": 35,
+      "comentarios": 5,
       "permalink": "https://www.instagram.com/reel/DdbviW3mz6f/",
-      "alcance": 124,
+      "alcance": 136,
       "salvos": 0
+    },
+    {
+      "data": "2026-09-19",
+      "referencia": "Efésios 3:20",
+      "consulta": "efesios 3:20",
+      "id": "18002687108794618",
+      "likes": 13,
+      "comentarios": 1,
+      "permalink": "https://www.instagram.com/reel/Ddd4g9iiDjO/",
+      "alcance": 131,
+      "salvos": 1
     }
   ],
-  "media_count": 49,
+  "media_count": 50,
   "username": "oversiculo.diario"
 }
