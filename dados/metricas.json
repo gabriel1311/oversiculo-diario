@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-19T23:10:55Z",
-  "seguidores": 57,
+  "atualizado": "2026-09-20T23:11:12Z",
+  "seguidores": 58,
   "posts": [
     {
       "data": "2026-08-08",
@@ -29,7 +29,7 @@
       "referencia": "Provérbios 16:3",
       "consulta": "proverbios 16:3",
       "id": "18003528821779294",
-      "likes": 24,
+      "likes": 23,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Db24ByTlIMP/",
       "alcance": 244,
@@ -403,7 +403,7 @@
       "referencia": "2 Coríntios 12:9",
       "consulta": "2 corintios 12:9",
       "id": "18079913681338361",
-      "likes": 26,
+      "likes": 27,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DdRcl1QAiSy/",
       "alcance": 301,
@@ -458,13 +458,24 @@
       "referencia": "Efésios 3:20",
       "consulta": "efesios 3:20",
       "id": "18002687108794618",
-      "likes": 13,
+      "likes": 14,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/Ddd4g9iiDjO/",
-      "alcance": 131,
+      "alcance": 135,
+      "salvos": 1
+    },
+    {
+      "data": "2026-09-20",
+      "referencia": "1 Tessalonicenses 5:16-18",
+      "consulta": "1 tessalonicenses 5:16-18",
+      "id": "18003146846793624",
+      "likes": 15,
+      "comentarios": 1,
+      "permalink": "https://www.instagram.com/reel/DdgdYydClke/",
+      "alcance": 114,
       "salvos": 1
     }
   ],
-  "media_count": 50,
+  "media_count": 52,
   "username": "oversiculo.diario"
 }

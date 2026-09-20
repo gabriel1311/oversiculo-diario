@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-19",
-  "amostras": 41,
+  "atualizado": "2026-09-20",
+  "amostras": 42,
   "pesos_estilo": {
     "classico": 29,
     "livro": 37,
@@ -68,7 +68,7 @@
     {
       "data": "2026-09-14",
       "referencia": "2 Coríntios 12:9",
-      "score": 31,
+      "score": 32,
       "estilo": "livro",
       "hora": 12,
       "alcance": 301
