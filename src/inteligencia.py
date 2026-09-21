@@ -40,7 +40,7 @@ ARQ_SAIDA = RAIZ / "dados" / "inteligencia.json"
 PESO_CURTIDA, PESO_COMENTARIO, PESO_SALVO = 1, 3, 5
 SUAVIZACAO = 3  # pseudo-amostras puxando cada opção para a média global
 
-ESTILOS = ["classico", "livro", "foto"]  # bilhete aposentado 31/08 (pior desempenho: 4 posts, 4 piores do feed)
+ESTILOS = ["classico", "livro", "foto", "luz"]  # bilhete aposentado 31/08 (pior desempenho: 4 posts, 4 piores do feed)
 TAMANHOS = ["curto", "medio", "longo"]     # ≤100 / 101–180 / >180 caracteres
 HORAS = [8, 12, 19]                        # horários candidatos (Brasília)
 
@@ -49,7 +49,9 @@ HORAS = [8, 12, 19]                        # horários candidatos (Brasília)
 # vale atualizar a bio junto.
 # Gabriel gosta do estilo foto (paisagem) — piso maior garante presença
 # constante na rotação mesmo enquanto as métricas ainda não o favorecem.
-PISO_ESTILO = {"classico": 12, "livro": 12, "foto": 35}
+# "luz" entrou em 21/09 e o Gabriel pediu que apareça bastante: com piso 70 ele
+# fica com ~metade dos dias depois da renormalização (os outros dividem o resto).
+PISO_ESTILO = {"classico": 10, "livro": 10, "foto": 20, "luz": 70}
 PISO_TAMANHO = 15
 PISO_HORA = {8: 40, 12: 15, 19: 15}
 

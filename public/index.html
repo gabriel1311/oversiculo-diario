@@ -370,7 +370,10 @@
       const LIVRO_BG = [216,214,208], LIVRO_TEXTO = [38,36,34], LIVRO_REF = [18,18,18], LIVRO_GRIFO = [216,228,96], LIVRO_HANDLE = [120,120,112];
       const FOTOS_V = ["foto-campo.jpg", "foto-montanha-rosa.jpg", "foto-floresta.jpg", "foto-ceu-dourado.jpg", "foto-praia.jpg", "foto-lago-nevoa.jpg", "foto-arvore-nevoa.jpg", "foto-ceu-estrelado.jpg", "foto-trigal.jpg", "foto-cachoeira.jpg", "foto-raios-floresta.jpg", "foto-girassois.jpg", "foto-montanha-sol.jpg", "foto-falesia.jpg", "foto-lavanda.jpg"];
       const FOTO_TEXTO = [247,246,242], FOTO_HANDLE = [232,230,224];
-      const ESTILOS_V = ["classico", "livro", "foto"]; // bilhete aposentado 31/08
+      const ESTILOS_V = ["classico", "livro", "foto", "luz"]; // bilhete aposentado 31/08; luz entrou 21/09
+      const FOTOS_LUZ = ["foto-campo.jpg", "foto-lago-nevoa.jpg", "foto-montanha-rosa.jpg", "foto-praia.jpg", "foto-trigal.jpg", "foto-lavanda.jpg", "foto-arvore-nevoa.jpg", "foto-montanha-sol.jpg", "foto-falesia.jpg"];
+      const LUZ_TEXTO = [30,34,44], LUZ_AZUL = [34,66,108], LUZ_HANDLE = [52,58,70], LIMITE_LUZ = 200;
+      let ENFASES = {};
 
       // Inteligência: pesos aprendidos (dados/inteligencia.json), carregados no main.
       let INTEL = null;
@@ -385,6 +388,7 @@
         let e = (INTEL && INTEL.pesos_estilo)
           ? escolhaPonderada((seed || "") + "estiloD", ESTILOS_V, INTEL.pesos_estilo)
           : ESTILOS_V[fnv((seed || "") + "estiloD") % ESTILOS_V.length];
+        if (e === "luz" && (texto || "").length > LIMITE_LUZ) e = "foto";
         return e;
       }
       function estiloAleatorio(texto) {
@@ -500,10 +504,97 @@
         img.src = `${RAW}/fotos/${nome}`;
       }
 
+      // ---- estilo luz (foto clara + texto escuro + frase-chave em cursiva azul) ----
+      function enfaseLuz(texto, referencia) {
+        const PONT = ",;.:!?";
+        let frase = ENFASES[referencia] || "";
+        if (!frase || !texto.includes(frase)) {
+          let cauda = texto; while (cauda && (PONT + " ").includes(cauda.slice(-1))) cauda = cauda.slice(0, -1);
+          const corte = Math.max(cauda.lastIndexOf(","), cauda.lastIndexOf(";"), cauda.lastIndexOf(":"));
+          frase = corte >= 0 ? cauda.slice(corte + 1).trim() : "";
+          if (frase.length < 8 || frase.length > 28) return [texto, "", ""];
+        }
+        const i = texto.indexOf(frase);
+        let antes = texto.slice(0, i), depois = texto.slice(i + frase.length);
+        while (depois && PONT.includes(depois[0])) { frase += depois[0]; depois = depois.slice(1); }
+        return [antes.trim(), frase, depois.trim()];
+      }
+      function quebrarEquilibrado(ctx, texto, maxW) {
+        if (!texto) return [];
+        let linhas = quebrar(ctx, texto, maxW);
+        for (let w = maxW - 40; w > maxW / 3; w -= 40) {
+          const t = quebrar(ctx, texto, w);
+          if (t.length > linhas.length || t.some(l => ctx.measureText(l).width > maxW)) break;
+          linhas = t;
+        }
+        return linhas;
+      }
+      function _textoLuz(ctx, W, H, texto, referencia, img) {
+        const S = x => x * (W/1080);
+        const maxW = 1080 - 2*96 - 40, topo = 290, maxH = 1020, rodape = 250;
+        const [antes, frase, depois] = enfaseLuz(texto, referencia);
+        let blocos, alto;
+        for (let tam = 92; tam > 33; tam -= 2) {
+          const fT = `500 ${tam}px "EB Garamond"`, fC = `700 ${Math.round(tam*1.6)}px "Dancing Script"`;
+          const esp = Math.round(tam*1.34), espC = Math.round(tam*1.6*1.18);
+          ctx.font = fT; const a = quebrarEquilibrado(ctx, antes, maxW), d = quebrarEquilibrado(ctx, depois, maxW);
+          ctx.font = fC; const c = quebrarEquilibrado(ctx, frase, maxW);
+          blocos = [[a, tam, "EB Garamond", 500, esp, LUZ_TEXTO], [c, Math.round(tam*1.6), "Dancing Script", 700, espC, LUZ_AZUL], [d, tam, "EB Garamond", 500, esp, LUZ_TEXTO]];
+          alto = blocos.reduce((s, b) => s + b[0].length * b[4], 0);
+          if (alto + rodape <= maxH) break;
+        }
+        let y = topo + Math.floor((maxH - alto - rodape) / 2);
+        const fim = y + alto + rodape;
+        // Fundo: foto viva + véu claro só o quanto precisa (mesma conta do Python).
+        let alfa = 205;
+        if (img) {
+          const s = Math.max(W/img.width, H/img.height), dw = img.width*s, dh = img.height*s;
+          ctx.save(); ctx.filter = "saturate(112%)"; ctx.drawImage(img, (W-dw)/2, (H-dh)/2, dw, dh); ctx.restore();
+          try {
+            const px = ctx.getImageData(0, 0, W, Math.max(1, Math.round(S(fim)))).data; let soma = 0, n = 0;
+            for (let i = 0; i < px.length; i += 64) { soma += 0.299*px[i] + 0.587*px[i+1] + 0.114*px[i+2]; n++; }
+            const lum = soma / n; alfa = Math.min(215, Math.max(70, Math.round(255 * (222 - lum) / Math.max(1, 252 - lum))));
+          } catch (e) { /* canvas sem CORS: fica no véu padrão */ }
+        } else { ctx.fillStyle = "rgb(236,232,224)"; ctx.fillRect(0, 0, W, H); }
+        const a0 = alfa / 255, g = ctx.createLinearGradient(0, 0, 0, H), p0 = Math.min(1, fim / 1920);
+        g.addColorStop(0, `rgba(255,250,242,${a0})`); g.addColorStop(p0, `rgba(255,250,242,${a0})`);
+        for (let k = 1; k <= 6; k++) g.addColorStop(Math.min(1, (fim + 360*k/6) / 1920), `rgba(255,250,242,${a0 * Math.pow(1 - k/6, 2)})`);
+        ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+
+        ctx.textAlign = "center"; ctx.textBaseline = "top";
+        for (const [linhas, tam, fam, peso, esp, cor] of blocos) {
+          ctx.font = `${peso} ${S(tam)}px "${fam}"`; ctx.fillStyle = rgb(cor);
+          for (const l of linhas) { ctx.fillText(l, W/2, S(y)); y += esp; }
+        }
+        const cy = y + 62;
+        ctx.strokeStyle = rgb(LUZ_AZUL); ctx.lineWidth = Math.max(1, Math.round(2*W/1080));
+        ctx.beginPath(); ctx.moveTo(W/2 - S(150), S(cy)); ctx.lineTo(W/2 - S(44), S(cy));
+        ctx.moveTo(W/2 + S(44), S(cy)); ctx.lineTo(W/2 + S(150), S(cy)); ctx.stroke();
+        ctx.fillStyle = rgb(LUZ_AZUL); ctx.beginPath();
+        for (let i = 0; i < 360; i += 5) {
+          const t = i * Math.PI / 180;
+          const hx = 16 * Math.pow(Math.sin(t), 3) * 1.15;
+          const hy = (13*Math.cos(t) - 5*Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t)) * 1.15;
+          ctx.lineTo(W/2 + S(hx), S(cy + 2 - hy));
+        }
+        ctx.closePath(); ctx.fill();
+        ctx.font = `700 ${S(44)}px "Cinzel"`; ctx.fillText(referencia.toUpperCase(), W/2, S(cy + 44));
+        ctx.fillStyle = rgb(LUZ_HANDLE); ctx.font = `500 ${S(34)}px "EB Garamond"`; ctx.fillText(HANDLE, W/2, S(cy + 122));
+      }
+      function pintarLuz(canvas, { texto, referencia, seed }) {
+        const W = canvas.width, H = canvas.height, ctx = canvas.getContext("2d");
+        const nome = FOTOS_LUZ[fnv((seed || "") + "luz") % FOTOS_LUZ.length];
+        const img = new Image(); img.crossOrigin = "anonymous";
+        img.onload = () => _textoLuz(ctx, W, H, texto, referencia, img);
+        img.onerror = () => _textoLuz(ctx, W, H, texto, referencia, null);
+        img.src = `${RAW}/fotos/${nome}`;
+      }
+
       // Escolhe o estilo (ou usa override.estilo) e pinta no formato vertical 9:16.
       function desenharVertical(canvas, opts) {
         const estilo = (opts.override && opts.override.estilo) || escolherEstilo(opts.texto, opts.seed);
-        if (estilo === "bilhete") pintarBilhete(canvas, opts);
+        if (estilo === "luz") pintarLuz(canvas, opts);
+        else if (estilo === "bilhete") pintarBilhete(canvas, opts);
         else if (estilo === "livro") pintarLivro(canvas, opts);
         else if (estilo === "foto") pintarFoto(canvas, opts);
         else pintarClassico(canvas, opts);
@@ -670,6 +761,7 @@
             buscarJSON("dados/plano.json").catch(() => null),
             buscarJSON("dados/metricas-historico.json").catch(() => []),
             buscarJSON("dados/inteligencia.json").catch(() => null).then((x) => (INTEL = x)),
+            buscarJSON("dados/enfases.json").catch(() => ({})).then((x) => (ENFASES = x || {})),
           ]);
           setStatus(true, "no ar");
         } catch (e) { setStatus(false, "erro ao carregar"); }

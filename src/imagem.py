@@ -11,7 +11,7 @@ from __future__ import annotations
 import random
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps, ImageStat
 
 
 def _fnv(texto: str) -> int:
@@ -99,7 +99,9 @@ VERT_W, VERT_H = 1080, 1920
 # Estilos que se alternam por dia:
 #   classico = fundo escuro + serifada + dourado
 #   livro    = cinza clean + serifada + última linha grifada de amarelo
-ESTILOS = ["classico", "livro", "foto"]  # bilhete aposentado 31/08; renderizador mantido p/ overrides antigos
+#   foto     = paisagem escurecida + texto branco
+#   luz      = paisagem clara + texto escuro + frase-chave em cursiva azul (21/09)
+ESTILOS = ["classico", "livro", "foto", "luz"]  # bilhete aposentado 31/08; renderizador mantido p/ overrides antigos
 
 # A cursiva do bilhete só fica boa em versículo curto/médio; acima disso o texto
 # aperta e perde legibilidade, então versículos longos vão sempre no clássico.
@@ -372,6 +374,8 @@ def escolher_estilo(texto: str, seed: str) -> str:
     estilo = inteligencia.escolher_estilo_ponderado(seed)
     if estilo is None:
         estilo = ESTILOS[_fnv(seed + "estiloD") % len(ESTILOS)]
+    if estilo == "luz" and len(texto) > LIMITE_LUZ:
+        estilo = "foto"  # versículo longo encolhe demais sobre o céu
     return estilo
 
 
@@ -474,8 +478,131 @@ def _render_foto(texto: str, referencia: str, seed: str, W: int, H: int) -> Imag
     return imagem
 
 
+# Estilo "luz": foto CLARA (sem escurecer), texto escuro serifado sobre o céu e
+# uma frase-chave do versículo em cursiva azul; divisor com coração e o @.
+# Só fotos com céu/topo claro — nas escuras o véu branco fica encardido.
+FOTOS_LUZ = [
+    "foto-campo.jpg", "foto-lago-nevoa.jpg", "foto-montanha-rosa.jpg",
+    "foto-praia.jpg", "foto-trigal.jpg", "foto-lavanda.jpg",
+    "foto-arvore-nevoa.jpg", "foto-montanha-sol.jpg", "foto-falesia.jpg",
+]
+LIMITE_LUZ = 200
+LUZ_TEXTO = (30, 34, 44)
+LUZ_AZUL = (34, 66, 108)
+LUZ_HANDLE = (52, 58, 70)
+_PONTUACAO = ",;.:!?"
+
+
+def _quebrar_equilibrado(texto, fonte, largura_maxima, desenho) -> list[str]:
+    """Mesma contagem de linhas do _quebrar, mas com larguras parecidas — evita
+    linha órfã de uma palavra só ("e", "que") logo antes da cursiva."""
+    linhas = _quebrar(texto, fonte, largura_maxima, desenho)
+    for largura in range(largura_maxima - 40, largura_maxima // 3, -40):
+        tentativa = _quebrar(texto, fonte, largura, desenho)
+        if len(tentativa) > len(linhas) or any(
+            desenho.textlength(l, font=fonte) > largura_maxima for l in tentativa
+        ):
+            break
+        linhas = tentativa
+    return linhas
+
+
+def _enfase(texto: str, referencia: str) -> tuple[str, str, str]:
+    """Divide o versículo em (antes, ênfase, depois). A ênfase vem de
+    dados/enfases.json (pré-gerada, por referência); sem entrada válida, tenta a
+    última oração se for curta — senão o versículo sai inteiro sem cursiva."""
+    import json
+    frase = ""
+    try:
+        frase = json.loads((RAIZ / "dados" / "enfases.json").read_text(encoding="utf-8")).get(referencia, "")
+    except (OSError, ValueError):
+        pass
+    if not frase or frase not in texto:
+        cauda = texto.rstrip(_PONTUACAO + " ")
+        corte = max(cauda.rfind(c) for c in ",;:")
+        frase = cauda[corte + 1:].strip() if corte >= 0 else ""
+        if not 8 <= len(frase) <= 28:
+            return texto, "", ""
+    antes, depois = texto.split(frase, 1)
+    # Pontuação colada depois da ênfase fica na linha dela (não abre a linha seguinte).
+    while depois and depois[0] in _PONTUACAO:
+        frase, depois = frase + depois[0], depois[1:]
+    return antes.strip(), frase, depois.strip()
+
+
+def _luz_fundo(seed: str, W: int, H: int, fim_bloco: int) -> Image.Image:
+    nomes = [f for f in FOTOS_LUZ if (FOTOS_DIR / f).exists()]
+    if not nomes:
+        return Image.new("RGB", (W, H), (236, 232, 224))
+    im = Image.open(FOTOS_DIR / nomes[_fnv(seed + "luz") % len(nomes)]).convert("RGB")
+    escala = max(W / im.width, H / im.height)
+    im = im.resize((round(im.width * escala), round(im.height * escala)), Image.Resampling.LANCZOS)
+    x, y = (im.width - W) // 2, (im.height - H) // 2
+    im = im.crop((x, y, x + W, y + H))
+    im = ImageEnhance.Color(im).enhance(1.12)
+    # Véu claro e morno atrás do texto, só o quanto a foto precisa: céu já claro
+    # quase não leva véu; topo escuro leva mais. Cheio até o fim do bloco, some em 360 px.
+    lum = ImageStat.Stat(im.crop((0, 0, W, max(1, fim_bloco))).convert("L")).mean[0]
+    alfa = min(215, max(70, round(255 * (222 - lum) / max(1, 252 - lum))))
+    veu = Image.new("L", (1, H))
+    px = veu.load()
+    for yy in range(H):
+        forca = 1.0 if yy <= fim_bloco else max(0.0, 1 - (yy - fim_bloco) / 360) ** 2
+        px[0, yy] = int(alfa * forca)
+    return Image.composite(Image.new("RGB", (W, H), (255, 250, 242)), im, veu.resize((W, H)))
+
+
+def _render_luz(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
+    vertical = H > W
+    largura_util = W - 2 * MARGEM - 40
+    topo, altura_util = (290, 1020) if vertical else (90, 830)
+    rodape = 250  # divisor + referência + @
+    antes, frase, depois = _enfase(texto, referencia)
+
+    rascunho = ImageDraw.Draw(Image.new("RGB", (W, H)))
+    for tam in range(92 if vertical else 72, 33, -2):
+        fonte = _fonte("EBGaramond.ttf", tam, "Medium")
+        cursiva = _fonte("DancingScript.ttf", round(tam * 1.6), "Bold")
+        esp, esp_c = round(tam * 1.34), round(tam * 1.6 * 1.18)
+        blocos = [
+            (_quebrar_equilibrado(antes, fonte, largura_util, rascunho), fonte, esp, LUZ_TEXTO),
+            (_quebrar_equilibrado(frase, cursiva, largura_util, rascunho), cursiva, esp_c, LUZ_AZUL),
+            (_quebrar_equilibrado(depois, fonte, largura_util, rascunho), fonte, esp, LUZ_TEXTO),
+        ]
+        alto = sum(len(linhas) * e for linhas, _, e, _ in blocos)
+        if alto + rodape <= altura_util:
+            break
+
+    y = topo + (altura_util - alto - rodape) // 2
+    imagem = _luz_fundo(seed, W, H, y + alto + rodape)
+    desenho = ImageDraw.Draw(imagem)
+    for linhas, f, e, cor in blocos:
+        for linha in linhas:
+            desenho.text((W // 2, y), linha, font=f, fill=cor, anchor="ma")
+            y += e
+
+    # Divisor: traço — coração cheio — traço.
+    import math
+    cy = y + 62
+    desenho.line([W // 2 - 150, cy, W // 2 - 44, cy], fill=LUZ_AZUL, width=2)
+    desenho.line([W // 2 + 44, cy, W // 2 + 150, cy], fill=LUZ_AZUL, width=2)
+    desenho.polygon([
+        (W // 2 + 16 * math.sin(t) ** 3 * 1.15,
+         cy + 2 - (13 * math.cos(t) - 5 * math.cos(2 * t) - 2 * math.cos(3 * t) - math.cos(4 * t)) * 1.15)
+        for t in (math.radians(i) for i in range(0, 360, 5))
+    ], fill=LUZ_AZUL)
+
+    fonte_ref = _fonte("Cinzel.ttf", 44 if vertical else 38, "SemiBold")
+    desenho.text((W // 2, cy + 44), referencia.upper(), font=fonte_ref, fill=LUZ_AZUL, anchor="ma")
+    fonte_handle = _fonte("EBGaramond.ttf", 34 if vertical else 30, "Medium")
+    desenho.text((W // 2, cy + 122), HANDLE, font=fonte_handle, fill=LUZ_HANDLE, anchor="ma")
+    return imagem
+
+
 def _renderizar(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
     estilo = escolher_estilo(texto, seed)
+    if estilo == "luz":
+        return _render_luz(texto, referencia, seed, W, H)
     if estilo == "bilhete":
         return _render_bilhete(texto, referencia, seed, W, H)
     if estilo == "livro":
