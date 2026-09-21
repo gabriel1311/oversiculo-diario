@@ -1,10 +1,11 @@
 {
-  "atualizado": "2026-09-20",
-  "amostras": 42,
+  "atualizado": "2026-09-21",
+  "amostras": 43,
   "pesos_estilo": {
-    "classico": 29,
-    "livro": 37,
-    "foto": 34
+    "classico": 8,
+    "livro": 9,
+    "foto": 8,
+    "luz": 75
   },
   "pesos_tamanho": {
     "curto": 33,
@@ -12,11 +13,19 @@
     "longo": 37
   },
   "pesos_hora": {
-    "8": 35,
-    "12": 37,
-    "19": 28
+    "8": 29,
+    "12": 42,
+    "19": 29
   },
   "ranking": [
+    {
+      "data": "2026-09-18",
+      "referencia": "Salmos 37:5",
+      "score": 61,
+      "estilo": "classico",
+      "hora": 12,
+      "alcance": 139
+    },
     {
       "data": "2026-09-08",
       "referencia": "Salmos 147:3",
@@ -26,12 +35,36 @@
       "alcance": 207
     },
     {
-      "data": "2026-09-18",
-      "referencia": "Salmos 37:5",
-      "score": 50,
-      "estilo": "classico",
+      "data": "2026-09-03",
+      "referencia": "1 João 4:19",
+      "score": 49,
+      "estilo": "foto",
       "hora": 12,
-      "alcance": 136
+      "alcance": 143
+    },
+    {
+      "data": "2026-09-09",
+      "referencia": "Provérbios 4:23",
+      "score": 49,
+      "estilo": "livro",
+      "hora": 8,
+      "alcance": 149
+    },
+    {
+      "data": "2026-08-24",
+      "referencia": "Salmos 139:14",
+      "score": 47,
+      "estilo": "foto",
+      "hora": 12,
+      "alcance": 229
+    },
+    {
+      "data": "2026-09-14",
+      "referencia": "2 Coríntios 12:9",
+      "score": 47,
+      "estilo": "livro",
+      "hora": 12,
+      "alcance": 302
     },
     {
       "data": "2026-09-06",
@@ -50,52 +83,20 @@
       "alcance": 124
     },
     {
-      "data": "2026-09-03",
-      "referencia": "1 João 4:19",
-      "score": 39,
-      "estilo": "foto",
-      "hora": 12,
-      "alcance": 143
-    },
-    {
-      "data": "2026-09-09",
-      "referencia": "Provérbios 4:23",
-      "score": 39,
+      "data": "2026-09-17",
+      "referencia": "Romanos 8:38-39",
+      "score": 38,
       "estilo": "livro",
       "hora": 8,
-      "alcance": 148
-    },
-    {
-      "data": "2026-09-14",
-      "referencia": "2 Coríntios 12:9",
-      "score": 32,
-      "estilo": "livro",
-      "hora": 12,
-      "alcance": 301
+      "alcance": 162
     },
     {
       "data": "2026-08-25",
       "referencia": "Salmos 46:1",
-      "score": 30,
+      "score": 35,
       "estilo": "livro",
       "hora": 12,
       "alcance": 144
-    },
-    {
-      "data": "2026-09-07",
-      "referencia": "1 Coríntios 10:13",
-      "score": 30,
-      "estilo": "livro",
-      "hora": 19,
-      "alcance": 156
-    },
-    {
-      "data": "2026-09-11",
-      "referencia": "Isaías 26:3",
-      "score": 30,
-      "estilo": "foto",
-      "hora": 12,
-      "alcance": 115
     }
   ]
 }
