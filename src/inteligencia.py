@@ -49,9 +49,10 @@ HORAS = [8, 12, 19]                        # horários candidatos (Brasília)
 # vale atualizar a bio junto.
 # Gabriel gosta do estilo foto (paisagem) — piso maior garante presença
 # constante na rotação mesmo enquanto as métricas ainda não o favorecem.
-# "luz" entrou em 21/09 e o Gabriel pediu que apareça bastante: com piso 70 ele
-# fica com ~metade dos dias depois da renormalização (os outros dividem o resto).
-PISO_ESTILO = {"classico": 10, "livro": 10, "foto": 20, "luz": 70}
+PISO_ESTILO = {"classico": 12, "livro": 12, "foto": 35}
+# "luz" entrou em 21/09 e o Gabriel pediu 75% dos dias nele: fatia fixa, fora do
+# aprendizado. Os outros estilos disputam os 25% restantes pelas métricas.
+FATIA_FIXA_ESTILO = {"luz": 75}
 PISO_TAMANHO = 15
 PISO_HORA = {8: 40, 12: 15, 19: 15}
 
@@ -100,6 +101,17 @@ def _pesos(observacoes: dict[str, list[float]], opcoes: list, piso) -> dict:
     return pesos
 
 
+def _pesos_estilo(observacoes: dict[str, list[float]]) -> dict:
+    """Pesos aprendidos para os estilos livres, espremidos no que sobra das fatias fixas."""
+    livres = [e for e in ESTILOS if e not in FATIA_FIXA_ESTILO]
+    sobra = 100 - sum(FATIA_FIXA_ESTILO.values())
+    aprendidos = _pesos(observacoes, livres, PISO_ESTILO)
+    pesos = {e: max(1, round(aprendidos[e] * sobra / 100)) for e in livres}
+    pesos[livres[0]] += sobra - sum(pesos.values())
+    pesos.update(FATIA_FIXA_ESTILO)
+    return {e: pesos[e] for e in ESTILOS}
+
+
 def aprender() -> dict:
     historico = _ler(ARQ_HISTORICO, [])
     metricas = _ler(ARQ_METRICAS, {})
@@ -141,7 +153,7 @@ def aprender() -> dict:
     return {
         "atualizado": datetime.date.today().isoformat(),
         "amostras": len(ranking),
-        "pesos_estilo": _pesos(obs_estilo, ESTILOS, PISO_ESTILO),
+        "pesos_estilo": _pesos_estilo(obs_estilo),
         "pesos_tamanho": _pesos(obs_tamanho, TAMANHOS, PISO_TAMANHO),
         "pesos_hora": _pesos(obs_hora, HORAS, PISO_HORA),
         "ranking": ranking[:10],
