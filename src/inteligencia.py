@@ -38,15 +38,16 @@ ARQ_POOL = RAIZ / "dados" / "versiculos.json"
 ARQ_SAIDA = RAIZ / "dados" / "inteligencia.json"
 
 PESO_CURTIDA, PESO_COMENTARIO, PESO_SALVO = 1, 3, 5
+PESO_COMPARTILHAMENTO = 5  # envio por DM/story: com salvos, o sinal que mais distribui um Reel
 SUAVIZACAO = 3  # pseudo-amostras puxando cada opção para a média global
 
 ESTILOS = ["classico", "livro", "foto", "luz"]  # bilhete aposentado 31/08 (pior desempenho: 4 posts, 4 piores do feed)
 TAMANHOS = ["curto", "medio", "longo"]     # ≤100 / 101–180 / >180 caracteres
 HORAS = [8, 12, 19]                        # horários candidatos (Brasília)
 
-# Pisos de exploração (%). A bio promete "às 8h", então as 8h têm piso maior —
-# os outros horários são testados aos poucos; se um deles vencer com folga,
-# vale atualizar a bio junto.
+# Pisos de exploração (%). Até 21/09 as 8h tinham piso 40 porque a bio prometia
+# "às 8h" — mas em 43 posts foi o pior horário (9,9% curtida/alcance contra 14,3%
+# do meio-dia). Agora o meio-dia tem o piso maior e os outros seguem em teste.
 # Gabriel gosta do estilo foto (paisagem) — piso maior garante presença
 # constante na rotação mesmo enquanto as métricas ainda não o favorecem.
 PISO_ESTILO = {"classico": 12, "livro": 12, "foto": 35}
@@ -54,7 +55,7 @@ PISO_ESTILO = {"classico": 12, "livro": 12, "foto": 35}
 # aprendizado. Os outros estilos disputam os 25% restantes pelas métricas.
 FATIA_FIXA_ESTILO = {"luz": 75}
 PISO_TAMANHO = 15
-PISO_HORA = {8: 40, 12: 15, 19: 15}
+PISO_HORA = {8: 15, 12: 40, 19: 15}
 
 
 def _fnv(texto: str) -> int:
@@ -135,6 +136,7 @@ def aprender() -> dict:
             PESO_CURTIDA * (m.get("likes") or 0)
             + PESO_COMENTARIO * (m.get("comentarios") or 0)
             + PESO_SALVO * (m.get("salvos") or 0)
+            + PESO_COMPARTILHAMENTO * (m.get("compartilhamentos") or 0)
         )
         ranking.append({
             "data": reg["data"], "referencia": reg["referencia"], "score": score,

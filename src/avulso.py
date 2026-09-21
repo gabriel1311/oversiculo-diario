@@ -63,7 +63,7 @@ def preparar(ensaio: bool) -> int:
     trilha_env = os.environ.get("AVULSO_TRILHA", "").strip()
     trilha = (RAIZ / "audio" / trilha_env) if trilha_env else None
     try:
-        video.montar(jpg, mp4, seed=seed, trilha=trilha)
+        video.montar(jpg, mp4, seed=seed, trilha=trilha, duracao=video.duracao_para(v.texto))
         print(f"[video] {rel_mp4} ({mp4.stat().st_size // 1024} KB){' | trilha ' + trilha_env if trilha_env else ''}")
     except video.VideoIndisponivel as erro:
         if not ensaio:

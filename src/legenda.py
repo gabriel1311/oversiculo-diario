@@ -2,8 +2,8 @@
 
 A legenda traz o texto do versículo por escrito — importante para acessibilidade:
 quem usa leitor de tela não "lê" a imagem, então o versículo precisa estar no
-texto. Depois vem a reflexão (uma por versículo, em dados/reflexoes.json), uma
-pergunta de engajamento e as hashtags. Sem API, sem chave, sem custo.
+texto. Antes dele vai um gancho de 1 linha; depois vem a reflexão (uma por
+versículo, em dados/reflexoes.json), um convite a salvar/enviar e as hashtags. Sem API, sem chave, sem custo.
 """
 
 from __future__ import annotations
@@ -20,17 +20,39 @@ HASHTAGS_PADRAO = [
     "jesus", "oracao", "esperanca", "devocional", "cristao",
 ]
 
-# Fecho de engajamento: um convite a comentar/salvar/compartilhar. Alterna por
-# versículo (determinístico) para não sair sempre igual. O algoritmo do Instagram
-# valoriza comentário e salvamento, então vale o convite.
+# Fecho de engajamento. Desde 21/09 o foco é SALVAR e ENVIAR: são os sinais
+# que fazem o Instagram distribuir um Reel para quem não segue (em 43 posts
+# tínhamos 0,6 salvo/post e o alcance parado em ~150). "Marque alguém" saiu —
+# quase ninguém marca mais; enviar por DM é o gesto atual. Alterna por versículo.
 PERGUNTAS = [
-    "E você, o que essa palavra fala ao seu coração hoje? 🙏",
-    "Comente um 🙏 se isso tocou você hoje.",
-    "Marque alguém que precisa ler isso hoje. 💛",
-    "Salve este post para reler ao longo do dia. ✨",
-    "Compartilhe com quem você ama. 🙏",
-    "Qual palavra dessa passagem mais falou com você?",
+    "Salve para reler quando o dia apertar. 🔖",
+    "Envie para alguém que precisa ler isso hoje. 💛",
+    "Salve este versículo e volte nele durante a semana. ✨",
+    "Conhece alguém passando por um momento difícil? Envie esta palavra. 🙏",
+    "Comente “amém” se essa palavra é para você hoje. 🙏",
+    "Envie para quem você ama — pode ser a resposta que a pessoa esperava. 💛",
 ]
+
+# Gancho: a 1ª linha é o que aparece embaixo do Reel antes do "mais". Fala com a
+# dor/situação de quem está rolando o feed, pelo tema do versículo (as mesmas
+# hashtags temáticas de versiculos.TEMAS_DIA). Versículo sem tema cai no geral.
+GANCHOS = [
+    ({"ansiedade", "paz", "descanso", "consolo", "saudemental", "presenca"},
+     ["Para você que está cansado:", "Se a ansiedade apertou hoje, leia isto:", "Respira. Esta palavra é para você:"]),
+    ({"forca", "coragem", "animo", "perseveranca", "semmedo", "recomeco", "novavida"},
+     ["Para quem pensou em desistir:", "Se hoje faltou força, leia isto:", "Você não está sozinho nessa luta:"]),
+    ({"esperanca", "confianca", "refugio", "proposito", "direcao", "bencao"},
+     ["Para quem está esperando uma resposta:", "Quando nada parece fazer sentido, lembre:", "Deus não esqueceu de você:"]),
+    ({"protecao", "seguranca", "provisao", "cura", "coracao"},
+     ["Para o seu coração hoje:", "Se você está com medo, leia isto:", "Deus está cuidando de você:"]),
+    ({"amor", "amordedeus", "perdao", "relacionamentos", "amizade"},
+     ["Você é mais amado do que imagina:", "Leia devagar — é sobre você:", "Para lembrar quando se sentir sozinho:"]),
+    ({"sabedoria", "mente", "proverbios"},
+     ["Um conselho que muda o dia:", "Guarde isto antes de decidir qualquer coisa:", "Sabedoria para hoje:"]),
+    ({"gratidao", "louvor", "adoracao", "alegria", "graca", "misericordia", "salvacao", "evangelho"},
+     ["Motivo para agradecer hoje:", "Antes de reclamar do dia, leia isto:", "A melhor notícia que você vai ler hoje:"]),
+]
+GANCHOS_GERAIS = ["A palavra de hoje é para você:", "Leia isto antes de continuar o seu dia:", "Deus tem uma palavra para você hoje:"]
 
 # Hashtags gerais somadas às específicas do versículo (sem repetir). Três
 # conjuntos que alternam por versículo: tags gigantes (#deus, #biblia) afogam
@@ -79,14 +101,25 @@ def _hashtags(especificas: list[str], consulta: str) -> str:
     return " ".join("#" + t for t in vistas)
 
 
+def _gancho(hashtags: list[str], consulta: str) -> str:
+    tags = set(hashtags)
+    # O tema com mais hashtags em comum vence (empate: o primeiro da lista).
+    temas, opcoes = max(GANCHOS, key=lambda g: len(g[0] & tags))
+    if not temas & tags:
+        opcoes = GANCHOS_GERAIS
+    return opcoes[_semente(consulta + "gancho") % len(opcoes)]
+
+
 def gerar(texto: str, referencia: str, consulta: str) -> str:
     ref = _reflexoes().get(consulta, {})
     reflexao = ref.get("reflexao") or REFLEXAO_PADRAO
     hashtags = ref.get("hashtags") or HASHTAGS_PADRAO
     pergunta = PERGUNTAS[_semente(consulta) % len(PERGUNTAS)]
 
-    # O versículo entra por escrito (acessibilidade); depois reflexão, convite e tags.
+    # Gancho na 1ª linha; o versículo entra por escrito (acessibilidade); depois
+    # reflexão, convite e tags.
     return (
+        f"{_gancho(hashtags, consulta)}\n\n"
         f"“{texto}”\n"
         f"— {referencia}\n\n"
         f"{reflexao}\n\n"

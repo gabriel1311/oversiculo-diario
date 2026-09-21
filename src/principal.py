@@ -19,6 +19,7 @@ from __future__ import annotations
 import argparse
 import os
 import sys
+import tempfile
 from datetime import date
 from pathlib import Path
 
@@ -67,7 +68,14 @@ def preparar(dia: date, ensaio: bool) -> int:
     # (existe no runner do GitHub Actions). Na máquina local sem ffmpeg, seguimos
     # sem o vídeo — o ensaio ainda mostra imagem e legenda.
     try:
-        video.montar(c.jpg, c.mp4, seed=dia.isoformat())
+        with tempfile.TemporaryDirectory() as tmp:
+            camadas = imagem.gerar_camadas(
+                escolhido.texto, escolhido.referencia, Path(tmp), seed=dia.isoformat()
+            )
+            video.montar(
+                c.jpg, c.mp4, seed=dia.isoformat(),
+                duracao=video.duracao_para(escolhido.texto), camadas=camadas,
+            )
         print(f"[video] {c.rel_mp4} ({c.mp4.stat().st_size // 1024} KB)")
     except video.VideoIndisponivel as erro:
         if not ensaio:
@@ -129,6 +137,7 @@ def publicar(dia: date) -> int:
         ),
         "hora": hora_brt,
         "trilha": video.escolher_trilha(dia.isoformat()).name,
+        "duracao": video.duracao_para(versiculos.escolher(dia).texto),
     }
     versiculos.registrar(versiculos.escolher(dia), dia, id_reel, extras)
     # Regrava a agenda JÁ COM o post de hoje no histórico — senão o painel

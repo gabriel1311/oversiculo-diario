@@ -38,6 +38,8 @@ def _atualizar_historico(dados: dict) -> None:
         "comentarios": soma("comentarios"),
         "alcance": soma("alcance"),
         "salvos": soma("salvos"),
+        "compartilhamentos": soma("compartilhamentos"),
+        "views": soma("views"),
     }
     historico = []
     if ARQUIVO_HISTORICO.exists():
@@ -46,6 +48,33 @@ def _atualizar_historico(dados: dict) -> None:
     historico.append(snapshot)
     historico.sort(key=lambda h: h["data"])
     ARQUIVO_HISTORICO.write_text(json.dumps(historico, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+# Sinais que mais pesam na distribuição de um Reel (desde 21/09). Cada métrica
+# é pedida sozinha se o pedido conjunto falhar: a API recusa a chamada inteira
+# quando UMA delas não vale para aquela mídia/versão.
+METRICAS_REEL = {
+    "shares": "compartilhamentos",
+    "views": "views",
+    "ig_reels_avg_watch_time": "tempo_medio",  # vem em ms → gravamos em s
+}
+
+
+def _insights_de_reel(mid: str, token: str, item: dict) -> None:
+    dados = _api(f"{mid}/insights", {"metric": ",".join(METRICAS_REEL), "access_token": token})
+    blocos = (dados or {}).get("data") or []
+    if not blocos:
+        for nome in METRICAS_REEL:
+            unico = _api(f"{mid}/insights", {"metric": nome, "access_token": token})
+            blocos += (unico or {}).get("data") or []
+    for m in blocos:
+        campo = METRICAS_REEL.get(m.get("name"))
+        if not campo or not m.get("values"):
+            continue
+        valor = m["values"][0].get("value")
+        if valor is None:
+            continue
+        item[campo] = round(valor / 1000, 1) if campo == "tempo_medio" else valor
 
 
 def _api(caminho: str, campos: dict) -> dict | None:
@@ -95,6 +124,10 @@ def coletar() -> dict:
                     item["alcance"] = m["values"][0].get("value")
                 if m.get("name") == "saved" and m.get("values"):
                     item["salvos"] = m["values"][0].get("value")
+
+        _insights_de_reel(mid, token, item)
+        if item.get("tempo_medio") is not None and h.get("duracao"):
+            item["retencao"] = round(100 * item["tempo_medio"] / h["duracao"])  # % do vídeo assistido
 
         resultado["posts"].append(item)
 

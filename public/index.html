@@ -717,6 +717,7 @@
           card("Seguidores", nf.format(metricas.seguidores ?? 0), deltaTxt) +
           card("Alcance acumulado", nf.format(soma("alcance")), "pessoas alcançadas nos posts") +
           card("Salvos", nf.format(soma("salvos")), "sinal forte p/ o algoritmo") +
+          card("Compartilhamentos", nf.format(soma("compartilhamentos")), "envios por DM/story — o que mais distribui") +
           card("Curtidas", nf.format(soma("likes")), "total nos posts") + `</div>`;
         const temChart = serie.length >= 2;
         box.innerHTML = cards + (temChart ? `<div class="chartWrap"><div class="rot">Seguidores no tempo</div><canvas id="chartSeg" width="720" height="150"></canvas></div>` : "");
@@ -862,7 +863,7 @@
             `<a class="dPost" href="${p.permalink || "https://instagram.com/oversiculo.diario"}" target="_blank" rel="noreferrer">` +
             `<div class="dRef">${p.referencia}</div>` +
             `<div class="dNums">♥ ${nf.format(p.likes || 0)} · 💬 ${nf.format(p.comentarios || 0)}` +
-            (p.alcance != null ? ` · 👁 ${nf.format(p.alcance)}` : "") + (p.salvos != null ? ` · 🔖 ${nf.format(p.salvos)}` : "") + `</div>` +
+            (p.alcance != null ? ` · 👁 ${nf.format(p.alcance)}` : "") + (p.salvos != null ? ` · 🔖 ${nf.format(p.salvos)}` : "") + (p.compartilhamentos != null ? ` · ✈️ ${nf.format(p.compartilhamentos)}` : "") + (p.retencao != null ? ` · ⏱ ${p.retencao}%` : (p.tempo_medio != null ? ` · ⏱ ${p.tempo_medio}s` : "")) + `</div>` +
             `<div class="dEst">${p.estilo} · ${fmtCurto(p.data)}</div></a>`
           ).join("");
           dBox.innerHTML =

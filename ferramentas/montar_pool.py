@@ -54,6 +54,12 @@ REFERENCIAS = [
     "efesios 6:10", "filipenses 1:6", "filipenses 4:8", "colossenses 3:2",
     "1 tessalonicenses 5:11", "hebreus 4:16", "tiago 4:7", "1 pedro 4:8",
     "1 joao 1:9", "1 joao 4:7", "apocalipse 21:4",
+    # --- consolo, ansiedade e força (21/09/2026): o tema que mais engaja na conta ---
+    "salmos 23:4", "salmos 30:5", "salmos 34:4", "salmos 46:10",
+    "salmos 56:3", "salmos 61:2", "salmos 94:19", "salmos 126:5",
+    "salmos 138:8", "isaias 40:29", "isaias 41:13", "isaias 54:10",
+    "naum 1:7", "sofonias 3:17", "deuteronomio 31:8", "exodo 14:14",
+    "joao 14:27", "romanos 8:18", "2 corintios 4:8-9", "1 pedro 5:10",
     # --- versículos para datas especiais (Natal, Páscoa) ---
     "isaias 9:6", "lucas 2:11", "mateus 28:6",
 ]

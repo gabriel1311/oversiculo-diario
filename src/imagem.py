@@ -453,9 +453,12 @@ def _foto_fundo(seed: str, W: int, H: int) -> Image.Image:
     return Image.blend(im, Image.new("RGB", (W, H), (0, 0, 0)), 0.55)
 
 
-def _render_foto(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
-    imagem = _foto_fundo(seed, W, H)
-    desenho = ImageDraw.Draw(imagem)
+def _foto_camadas(texto: str, referencia: str, seed: str, W: int, H: int) -> tuple[Image.Image, list[Image.Image]]:
+    """Fundo (foto escurecida) + uma camada RGBA com todo o texto — no vídeo a
+    foto se move devagar e o texto fica parado por cima."""
+    fundo = _foto_fundo(seed, W, H)
+    sombra, d_sombra = _camada(W, H, (0, 0, 0))
+    frente, desenho = _camada(W, H, FOTO_TEXTO)
     vertical = H > W
     largura_util = W - 2 * MARGEM - 40
     altura_util = 820 if vertical else 500
@@ -465,7 +468,7 @@ def _render_foto(texto: str, referencia: str, seed: str, W: int, H: int) -> Imag
     bloco = len(linhas) * esp
     y = topo + (altura_util - bloco) // 2
     for linha in linhas:
-        desenho.text((W // 2 + 2, y + 3), linha, font=fonte_texto, fill=(0, 0, 0), anchor="ma")
+        d_sombra.text((W // 2 + 2, y + 3), linha, font=fonte_texto, fill=(0, 0, 0), anchor="ma")
         desenho.text((W // 2, y), linha, font=fonte_texto, fill=FOTO_TEXTO, anchor="ma")
         y += esp
 
@@ -475,7 +478,11 @@ def _render_foto(texto: str, referencia: str, seed: str, W: int, H: int) -> Imag
     fonte_handle = _fonte("Cinzel.ttf", 22, "Regular")
     desenho.text((W // 2, H - (150 if vertical else 118)), " ".join(HANDLE.upper()),
                  font=fonte_handle, fill=FOTO_HANDLE, anchor="ma")
-    return imagem
+    return fundo, [Image.alpha_composite(sombra, frente)]
+
+
+def _render_foto(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
+    return _compor(*_foto_camadas(texto, referencia, seed, W, H))
 
 
 # Estilo "luz": foto CLARA (sem escurecer), texto escuro serifado sobre o céu e
@@ -552,7 +559,17 @@ def _luz_fundo(seed: str, W: int, H: int, fim_bloco: int) -> Image.Image:
     return Image.composite(Image.new("RGB", (W, H), (255, 250, 242)), im, veu.resize((W, H)))
 
 
-def _render_luz(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
+def _camada(W: int, H: int, cor) -> tuple[Image.Image, ImageDraw.ImageDraw]:
+    """Camada transparente já "tingida" com a cor do texto: o antialias do PIL
+    interpola os 4 canais, então fundo preto-transparente escureceria as bordas."""
+    im = Image.new("RGBA", (W, H), tuple(cor) + (0,))
+    return im, ImageDraw.Draw(im)
+
+
+def _luz_camadas(texto: str, referencia: str, seed: str, W: int, H: int) -> tuple[Image.Image, list[Image.Image]]:
+    """Fundo (RGB) + 3 camadas RGBA na ordem em que entram no vídeo: começo do
+    versículo, frase-chave em cursiva, e o resto (fim do texto, divisor, referência, @)."""
+    import math
     vertical = H > W
     largura_util = W - 2 * MARGEM - 40
     topo, altura_util = (290, 1020) if vertical else (90, 830)
@@ -564,39 +581,58 @@ def _render_luz(texto: str, referencia: str, seed: str, W: int, H: int) -> Image
         fonte = _fonte("EBGaramond.ttf", tam, "Medium")
         cursiva = _fonte("DancingScript.ttf", round(tam * 1.6), "Bold")
         esp, esp_c = round(tam * 1.34), round(tam * 1.6 * 1.18)
-        blocos = [
-            (_quebrar_equilibrado(antes, fonte, largura_util, rascunho), fonte, esp, LUZ_TEXTO),
-            (_quebrar_equilibrado(frase, cursiva, largura_util, rascunho), cursiva, esp_c, LUZ_AZUL),
-            (_quebrar_equilibrado(depois, fonte, largura_util, rascunho), fonte, esp, LUZ_TEXTO),
-        ]
-        alto = sum(len(linhas) * e for linhas, _, e, _ in blocos)
+        l_antes = _quebrar_equilibrado(antes, fonte, largura_util, rascunho)
+        l_frase = _quebrar_equilibrado(frase, cursiva, largura_util, rascunho)
+        l_depois = _quebrar_equilibrado(depois, fonte, largura_util, rascunho)
+        alto = (len(l_antes) + len(l_depois)) * esp + len(l_frase) * esp_c
         if alto + rodape <= altura_util:
             break
 
     y = topo + (altura_util - alto - rodape) // 2
-    imagem = _luz_fundo(seed, W, H, y + alto + rodape)
-    desenho = ImageDraw.Draw(imagem)
-    for linhas, f, e, cor in blocos:
-        for linha in linhas:
-            desenho.text((W // 2, y), linha, font=f, fill=cor, anchor="ma")
-            y += e
+    fundo = _luz_fundo(seed, W, H, y + alto + rodape)
 
-    # Divisor: traço — coração cheio — traço.
-    import math
+    c_antes, d = _camada(W, H, LUZ_TEXTO)
+    for linha in l_antes:
+        d.text((W // 2, y), linha, font=fonte, fill=LUZ_TEXTO, anchor="ma")
+        y += esp
+    c_frase, d = _camada(W, H, LUZ_AZUL)
+    for linha in l_frase:
+        d.text((W // 2, y), linha, font=cursiva, fill=LUZ_AZUL, anchor="ma")
+        y += esp_c
+    c_texto, d = _camada(W, H, LUZ_TEXTO)
+    for linha in l_depois:
+        d.text((W // 2, y), linha, font=fonte, fill=LUZ_TEXTO, anchor="ma")
+        y += esp
+
+    # Divisor: traço — coração cheio — traço; referência; @.
+    c_azul, d = _camada(W, H, LUZ_AZUL)
     cy = y + 62
-    desenho.line([W // 2 - 150, cy, W // 2 - 44, cy], fill=LUZ_AZUL, width=2)
-    desenho.line([W // 2 + 44, cy, W // 2 + 150, cy], fill=LUZ_AZUL, width=2)
-    desenho.polygon([
+    d.line([W // 2 - 150, cy, W // 2 - 44, cy], fill=LUZ_AZUL, width=2)
+    d.line([W // 2 + 44, cy, W // 2 + 150, cy], fill=LUZ_AZUL, width=2)
+    d.polygon([
         (W // 2 + 16 * math.sin(t) ** 3 * 1.15,
          cy + 2 - (13 * math.cos(t) - 5 * math.cos(2 * t) - 2 * math.cos(3 * t) - math.cos(4 * t)) * 1.15)
         for t in (math.radians(i) for i in range(0, 360, 5))
     ], fill=LUZ_AZUL)
-
     fonte_ref = _fonte("Cinzel.ttf", 44 if vertical else 38, "SemiBold")
-    desenho.text((W // 2, cy + 44), referencia.upper(), font=fonte_ref, fill=LUZ_AZUL, anchor="ma")
+    d.text((W // 2, cy + 44), referencia.upper(), font=fonte_ref, fill=LUZ_AZUL, anchor="ma")
+    c_handle, d = _camada(W, H, LUZ_HANDLE)
     fonte_handle = _fonte("EBGaramond.ttf", 34 if vertical else 30, "Medium")
-    desenho.text((W // 2, cy + 122), HANDLE, font=fonte_handle, fill=LUZ_HANDLE, anchor="ma")
-    return imagem
+    d.text((W // 2, cy + 122), HANDLE, font=fonte_handle, fill=LUZ_HANDLE, anchor="ma")
+
+    c_resto = Image.alpha_composite(Image.alpha_composite(c_texto, c_azul), c_handle)
+    return fundo, [c_antes, c_frase, c_resto]
+
+
+def _compor(fundo: Image.Image, camadas: list[Image.Image]) -> Image.Image:
+    imagem = fundo.convert("RGBA")
+    for camada in camadas:
+        imagem = Image.alpha_composite(imagem, camada)
+    return imagem.convert("RGB")
+
+
+def _render_luz(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
+    return _compor(*_luz_camadas(texto, referencia, seed, W, H))
 
 
 def _renderizar(texto: str, referencia: str, seed: str, W: int, H: int) -> Image.Image:
@@ -623,6 +659,24 @@ def gerar(texto: str, referencia: str, destino: Path, seed: str | None = None) -
     """Cartaz VERTICAL 1080x1920 do post do dia (Reel/Story), estilo sorteado pela seed."""
     imagem = _renderizar(texto, referencia, seed or "", VERT_W, VERT_H)
     return _salvar(imagem, destino)
+
+
+def gerar_camadas(texto: str, referencia: str, pasta: Path, seed: str | None = None) -> list[Path] | None:
+    """Camadas do cartaz vertical para o vídeo animado: [fundo.jpg, camada1.png, …].
+    Só os estilos com foto têm camadas; os demais devolvem None (vídeo parado)."""
+    estilo = escolher_estilo(texto, seed or "")
+    if estilo == "luz":
+        fundo, camadas = _luz_camadas(texto, referencia, seed or "", VERT_W, VERT_H)
+    elif estilo == "foto":
+        fundo, camadas = _foto_camadas(texto, referencia, seed or "", VERT_W, VERT_H)
+    else:
+        return None
+    pasta.mkdir(parents=True, exist_ok=True)
+    caminhos = [_salvar(fundo, pasta / "fundo.jpg")]
+    for i, camada in enumerate(camadas, 1):
+        camada.save(pasta / f"camada{i}.png")
+        caminhos.append(pasta / f"camada{i}.png")
+    return caminhos
 
 
 def gerar_quadrado(texto: str, referencia: str, destino: Path, seed: str | None = None) -> Path:
