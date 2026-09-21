@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-21",
-    "referencia": "Salmos 51:10",
-    "consulta": "salmos 51:10",
-    "tema": "Força e recomeço",
-    "hora": 12
-  },
-  {
     "data": "2026-09-22",
     "referencia": "Hebreus 11:1",
     "consulta": "hebreus 11:1",
@@ -96,5 +89,12 @@
     "consulta": "salmos 103:2-4",
     "tema": "Gratidão e louvor",
     "hora": 12
+  },
+  {
+    "data": "2026-10-05",
+    "referencia": "Colossenses 3:2",
+    "consulta": "colossenses 3:2",
+    "tema": "Força e recomeço",
+    "hora": 8
   }
 ]
