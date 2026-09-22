@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-21T23:12:22Z",
-  "seguidores": 57,
+  "atualizado": "2026-09-22T23:11:48Z",
+  "seguidores": 58,
   "posts": [
     {
       "data": "2026-08-08",
@@ -430,10 +430,10 @@
       "likes": 35,
       "comentarios": 5,
       "permalink": "https://www.instagram.com/reel/DdCvT_pCkG7/",
-      "alcance": 207,
+      "alcance": 208,
       "salvos": 2,
       "compartilhamentos": 0,
-      "views": 246,
+      "views": 247,
       "tempo_medio": 4.7
     },
     {
@@ -444,10 +444,10 @@
       "likes": 36,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/DdEIy7CDM-v/",
-      "alcance": 149,
+      "alcance": 150,
       "salvos": 0,
       "compartilhamentos": 2,
-      "views": 175,
+      "views": 178,
       "tempo_medio": 6.0
     },
     {
@@ -472,10 +472,10 @@
       "likes": 19,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DdJuANalVqg/",
-      "alcance": 115,
+      "alcance": 116,
       "salvos": 1,
       "compartilhamentos": 0,
-      "views": 136,
+      "views": 138,
       "tempo_medio": 4.5
     },
     {
@@ -556,10 +556,10 @@
       "likes": 22,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DdYvWeqgG34/",
-      "alcance": 162,
+      "alcance": 163,
       "salvos": 0,
       "compartilhamentos": 2,
-      "views": 209,
+      "views": 210,
       "tempo_medio": 10.3
     },
     {
@@ -570,11 +570,11 @@
       "likes": 36,
       "comentarios": 5,
       "permalink": "https://www.instagram.com/reel/DdbviW3mz6f/",
-      "alcance": 139,
+      "alcance": 142,
       "salvos": 0,
       "compartilhamentos": 2,
-      "views": 170,
-      "tempo_medio": 5.7
+      "views": 172,
+      "tempo_medio": 5.6
     },
     {
       "data": "2026-09-19",
@@ -584,11 +584,11 @@
       "likes": 15,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/Ddd4g9iiDjO/",
-      "alcance": 137,
+      "alcance": 138,
       "salvos": 1,
       "compartilhamentos": 0,
-      "views": 163,
-      "tempo_medio": 5.5
+      "views": 164,
+      "tempo_medio": 5.7
     },
     {
       "data": "2026-09-20",
@@ -598,10 +598,10 @@
       "likes": 15,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DdgdYydClke/",
-      "alcance": 117,
+      "alcance": 119,
       "salvos": 1,
       "compartilhamentos": 0,
-      "views": 149,
+      "views": 151,
       "tempo_medio": 4.7
     },
     {
@@ -609,16 +609,31 @@
       "referencia": "Salmos 51:10",
       "consulta": "salmos 51:10",
       "id": "18084476801312523",
-      "likes": 18,
+      "likes": 19,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Ddjd5ejlWgI/",
-      "alcance": 151,
+      "alcance": 193,
       "salvos": 0,
-      "compartilhamentos": 1,
-      "views": 172,
-      "tempo_medio": 3.1
+      "compartilhamentos": 2,
+      "views": 218,
+      "tempo_medio": 3.3
+    },
+    {
+      "data": "2026-09-22",
+      "referencia": "Lamentações 3:22-23",
+      "consulta": "lamentacoes 3:22-23",
+      "id": "18133922116709917",
+      "likes": 2,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DdmyiWvDoSh/",
+      "alcance": 4,
+      "salvos": 0,
+      "compartilhamentos": 0,
+      "views": 14,
+      "tempo_medio": 6.5,
+      "retencao": 54
     }
   ],
-  "media_count": 53,
+  "media_count": 54,
   "username": "oversiculo.diario"
 }

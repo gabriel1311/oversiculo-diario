@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-21",
-  "amostras": 43,
+  "atualizado": "2026-09-22",
+  "amostras": 44,
   "pesos_estilo": {
     "classico": 8,
     "livro": 9,
@@ -13,9 +13,9 @@
     "longo": 37
   },
   "pesos_hora": {
-    "8": 30,
+    "8": 29,
     "12": 42,
-    "19": 28
+    "19": 29
   },
   "ranking": [
     {
@@ -24,7 +24,7 @@
       "score": 61,
       "estilo": "classico",
       "hora": 12,
-      "alcance": 139
+      "alcance": 142
     },
     {
       "data": "2026-09-08",
@@ -32,7 +32,7 @@
       "score": 60,
       "estilo": "livro",
       "hora": 19,
-      "alcance": 207
+      "alcance": 208
     },
     {
       "data": "2026-09-03",
@@ -48,7 +48,7 @@
       "score": 49,
       "estilo": "livro",
       "hora": 8,
-      "alcance": 149
+      "alcance": 150
     },
     {
       "data": "2026-08-24",
@@ -88,7 +88,7 @@
       "score": 38,
       "estilo": "livro",
       "hora": 8,
-      "alcance": 162
+      "alcance": 163
     },
     {
       "data": "2026-08-25",
