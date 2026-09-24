@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-24",
-    "referencia": "Isaías 54:10",
-    "consulta": "isaias 54:10",
-    "tema": "Amor",
-    "hora": 12
-  },
-  {
     "data": "2026-09-25",
     "referencia": "Salmos 145:18",
     "consulta": "salmos 145:18",
@@ -95,6 +88,13 @@
     "referencia": "Filipenses 4:13",
     "consulta": "filipenses 4:13",
     "tema": "Sabedoria",
+    "hora": 12
+  },
+  {
+    "data": "2026-10-08",
+    "referencia": "1 João 1:9",
+    "consulta": "1 joao 1:9",
+    "tema": "Amor",
     "hora": 12
   }
 ]
