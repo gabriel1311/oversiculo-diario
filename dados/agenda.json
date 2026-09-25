@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-25",
-    "referencia": "Salmos 145:18",
-    "consulta": "salmos 145:18",
-    "tema": "Paz e descanso",
-    "hora": 8
-  },
-  {
     "data": "2026-09-26",
     "referencia": "Deuteronômio 31:8",
     "consulta": "deuteronomio 31:8",
@@ -95,6 +88,13 @@
     "referencia": "1 João 1:9",
     "consulta": "1 joao 1:9",
     "tema": "Amor",
+    "hora": 12
+  },
+  {
+    "data": "2026-10-09",
+    "referencia": "Salmos 94:19",
+    "consulta": "salmos 94:19",
+    "tema": "Paz e descanso",
     "hora": 12
   }
 ]
