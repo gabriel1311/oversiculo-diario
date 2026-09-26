@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-25T23:12:04Z",
-  "seguidores": 64,
+  "atualizado": "2026-09-26T23:12:08Z",
+  "seguidores": 65,
   "posts": [
     {
       "data": "2026-08-08",
@@ -476,7 +476,7 @@
       "salvos": 1,
       "compartilhamentos": 0,
       "views": 138,
-      "tempo_medio": 4.5
+      "tempo_medio": 4.7
     },
     {
       "data": "2026-09-12",
@@ -503,7 +503,7 @@
       "alcance": 135,
       "salvos": 2,
       "compartilhamentos": 0,
-      "views": 155,
+      "views": 156,
       "tempo_medio": 5.1
     },
     {
@@ -517,7 +517,7 @@
       "alcance": 303,
       "salvos": 1,
       "compartilhamentos": 3,
-      "views": 354,
+      "views": 355,
       "tempo_medio": 4.5
     },
     {
@@ -525,13 +525,13 @@
       "referencia": "Isaías 55:8-9",
       "consulta": "isaias 55:8-9",
       "id": "18092360429161646",
-      "likes": 17,
+      "likes": 18,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DdUxEAqkQnF/",
       "alcance": 162,
       "salvos": 0,
       "compartilhamentos": 1,
-      "views": 193,
+      "views": 194,
       "tempo_medio": 7.6
     },
     {
@@ -545,7 +545,7 @@
       "alcance": 125,
       "salvos": 1,
       "compartilhamentos": 0,
-      "views": 147,
+      "views": 148,
       "tempo_medio": 4.8
     },
     {
@@ -559,7 +559,7 @@
       "alcance": 164,
       "salvos": 0,
       "compartilhamentos": 2,
-      "views": 211,
+      "views": 212,
       "tempo_medio": 10.2
     },
     {
@@ -573,7 +573,7 @@
       "alcance": 143,
       "salvos": 0,
       "compartilhamentos": 2,
-      "views": 173,
+      "views": 174,
       "tempo_medio": 5.6
     },
     {
@@ -587,8 +587,8 @@
       "alcance": 140,
       "salvos": 1,
       "compartilhamentos": 0,
-      "views": 168,
-      "tempo_medio": 5.7
+      "views": 169,
+      "tempo_medio": 5.6
     },
     {
       "data": "2026-09-20",
@@ -601,7 +601,7 @@
       "alcance": 120,
       "salvos": 1,
       "compartilhamentos": 0,
-      "views": 152,
+      "views": 153,
       "tempo_medio": 4.7
     },
     {
@@ -612,10 +612,10 @@
       "likes": 20,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Ddjd5ejlWgI/",
-      "alcance": 197,
+      "alcance": 199,
       "salvos": 0,
       "compartilhamentos": 2,
-      "views": 222,
+      "views": 226,
       "tempo_medio": 3.2
     },
     {
@@ -629,7 +629,7 @@
       "alcance": 139,
       "salvos": 0,
       "compartilhamentos": 1,
-      "views": 157,
+      "views": 158,
       "tempo_medio": 3.3,
       "retencao": 28
     },
@@ -641,10 +641,10 @@
       "likes": 7,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DdonrZ5isG3/",
-      "alcance": 129,
+      "alcance": 132,
       "salvos": 0,
       "compartilhamentos": 1,
-      "views": 165,
+      "views": 170,
       "tempo_medio": 3.8,
       "retencao": 38
     },
@@ -656,12 +656,12 @@
       "likes": 30,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DdrMlG2AEWL/",
-      "alcance": 149,
-      "salvos": 0,
+      "alcance": 150,
+      "salvos": 1,
       "compartilhamentos": 0,
-      "views": 208,
-      "tempo_medio": 8.6,
-      "retencao": 57
+      "views": 213,
+      "tempo_medio": 8.7,
+      "retencao": 58
     },
     {
       "data": "2026-09-25",
@@ -674,11 +674,26 @@
       "alcance": 114,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 152,
+      "views": 153,
       "tempo_medio": 4.3,
       "retencao": 43
+    },
+    {
+      "data": "2026-09-26",
+      "referencia": "Deuteronômio 31:8",
+      "consulta": "deuteronomio 31:8",
+      "id": "18393748798200088",
+      "likes": 3,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DdxFuFUCWPv/",
+      "alcance": 8,
+      "salvos": 0,
+      "compartilhamentos": 0,
+      "views": 15,
+      "tempo_medio": 7.5,
+      "retencao": 62
     }
   ],
-  "media_count": 57,
+  "media_count": 58,
   "username": "oversiculo.diario"
 }

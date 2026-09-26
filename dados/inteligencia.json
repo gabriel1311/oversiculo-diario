@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-25",
-  "amostras": 47,
+  "atualizado": "2026-09-26",
+  "amostras": 48,
   "pesos_estilo": {
     "classico": 8,
     "livro": 9,
@@ -13,9 +13,9 @@
     "longo": 38
   },
   "pesos_hora": {
-    "8": 31,
-    "12": 41,
-    "19": 28
+    "8": 29,
+    "12": 42,
+    "19": 29
   },
   "ranking": [
     {
