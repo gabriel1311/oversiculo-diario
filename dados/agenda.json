@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-26",
-    "referencia": "Deuteronômio 31:8",
-    "consulta": "deuteronomio 31:8",
-    "tema": "Proteção e cuidado",
-    "hora": 19
-  },
-  {
     "data": "2026-09-27",
     "referencia": "Salmos 100:4-5",
     "consulta": "salmos 100:4-5",
@@ -96,5 +89,12 @@
     "consulta": "salmos 94:19",
     "tema": "Paz e descanso",
     "hora": 12
+  },
+  {
+    "data": "2026-10-10",
+    "referencia": "Salmos 119:105",
+    "consulta": "salmos 119:105",
+    "tema": "Proteção e cuidado",
+    "hora": 19
   }
 ]
