@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-28",
-    "referencia": "Salmos 30:5",
-    "consulta": "salmos 30:5",
-    "tema": "Força e recomeço",
-    "hora": 19
-  },
-  {
     "data": "2026-09-29",
     "referencia": "Salmos 34:4",
     "consulta": "salmos 34:4",
@@ -96,5 +89,12 @@
     "consulta": "salmos 103:2-4",
     "tema": "Gratidão e louvor",
     "hora": 12
+  },
+  {
+    "data": "2026-10-12",
+    "referencia": "Salmos 37:4",
+    "consulta": "salmos 37:4",
+    "tema": "Força e recomeço",
+    "hora": 8
   }
 ]
