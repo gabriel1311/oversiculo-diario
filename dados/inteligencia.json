@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-27",
-  "amostras": 49,
+  "atualizado": "2026-09-28",
+  "amostras": 50,
   "pesos_estilo": {
     "classico": 8,
     "livro": 9,
@@ -8,9 +8,9 @@
     "luz": 75
   },
   "pesos_tamanho": {
-    "curto": 32,
+    "curto": 31,
     "medio": 30,
-    "longo": 38
+    "longo": 39
   },
   "pesos_hora": {
     "8": 29,
@@ -24,7 +24,7 @@
       "score": 61,
       "estilo": "classico",
       "hora": 12,
-      "alcance": 143
+      "alcance": 144
     },
     {
       "data": "2026-09-08",
@@ -83,20 +83,20 @@
       "alcance": 124
     },
     {
+      "data": "2026-09-27",
+      "referencia": "Salmos 100:4-5",
+      "score": 41,
+      "estilo": "foto",
+      "hora": 12,
+      "alcance": 170
+    },
+    {
       "data": "2026-09-17",
       "referencia": "Romanos 8:38-39",
       "score": 38,
       "estilo": "livro",
       "hora": 8,
       "alcance": 165
-    },
-    {
-      "data": "2026-08-25",
-      "referencia": "Salmos 46:1",
-      "score": 35,
-      "estilo": "livro",
-      "hora": 12,
-      "alcance": 144
     }
   ]
 }
