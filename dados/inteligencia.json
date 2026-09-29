@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-28",
-  "amostras": 50,
+  "atualizado": "2026-09-29",
+  "amostras": 51,
   "pesos_estilo": {
     "classico": 8,
     "livro": 9,
@@ -13,8 +13,8 @@
     "longo": 39
   },
   "pesos_hora": {
-    "8": 29,
-    "12": 42,
+    "8": 30,
+    "12": 41,
     "19": 29
   },
   "ranking": [
@@ -24,7 +24,7 @@
       "score": 61,
       "estilo": "classico",
       "hora": 12,
-      "alcance": 144
+      "alcance": 145
     },
     {
       "data": "2026-09-08",
@@ -88,15 +88,15 @@
       "score": 41,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 170
+      "alcance": 173
     },
     {
       "data": "2026-09-17",
       "referencia": "Romanos 8:38-39",
-      "score": 38,
+      "score": 39,
       "estilo": "livro",
       "hora": 8,
-      "alcance": 165
+      "alcance": 167
     }
   ]
 }
