@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-29",
-    "referencia": "Salmos 34:4",
-    "consulta": "salmos 34:4",
-    "tema": "Fé e esperança",
-    "hora": 12
-  },
-  {
     "data": "2026-09-30",
     "referencia": "Provérbios 15:1",
     "consulta": "proverbios 15:1",
@@ -96,5 +89,12 @@
     "consulta": "salmos 37:4",
     "tema": "Força e recomeço",
     "hora": 8
+  },
+  {
+    "data": "2026-10-13",
+    "referencia": "Apocalipse 21:4",
+    "consulta": "apocalipse 21:4",
+    "tema": "Fé e esperança",
+    "hora": 12
   }
 ]
