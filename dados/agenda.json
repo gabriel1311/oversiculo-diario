@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-09-30",
-    "referencia": "Provérbios 15:1",
-    "consulta": "proverbios 15:1",
-    "tema": "Sabedoria",
-    "hora": 19
-  },
-  {
     "data": "2026-10-01",
     "referencia": "1 Tessalonicenses 5:11",
     "consulta": "1 tessalonicenses 5:11",
@@ -96,5 +89,12 @@
     "consulta": "apocalipse 21:4",
     "tema": "Fé e esperança",
     "hora": 12
+  },
+  {
+    "data": "2026-10-14",
+    "referencia": "Salmos 19:14",
+    "consulta": "salmos 19:14",
+    "tema": "Sabedoria",
+    "hora": 8
   }
 ]
