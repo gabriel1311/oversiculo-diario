@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-09-29",
-  "amostras": 51,
+  "atualizado": "2026-09-30",
+  "amostras": 52,
   "pesos_estilo": {
     "classico": 8,
     "livro": 9,
@@ -13,18 +13,18 @@
     "longo": 39
   },
   "pesos_hora": {
-    "8": 30,
+    "8": 29,
     "12": 41,
-    "19": 29
+    "19": 30
   },
   "ranking": [
     {
       "data": "2026-09-18",
       "referencia": "Salmos 37:5",
-      "score": 61,
+      "score": 62,
       "estilo": "classico",
       "hora": 12,
-      "alcance": 145
+      "alcance": 146
     },
     {
       "data": "2026-09-08",
