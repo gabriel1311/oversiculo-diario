@@ -484,5 +484,15 @@
     "hora": 19,
     "trilha": "piano-dmitry.mp3",
     "duracao": 9
+  },
+  {
+    "data": "2026-10-01",
+    "consulta": "1 tessalonicenses 5:11",
+    "referencia": "1 Tessalonicenses 5:11",
+    "id_post": "17929947363167406",
+    "estilo": "luz",
+    "hora": 12,
+    "trilha": "piano-atlas3.mp3",
+    "duracao": 11
   }
 ]

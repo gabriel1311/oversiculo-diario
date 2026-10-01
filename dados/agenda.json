@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-01",
-    "referencia": "1 Tessalonicenses 5:11",
-    "consulta": "1 tessalonicenses 5:11",
-    "tema": "Amor",
-    "hora": 12
-  },
-  {
     "data": "2026-10-02",
     "referencia": "Salmos 126:5",
     "consulta": "salmos 126:5",
@@ -96,5 +89,12 @@
     "consulta": "salmos 19:14",
     "tema": "Sabedoria",
     "hora": 8
+  },
+  {
+    "data": "2026-10-15",
+    "referencia": "Sofonias 3:17",
+    "consulta": "sofonias 3:17",
+    "tema": "Amor",
+    "hora": 12
   }
 ]
