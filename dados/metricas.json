@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-01T23:12:14Z",
-  "seguidores": 72,
+  "atualizado": "2026-10-02T23:12:17Z",
+  "seguidores": 74,
   "posts": [
     {
       "data": "2026-08-08",
@@ -567,13 +567,13 @@
       "referencia": "Salmos 37:5",
       "consulta": "salmos 37:5",
       "id": "17901226065667457",
-      "likes": 37,
+      "likes": 38,
       "comentarios": 5,
       "permalink": "https://www.instagram.com/reel/DdbviW3mz6f/",
-      "alcance": 147,
+      "alcance": 148,
       "salvos": 0,
       "compartilhamentos": 2,
-      "views": 186,
+      "views": 187,
       "tempo_medio": 5.8
     },
     {
@@ -626,12 +626,12 @@
       "likes": 11,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DdmyiWvDoSh/",
-      "alcance": 142,
+      "alcance": 143,
       "salvos": 0,
       "compartilhamentos": 1,
-      "views": 161,
-      "tempo_medio": 3.2,
-      "retencao": 27
+      "views": 163,
+      "tempo_medio": 3.3,
+      "retencao": 28
     },
     {
       "data": "2026-09-23",
@@ -641,10 +641,10 @@
       "likes": 7,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DdonrZ5isG3/",
-      "alcance": 135,
+      "alcance": 136,
       "salvos": 0,
       "compartilhamentos": 1,
-      "views": 173,
+      "views": 174,
       "tempo_medio": 3.8,
       "retencao": 38
     },
@@ -731,10 +731,10 @@
       "likes": 17,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Dd4EpPQFd5R/",
-      "alcance": 121,
+      "alcance": 122,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 161,
+      "views": 162,
       "tempo_medio": 4.3,
       "retencao": 48
     },
@@ -746,10 +746,10 @@
       "likes": 3,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Dd7ZQqtDT8k/",
-      "alcance": 58,
+      "alcance": 60,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 84,
+      "views": 90,
       "tempo_medio": 4.6,
       "retencao": 51
     },
@@ -758,17 +758,32 @@
       "referencia": "1 Tessalonicenses 5:11",
       "consulta": "1 tessalonicenses 5:11",
       "id": "17929947363167406",
-      "likes": 4,
-      "comentarios": 1,
+      "likes": 6,
+      "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/Dd9Osn0jDcp/",
-      "alcance": 16,
+      "alcance": 38,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 31,
-      "tempo_medio": 6.8,
-      "retencao": 62
+      "views": 57,
+      "tempo_medio": 5.4,
+      "retencao": 49
+    },
+    {
+      "data": "2026-10-02",
+      "referencia": "Salmos 126:5",
+      "consulta": "salmos 126:5",
+      "id": "18496606888103844",
+      "likes": 11,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DeAim0VDV1Y/",
+      "alcance": 17,
+      "salvos": 0,
+      "compartilhamentos": 0,
+      "views": 39,
+      "tempo_medio": 5.4,
+      "retencao": 60
     }
   ],
-  "media_count": 64,
+  "media_count": 65,
   "username": "oversiculo.diario"
 }
