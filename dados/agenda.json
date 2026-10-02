@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-02",
-    "referencia": "Salmos 126:5",
-    "consulta": "salmos 126:5",
-    "tema": "Paz e descanso",
-    "hora": 19
-  },
-  {
     "data": "2026-10-03",
     "referencia": "Salmos 23:4",
     "consulta": "salmos 23:4",
@@ -95,6 +88,13 @@
     "referencia": "Sofonias 3:17",
     "consulta": "sofonias 3:17",
     "tema": "Amor",
+    "hora": 12
+  },
+  {
+    "data": "2026-10-16",
+    "referencia": "Romanos 8:18",
+    "consulta": "romanos 8:18",
+    "tema": "Paz e descanso",
     "hora": 12
   }
 ]
