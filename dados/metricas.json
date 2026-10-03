@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-02T23:12:17Z",
-  "seguidores": 74,
+  "atualizado": "2026-10-03T23:52:33Z",
+  "seguidores": 75,
   "posts": [
     {
       "data": "2026-08-08",
@@ -746,12 +746,12 @@
       "likes": 3,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Dd7ZQqtDT8k/",
-      "alcance": 60,
+      "alcance": 61,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 90,
-      "tempo_medio": 4.6,
-      "retencao": 51
+      "views": 95,
+      "tempo_medio": 4.7,
+      "retencao": 52
     },
     {
       "data": "2026-10-01",
@@ -764,26 +764,41 @@
       "alcance": 38,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 57,
-      "tempo_medio": 5.4,
-      "retencao": 49
+      "views": 58,
+      "tempo_medio": 5.2,
+      "retencao": 47
     },
     {
       "data": "2026-10-02",
       "referencia": "Salmos 126:5",
       "consulta": "salmos 126:5",
       "id": "18496606888103844",
-      "likes": 11,
+      "likes": 36,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeAim0VDV1Y/",
-      "alcance": 17,
+      "alcance": 186,
+      "salvos": 1,
+      "compartilhamentos": 1,
+      "views": 238,
+      "tempo_medio": 4.5,
+      "retencao": 50
+    },
+    {
+      "data": "2026-10-03",
+      "referencia": "Salmos 23:4",
+      "consulta": "salmos 23:4",
+      "id": "18127811149833941",
+      "likes": 7,
+      "comentarios": 1,
+      "permalink": "https://www.instagram.com/reel/DeDMJHGCXhW/",
+      "alcance": 12,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 39,
-      "tempo_medio": 5.4,
-      "retencao": 60
+      "views": 69,
+      "tempo_medio": 3.8,
+      "retencao": 32
     }
   ],
-  "media_count": 65,
+  "media_count": 66,
   "username": "oversiculo.diario"
 }
