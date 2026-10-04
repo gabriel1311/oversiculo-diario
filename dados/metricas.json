@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-03T23:52:33Z",
-  "seguidores": 75,
+  "atualizado": "2026-10-04T23:13:03Z",
+  "seguidores": 77,
   "posts": [
     {
       "data": "2026-08-08",
@@ -761,10 +761,10 @@
       "likes": 6,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/Dd9Osn0jDcp/",
-      "alcance": 38,
+      "alcance": 39,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 58,
+      "views": 60,
       "tempo_medio": 5.2,
       "retencao": 47
     },
@@ -776,10 +776,10 @@
       "likes": 36,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeAim0VDV1Y/",
-      "alcance": 186,
+      "alcance": 188,
       "salvos": 1,
       "compartilhamentos": 1,
-      "views": 238,
+      "views": 239,
       "tempo_medio": 4.5,
       "retencao": 50
     },
@@ -788,17 +788,32 @@
       "referencia": "Salmos 23:4",
       "consulta": "salmos 23:4",
       "id": "18127811149833941",
-      "likes": 7,
-      "comentarios": 1,
+      "likes": 14,
+      "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DeDMJHGCXhW/",
-      "alcance": 12,
+      "alcance": 131,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 69,
-      "tempo_medio": 3.8,
-      "retencao": 32
+      "views": 163,
+      "tempo_medio": 3.2,
+      "retencao": 27
+    },
+    {
+      "data": "2026-10-04",
+      "referencia": "Gálatas 2:20",
+      "consulta": "galatas 2:20",
+      "id": "18116239216991419",
+      "likes": 13,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DeFFOVCDY4E/",
+      "alcance": 120,
+      "salvos": 0,
+      "compartilhamentos": 0,
+      "views": 141,
+      "tempo_medio": 5.2,
+      "retencao": 35
     }
   ],
-  "media_count": 66,
+  "media_count": 68,
   "username": "oversiculo.diario"
 }

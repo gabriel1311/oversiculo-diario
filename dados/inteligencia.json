@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-03",
-  "amostras": 55,
+  "atualizado": "2026-10-04",
+  "amostras": 56,
   "pesos_estilo": {
     "classico": 8,
     "livro": 9,
@@ -72,7 +72,7 @@
       "score": 46,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 186
+      "alcance": 188
     },
     {
       "data": "2026-09-06",
