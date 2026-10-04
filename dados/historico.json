@@ -514,5 +514,15 @@
     "hora": 20,
     "trilha": "ambient-jonas.mp3",
     "duracao": 12
+  },
+  {
+    "data": "2026-10-04",
+    "consulta": "galatas 2:20",
+    "referencia": "Gálatas 2:20",
+    "id_post": "18116239216991419",
+    "estilo": "luz",
+    "hora": 13,
+    "trilha": "piano-atlas3.mp3",
+    "duracao": 15
   }
 ]
