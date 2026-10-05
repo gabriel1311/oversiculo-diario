@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-04T23:13:03Z",
-  "seguidores": 77,
+  "atualizado": "2026-10-05T23:13:27Z",
+  "seguidores": 78,
   "posts": [
     {
       "data": "2026-08-08",
@@ -220,11 +220,11 @@
       "likes": 1,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DcYa_WolEpF/",
-      "alcance": 8,
+      "alcance": 9,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 13,
-      "tempo_medio": 5.8
+      "views": 14,
+      "tempo_medio": 5.5
     },
     {
       "data": "2026-08-24",
@@ -776,10 +776,10 @@
       "likes": 36,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeAim0VDV1Y/",
-      "alcance": 188,
+      "alcance": 189,
       "salvos": 1,
       "compartilhamentos": 1,
-      "views": 239,
+      "views": 240,
       "tempo_medio": 4.5,
       "retencao": 50
     },
@@ -788,15 +788,15 @@
       "referencia": "Salmos 23:4",
       "consulta": "salmos 23:4",
       "id": "18127811149833941",
-      "likes": 14,
+      "likes": 15,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DeDMJHGCXhW/",
-      "alcance": 131,
+      "alcance": 133,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 163,
-      "tempo_medio": 3.2,
-      "retencao": 27
+      "views": 165,
+      "tempo_medio": 3.3,
+      "retencao": 28
     },
     {
       "data": "2026-10-04",
@@ -806,14 +806,29 @@
       "likes": 13,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeFFOVCDY4E/",
-      "alcance": 120,
+      "alcance": 122,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 141,
-      "tempo_medio": 5.2,
-      "retencao": 35
+      "views": 147,
+      "tempo_medio": 5.1,
+      "retencao": 34
+    },
+    {
+      "data": "2026-10-05",
+      "referencia": "Efésios 6:10",
+      "consulta": "efesios 6:10",
+      "id": "17972277123157841",
+      "likes": 27,
+      "comentarios": 1,
+      "permalink": "https://www.instagram.com/reel/DeHhfm9DRXa/",
+      "alcance": 133,
+      "salvos": 0,
+      "compartilhamentos": 0,
+      "views": 170,
+      "tempo_medio": 3.8,
+      "retencao": 42
     }
   ],
-  "media_count": 68,
+  "media_count": 69,
   "username": "oversiculo.diario"
 }
