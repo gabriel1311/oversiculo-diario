@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-05",
-  "amostras": 57,
+  "atualizado": "2026-10-06",
+  "amostras": 58,
   "pesos_estilo": {
     "classico": 8,
     "livro": 9,
@@ -8,8 +8,8 @@
     "luz": 75
   },
   "pesos_tamanho": {
-    "curto": 31,
-    "medio": 31,
+    "curto": 32,
+    "medio": 30,
     "longo": 38
   },
   "pesos_hora": {
@@ -21,10 +21,10 @@
     {
       "data": "2026-09-18",
       "referencia": "Salmos 37:5",
-      "score": 63,
+      "score": 64,
       "estilo": "classico",
       "hora": 12,
-      "alcance": 148
+      "alcance": 149
     },
     {
       "data": "2026-09-08",
@@ -69,10 +69,10 @@
     {
       "data": "2026-10-02",
       "referencia": "Salmos 126:5",
-      "score": 46,
+      "score": 47,
       "estilo": "foto",
       "hora": 19,
-      "alcance": 189
+      "alcance": 191
     },
     {
       "data": "2026-09-06",
