@@ -534,5 +534,15 @@
     "hora": 12,
     "trilha": "cinematic-tunetank.mp3",
     "duracao": 9
+  },
+  {
+    "data": "2026-10-06",
+    "consulta": "isaias 40:31",
+    "referencia": "Isaías 40:31",
+    "id_post": "18424296883145510",
+    "estilo": "luz",
+    "hora": 8,
+    "trilha": "cinematic-leberch.mp3",
+    "duracao": 12
   }
 ]

@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-06",
-    "referencia": "Isaías 40:31",
-    "consulta": "isaias 40:31",
-    "tema": "Fé e esperança",
-    "hora": 8
-  },
-  {
     "data": "2026-10-07",
     "referencia": "Filipenses 4:13",
     "consulta": "filipenses 4:13",
@@ -96,5 +89,12 @@
     "consulta": "joao 14:27",
     "tema": "Força e recomeço",
     "hora": 12
+  },
+  {
+    "data": "2026-10-20",
+    "referencia": "Salmos 121:1-2",
+    "consulta": "salmos 121:1-2",
+    "tema": "Fé e esperança",
+    "hora": 8
   }
 ]
