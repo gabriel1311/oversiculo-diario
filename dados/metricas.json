@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-06T23:13:41Z",
-  "seguidores": 80,
+  "atualizado": "2026-10-07T23:12:51Z",
+  "seguidores": 82,
   "posts": [
     {
       "data": "2026-08-08",
@@ -746,12 +746,12 @@
       "likes": 3,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Dd7ZQqtDT8k/",
-      "alcance": 61,
+      "alcance": 62,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 95,
-      "tempo_medio": 4.7,
-      "retencao": 52
+      "views": 96,
+      "tempo_medio": 4.6,
+      "retencao": 51
     },
     {
       "data": "2026-10-01",
@@ -803,15 +803,15 @@
       "referencia": "Gálatas 2:20",
       "consulta": "galatas 2:20",
       "id": "18116239216991419",
-      "likes": 13,
+      "likes": 14,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeFFOVCDY4E/",
-      "alcance": 124,
+      "alcance": 128,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 148,
-      "tempo_medio": 5.1,
-      "retencao": 34
+      "views": 151,
+      "tempo_medio": 5.0,
+      "retencao": 33
     },
     {
       "data": "2026-10-05",
@@ -821,10 +821,10 @@
       "likes": 28,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DeHhfm9DRXa/",
-      "alcance": 138,
+      "alcance": 140,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 183,
+      "views": 185,
       "tempo_medio": 4.1,
       "retencao": 46
     },
@@ -836,14 +836,29 @@
       "likes": 10,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeJqg74kdwW/",
-      "alcance": 110,
+      "alcance": 115,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 135,
-      "tempo_medio": 5.7,
-      "retencao": 48
+      "views": 140,
+      "tempo_medio": 5.5,
+      "retencao": 46
+    },
+    {
+      "data": "2026-10-07",
+      "referencia": "Filipenses 4:13",
+      "consulta": "filipenses 4:13",
+      "id": "18112297940121522",
+      "likes": 3,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DeMsA3_ktt5/",
+      "alcance": 35,
+      "salvos": 0,
+      "compartilhamentos": 0,
+      "views": 34,
+      "tempo_medio": 2.7,
+      "retencao": 34
     }
   ],
-  "media_count": 70,
+  "media_count": 71,
   "username": "oversiculo.diario"
 }
