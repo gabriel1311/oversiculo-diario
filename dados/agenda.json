@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-07",
-    "referencia": "Filipenses 4:13",
-    "consulta": "filipenses 4:13",
-    "tema": "Sabedoria",
-    "hora": 12
-  },
-  {
     "data": "2026-10-08",
     "referencia": "1 João 1:9",
     "consulta": "1 joao 1:9",
@@ -96,5 +89,12 @@
     "consulta": "salmos 121:1-2",
     "tema": "Fé e esperança",
     "hora": 8
+  },
+  {
+    "data": "2026-10-21",
+    "referencia": "Salmos 34:18",
+    "consulta": "salmos 34:18",
+    "tema": "Sabedoria",
+    "hora": 12
   }
 ]
