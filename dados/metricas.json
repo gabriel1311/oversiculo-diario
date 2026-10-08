@@ -1,5 +1,5 @@
 {
-  "atualizado": "2026-10-07T23:12:51Z",
+  "atualizado": "2026-10-08T23:13:27Z",
   "seguidores": 82,
   "posts": [
     {
@@ -776,12 +776,12 @@
       "likes": 37,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeAim0VDV1Y/",
-      "alcance": 191,
+      "alcance": 192,
       "salvos": 1,
       "compartilhamentos": 1,
-      "views": 242,
-      "tempo_medio": 4.5,
-      "retencao": 50
+      "views": 244,
+      "tempo_medio": 4.4,
+      "retencao": 49
     },
     {
       "data": "2026-10-03",
@@ -848,17 +848,32 @@
       "referencia": "Filipenses 4:13",
       "consulta": "filipenses 4:13",
       "id": "18112297940121522",
-      "likes": 3,
+      "likes": 9,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeMsA3_ktt5/",
-      "alcance": 35,
+      "alcance": 108,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 34,
-      "tempo_medio": 2.7,
-      "retencao": 34
+      "views": 115,
+      "tempo_medio": 3.0,
+      "retencao": 38
+    },
+    {
+      "data": "2026-10-08",
+      "referencia": "1 João 1:9",
+      "consulta": "1 joao 1:9",
+      "id": "17889453639616724",
+      "likes": 6,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DePP55oCILQ/",
+      "alcance": 18,
+      "salvos": 0,
+      "compartilhamentos": 0,
+      "views": 28,
+      "tempo_medio": 5.4,
+      "retencao": 49
     }
   ],
-  "media_count": 71,
+  "media_count": 72,
   "username": "oversiculo.diario"
 }
