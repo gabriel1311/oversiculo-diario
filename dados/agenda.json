@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-08",
-    "referencia": "1 João 1:9",
-    "consulta": "1 joao 1:9",
-    "tema": "Amor",
-    "hora": 12
-  },
-  {
     "data": "2026-10-09",
     "referencia": "Salmos 94:19",
     "consulta": "salmos 94:19",
@@ -95,6 +88,13 @@
     "referencia": "Salmos 34:18",
     "consulta": "salmos 34:18",
     "tema": "Sabedoria",
+    "hora": 12
+  },
+  {
+    "data": "2026-10-22",
+    "referencia": "1 Pedro 4:8",
+    "consulta": "1 pedro 4:8",
+    "tema": "Amor",
     "hora": 12
   }
 ]
