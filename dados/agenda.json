@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-09",
-    "referencia": "Salmos 94:19",
-    "consulta": "salmos 94:19",
-    "tema": "Paz e descanso",
-    "hora": 12
-  },
-  {
     "data": "2026-10-10",
     "referencia": "Salmos 119:105",
     "consulta": "salmos 119:105",
@@ -96,5 +89,12 @@
     "consulta": "1 pedro 4:8",
     "tema": "Amor",
     "hora": 12
+  },
+  {
+    "data": "2026-10-23",
+    "referencia": "Salmos 46:10",
+    "consulta": "salmos 46:10",
+    "tema": "Paz e descanso",
+    "hora": 8
   }
 ]
