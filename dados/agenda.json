@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-11",
-    "referencia": "Salmos 103:2-4",
-    "consulta": "salmos 103:2-4",
-    "tema": "Gratidão e louvor",
-    "hora": 12
-  },
-  {
     "data": "2026-10-12",
     "referencia": "Salmos 37:4",
     "consulta": "salmos 37:4",
@@ -95,6 +88,13 @@
     "referencia": "Mateus 7:7",
     "consulta": "mateus 7:7",
     "tema": "Proteção e cuidado",
+    "hora": 19
+  },
+  {
+    "data": "2026-10-25",
+    "referencia": "João 1:1",
+    "consulta": "joao 1:1",
+    "tema": "Gratidão e louvor",
     "hora": 19
   }
 ]
