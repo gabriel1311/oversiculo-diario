@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-10T23:13:14Z",
-  "seguidores": 88,
+  "atualizado": "2026-10-11T23:13:36Z",
+  "seguidores": 90,
   "posts": [
     {
       "data": "2026-08-08",
@@ -557,9 +557,9 @@
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DdYvWeqgG34/",
       "alcance": 169,
-      "salvos": 0,
+      "salvos": 1,
       "compartilhamentos": 2,
-      "views": 217,
+      "views": 220,
       "tempo_medio": 10.0
     },
     {
@@ -713,13 +713,13 @@
       "referencia": "Salmos 30:5",
       "consulta": "salmos 30:5",
       "id": "18100132574227406",
-      "likes": 27,
+      "likes": 28,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/Dd2Ph0VDAPg/",
-      "alcance": 135,
+      "alcance": 136,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 198,
+      "views": 199,
       "tempo_medio": 7.1,
       "retencao": 59
     },
@@ -855,8 +855,8 @@
       "salvos": 0,
       "compartilhamentos": 0,
       "views": 117,
-      "tempo_medio": 3.1,
-      "retencao": 39
+      "tempo_medio": 3.0,
+      "retencao": 38
     },
     {
       "data": "2026-10-08",
@@ -869,41 +869,56 @@
       "alcance": 27,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 40,
-      "tempo_medio": 5.3,
-      "retencao": 48
+      "views": 41,
+      "tempo_medio": 5.1,
+      "retencao": 46
     },
     {
       "data": "2026-10-09",
       "referencia": "Salmos 94:19",
       "consulta": "salmos 94:19",
       "id": "18144952720579022",
-      "likes": 43,
+      "likes": 44,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DeR0YBtDGNa/",
-      "alcance": 126,
+      "alcance": 127,
       "salvos": 1,
       "compartilhamentos": 0,
-      "views": 195,
-      "tempo_medio": 6.4,
-      "retencao": 64
+      "views": 202,
+      "tempo_medio": 6.5,
+      "retencao": 65
     },
     {
       "data": "2026-10-10",
       "referencia": "Salmos 119:105",
       "consulta": "salmos 119:105",
       "id": "18106135235575290",
-      "likes": 1,
-      "comentarios": 0,
+      "likes": 3,
+      "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/DeVJBs2AobG/",
-      "alcance": 4,
+      "alcance": 8,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 12,
-      "tempo_medio": 3.9,
-      "retencao": 43
+      "views": 20,
+      "tempo_medio": 5.7,
+      "retencao": 63
+    },
+    {
+      "data": "2026-10-11",
+      "referencia": "Salmos 103:2-4",
+      "consulta": "salmos 103:2-4",
+      "id": "18099305147386508",
+      "likes": 32,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DeW97j4gAB4/",
+      "alcance": 134,
+      "salvos": 2,
+      "compartilhamentos": 1,
+      "views": 224,
+      "tempo_medio": 11.1,
+      "retencao": 74
     }
   ],
-  "media_count": 74,
+  "media_count": 77,
   "username": "oversiculo.diario"
 }
