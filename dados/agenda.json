@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-12",
-    "referencia": "Salmos 37:4",
-    "consulta": "salmos 37:4",
-    "tema": "Força e recomeço",
-    "hora": 8
-  },
-  {
     "data": "2026-10-13",
     "referencia": "Apocalipse 21:4",
     "consulta": "apocalipse 21:4",
@@ -96,5 +89,12 @@
     "consulta": "salmos 138:8",
     "tema": "Gratidão e louvor",
     "hora": 19
+  },
+  {
+    "data": "2026-10-26",
+    "referencia": "Tiago 4:7",
+    "consulta": "tiago 4:7",
+    "tema": "Força e recomeço",
+    "hora": 12
   }
 ]
