@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-11T23:13:36Z",
-  "seguidores": 90,
+  "atualizado": "2026-10-12T23:13:44Z",
+  "seguidores": 91,
   "posts": [
     {
       "data": "2026-08-08",
@@ -556,11 +556,11 @@
       "likes": 23,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DdYvWeqgG34/",
-      "alcance": 169,
+      "alcance": 170,
       "salvos": 1,
       "compartilhamentos": 2,
       "views": 220,
-      "tempo_medio": 10.0
+      "tempo_medio": 10.2
     },
     {
       "data": "2026-09-18",
@@ -773,13 +773,13 @@
       "referencia": "Salmos 126:5",
       "consulta": "salmos 126:5",
       "id": "18496606888103844",
-      "likes": 38,
+      "likes": 39,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeAim0VDV1Y/",
-      "alcance": 193,
+      "alcance": 194,
       "salvos": 1,
       "compartilhamentos": 1,
-      "views": 247,
+      "views": 248,
       "tempo_medio": 4.5,
       "retencao": 50
     },
@@ -821,10 +821,10 @@
       "likes": 28,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DeHhfm9DRXa/",
-      "alcance": 141,
+      "alcance": 142,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 186,
+      "views": 187,
       "tempo_medio": 4.0,
       "retencao": 44
     },
@@ -833,13 +833,13 @@
       "referencia": "Isaías 40:31",
       "consulta": "isaias 40:31",
       "id": "18424296883145510",
-      "likes": 10,
+      "likes": 11,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeJqg74kdwW/",
-      "alcance": 118,
+      "alcance": 119,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 147,
+      "views": 148,
       "tempo_medio": 5.5,
       "retencao": 46
     },
@@ -851,27 +851,27 @@
       "likes": 9,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeMsA3_ktt5/",
-      "alcance": 109,
+      "alcance": 110,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 117,
-      "tempo_medio": 3.0,
-      "retencao": 38
+      "views": 119,
+      "tempo_medio": 3.1,
+      "retencao": 39
     },
     {
       "data": "2026-10-08",
       "referencia": "1 João 1:9",
       "consulta": "1 joao 1:9",
       "id": "17889453639616724",
-      "likes": 7,
+      "likes": 9,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DePP55oCILQ/",
-      "alcance": 27,
+      "alcance": 29,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 41,
-      "tempo_medio": 5.1,
-      "retencao": 46
+      "views": 44,
+      "tempo_medio": 5.4,
+      "retencao": 49
     },
     {
       "data": "2026-10-09",
@@ -900,8 +900,8 @@
       "salvos": 0,
       "compartilhamentos": 0,
       "views": 20,
-      "tempo_medio": 5.7,
-      "retencao": 63
+      "tempo_medio": 5.3,
+      "retencao": 59
     },
     {
       "data": "2026-10-11",
@@ -911,14 +911,29 @@
       "likes": 32,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeW97j4gAB4/",
-      "alcance": 134,
+      "alcance": 137,
       "salvos": 2,
       "compartilhamentos": 1,
-      "views": 224,
-      "tempo_medio": 11.1,
-      "retencao": 74
+      "views": 227,
+      "tempo_medio": 10.8,
+      "retencao": 72
+    },
+    {
+      "data": "2026-10-12",
+      "referencia": "Salmos 37:4",
+      "consulta": "salmos 37:4",
+      "id": "17961382164246888",
+      "likes": 10,
+      "comentarios": 1,
+      "permalink": "https://www.instagram.com/reel/DeZHmbREXz0/",
+      "alcance": 112,
+      "salvos": 0,
+      "compartilhamentos": 0,
+      "views": 152,
+      "tempo_medio": 3.5,
+      "retencao": 39
     }
   ],
-  "media_count": 77,
+  "media_count": 79,
   "username": "oversiculo.diario"
 }
