@@ -38,6 +38,7 @@ ARQUIVO = RAIZ / "dados" / "respondidos.json"
 
 JANELA_DIAS = 21          # posts mais velhos que isso não são mais vigiados
 MAX_POR_EXECUCAO = 15     # teto de respostas por rodada, por segurança
+IGNORAR_AUTORES = {"marcelo91369"}  # perfis de IA/bot: nunca responder
 
 # Pool de respostas — curtas, calorosas e variadas. A escolha por FNV faz
 # comentários diferentes receberem respostas diferentes, mas o MESMO comentário
@@ -139,6 +140,9 @@ def responder_novos() -> int:
                 continue
             if autor == proprio:
                 continue  # nosso próprio comentário (ou resposta antiga)
+            if autor in IGNORAR_AUTORES:
+                respondidos[cid] = {"ignorado": "autor", "autor": autor}
+                continue
             if "http" in texto.lower():
                 print(f"[respostas] ignorei @{autor} (link no texto)")
                 respondidos[cid] = {"ignorado": "link", "autor": autor}
