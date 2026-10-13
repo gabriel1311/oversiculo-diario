@@ -1,16 +1,15 @@
 {
-  "atualizado": "2026-10-12",
-  "amostras": 64,
+  "atualizado": "2026-10-13",
+  "amostras": 65,
   "pesos_estilo": {
-    "classico": 8,
-    "livro": 9,
-    "foto": 8,
-    "luz": 75
+    "classico": 30,
+    "livro": 36,
+    "foto": 34
   },
   "pesos_tamanho": {
-    "curto": 32,
+    "curto": 31,
     "medio": 29,
-    "longo": 39
+    "longo": 40
   },
   "pesos_hora": {
     "8": 29,

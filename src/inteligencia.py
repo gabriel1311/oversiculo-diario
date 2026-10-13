@@ -41,7 +41,7 @@ PESO_CURTIDA, PESO_COMENTARIO, PESO_SALVO = 1, 3, 5
 PESO_COMPARTILHAMENTO = 5  # envio por DM/story: com salvos, o sinal que mais distribui um Reel
 SUAVIZACAO = 3  # pseudo-amostras puxando cada opção para a média global
 
-ESTILOS = ["classico", "livro", "foto", "luz"]  # bilhete aposentado 31/08 (pior desempenho: 4 posts, 4 piores do feed)
+ESTILOS = ["classico", "livro", "foto"]  # bilhete aposentado 31/08 (pior desempenho: 4 posts, 4 piores do feed); luz aposentado 13/10
 TAMANHOS = ["curto", "medio", "longo"]     # ≤100 / 101–180 / >180 caracteres
 HORAS = [8, 12, 19]                        # horários candidatos (Brasília)
 
@@ -51,9 +51,10 @@ HORAS = [8, 12, 19]                        # horários candidatos (Brasília)
 # Gabriel gosta do estilo foto (paisagem) — piso maior garante presença
 # constante na rotação mesmo enquanto as métricas ainda não o favorecem.
 PISO_ESTILO = {"classico": 12, "livro": 12, "foto": 35}
-# "luz" entrou em 21/09 e o Gabriel pediu 75% dos dias nele: fatia fixa, fora do
-# aprendizado. Os outros estilos disputam os 25% restantes pelas métricas.
-FATIA_FIXA_ESTILO = {"luz": 75}
+# "luz" teve fatia fixa de 75% de 22/09 a 13/10 e foi aposentado: 14 posts com
+# alcance médio 104 e 10 curtidas, contra 152 e 33 de foto/livro no mesmo período.
+# Renderizador mantido em imagem.py. Sem fatias fixas: tudo volta ao aprendizado.
+FATIA_FIXA_ESTILO: dict[str, int] = {}
 PISO_TAMANHO = 15
 PISO_HORA = {8: 15, 12: 40, 19: 15}
 

@@ -101,7 +101,7 @@ VERT_W, VERT_H = 1080, 1920
 #   livro    = cinza clean + serifada + última linha grifada de amarelo
 #   foto     = paisagem escurecida + texto branco
 #   luz      = paisagem clara + texto escuro + frase-chave em cursiva azul (21/09)
-ESTILOS = ["classico", "livro", "foto", "luz"]  # bilhete aposentado 31/08; renderizador mantido p/ overrides antigos
+ESTILOS = ["classico", "livro", "foto"]  # bilhete aposentado 31/08, luz 13/10; renderizadores mantidos p/ overrides antigos
 
 # A cursiva do bilhete só fica boa em versículo curto/médio; acima disso o texto
 # aperta e perde legibilidade, então versículos longos vão sempre no clássico.

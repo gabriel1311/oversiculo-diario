@@ -63,7 +63,7 @@ ALTURA = 1920
 # segura a distribuição de um Reel. Curto o bastante para ser visto inteiro e
 # entrar em laço.
 DURACAO = 8
-DURACAO_MIN, DURACAO_MAX = 7, 15
+DURACAO_MIN, DURACAO_MAX = 12, 15  # 13/10: os foto de 15 s tiveram o maior tempo assistido (6,8–10,8 s)
 # Entrada das camadas de texto no vídeo animado: (início em s, fade em s).
 ENTRADAS = [(0.0, 0.6), (1.4, 0.8), (2.6, 0.8)]
 ZOOM_FINAL = 0.07  # a foto de fundo cresce 7% ao longo do vídeo (aproximação lenta)
