@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-14",
-    "referencia": "Salmos 19:14",
-    "consulta": "salmos 19:14",
-    "tema": "Sabedoria",
-    "hora": 8
-  },
-  {
     "data": "2026-10-15",
     "referencia": "Sofonias 3:17",
     "consulta": "sofonias 3:17",
@@ -95,6 +88,13 @@
     "referencia": "Salmos 34:8",
     "consulta": "salmos 34:8",
     "tema": "Fé e esperança",
+    "hora": 12
+  },
+  {
+    "data": "2026-10-28",
+    "referencia": "João 14:6",
+    "consulta": "joao 14:6",
+    "tema": "Sabedoria",
     "hora": 12
   }
 ]
