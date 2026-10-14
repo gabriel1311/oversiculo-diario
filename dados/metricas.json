@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-13T23:11:10Z",
-  "seguidores": 91,
+  "atualizado": "2026-10-14T23:11:50Z",
+  "seguidores": 96,
   "posts": [
     {
       "data": "2026-08-08",
@@ -791,10 +791,10 @@
       "likes": 15,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DeDMJHGCXhW/",
-      "alcance": 137,
+      "alcance": 138,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 172,
+      "views": 173,
       "tempo_medio": 3.3,
       "retencao": 28
     },
@@ -863,15 +863,15 @@
       "referencia": "1 João 1:9",
       "consulta": "1 joao 1:9",
       "id": "17889453639616724",
-      "likes": 9,
+      "likes": 10,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DePP55oCILQ/",
-      "alcance": 29,
+      "alcance": 30,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 44,
-      "tempo_medio": 5.4,
-      "retencao": 49
+      "views": 46,
+      "tempo_medio": 5.7,
+      "retencao": 52
     },
     {
       "data": "2026-10-09",
@@ -896,27 +896,27 @@
       "likes": 3,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/DeVJBs2AobG/",
-      "alcance": 8,
+      "alcance": 9,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 20,
-      "tempo_medio": 5.3,
-      "retencao": 59
+      "views": 22,
+      "tempo_medio": 5.8,
+      "retencao": 64
     },
     {
       "data": "2026-10-11",
       "referencia": "Salmos 103:2-4",
       "consulta": "salmos 103:2-4",
       "id": "18099305147386508",
-      "likes": 32,
+      "likes": 34,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeW97j4gAB4/",
-      "alcance": 137,
+      "alcance": 139,
       "salvos": 2,
       "compartilhamentos": 1,
-      "views": 227,
-      "tempo_medio": 10.8,
-      "retencao": 72
+      "views": 230,
+      "tempo_medio": 10.7,
+      "retencao": 71
     },
     {
       "data": "2026-10-12",
@@ -926,29 +926,44 @@
       "likes": 10,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/DeZHmbREXz0/",
-      "alcance": 113,
+      "alcance": 116,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 154,
-      "tempo_medio": 3.5,
-      "retencao": 39
+      "views": 156,
+      "tempo_medio": 3.4,
+      "retencao": 38
     },
     {
       "data": "2026-10-13",
       "referencia": "Apocalipse 21:4",
       "consulta": "apocalipse 21:4",
       "id": "18217784209358395",
-      "likes": 32,
+      "likes": 37,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DecH3esCXKW/",
-      "alcance": 144,
+      "alcance": 176,
       "salvos": 0,
-      "compartilhamentos": 1,
-      "views": 202,
-      "tempo_medio": 6.3,
+      "compartilhamentos": 3,
+      "views": 248,
+      "tempo_medio": 6.4,
+      "retencao": 49
+    },
+    {
+      "data": "2026-10-14",
+      "referencia": "Salmos 19:14",
+      "consulta": "salmos 19:14",
+      "id": "17938910700381580",
+      "likes": 18,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DeeQ4XJAgxS/",
+      "alcance": 125,
+      "salvos": 0,
+      "compartilhamentos": 0,
+      "views": 161,
+      "tempo_medio": 5.8,
       "retencao": 48
     }
   ],
-  "media_count": 80,
+  "media_count": 81,
   "username": "oversiculo.diario"
 }

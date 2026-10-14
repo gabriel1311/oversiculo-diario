@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-13",
-  "amostras": 65,
+  "atualizado": "2026-10-14",
+  "amostras": 66,
   "pesos_estilo": {
     "classico": 30,
     "livro": 36,
@@ -8,12 +8,12 @@
   },
   "pesos_tamanho": {
     "curto": 31,
-    "medio": 29,
-    "longo": 40
+    "medio": 30,
+    "longo": 39
   },
   "pesos_hora": {
-    "8": 29,
-    "12": 41,
+    "8": 28,
+    "12": 42,
     "19": 30
   },
   "ranking": [
@@ -42,6 +42,14 @@
       "alcance": 127
     },
     {
+      "data": "2026-10-13",
+      "referencia": "Apocalipse 21:4",
+      "score": 52,
+      "estilo": "foto",
+      "hora": 12,
+      "alcance": 176
+    },
+    {
       "data": "2026-10-02",
       "referencia": "Salmos 126:5",
       "score": 50,
@@ -66,6 +74,14 @@
       "alcance": 150
     },
     {
+      "data": "2026-10-11",
+      "referencia": "Salmos 103:2-4",
+      "score": 49,
+      "estilo": "foto",
+      "hora": 12,
+      "alcance": 139
+    },
+    {
       "data": "2026-09-14",
       "referencia": "2 Coríntios 12:9",
       "score": 48,
@@ -80,22 +96,6 @@
       "estilo": "foto",
       "hora": 12,
       "alcance": 229
-    },
-    {
-      "data": "2026-10-11",
-      "referencia": "Salmos 103:2-4",
-      "score": 47,
-      "estilo": "foto",
-      "hora": 12,
-      "alcance": 137
-    },
-    {
-      "data": "2026-09-17",
-      "referencia": "Romanos 8:38-39",
-      "score": 44,
-      "estilo": "livro",
-      "hora": 8,
-      "alcance": 170
     }
   ]
 }
