@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-15",
-    "referencia": "Sofonias 3:17",
-    "consulta": "sofonias 3:17",
-    "tema": "Amor",
-    "hora": 12
-  },
-  {
     "data": "2026-10-16",
     "referencia": "Romanos 8:18",
     "consulta": "romanos 8:18",
@@ -96,5 +89,12 @@
     "consulta": "joao 14:6",
     "tema": "Sabedoria",
     "hora": 12
+  },
+  {
+    "data": "2026-10-29",
+    "referencia": "Eclesiastes 3:1",
+    "consulta": "eclesiastes 3:1",
+    "tema": "Amor",
+    "hora": 8
   }
 ]
