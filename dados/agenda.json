@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-16",
-    "referencia": "Romanos 8:18",
-    "consulta": "romanos 8:18",
-    "tema": "Paz e descanso",
-    "hora": 12
-  },
-  {
     "data": "2026-10-17",
     "referencia": "Isaías 41:13",
     "consulta": "isaias 41:13",
@@ -95,6 +88,13 @@
     "referencia": "Eclesiastes 3:1",
     "consulta": "eclesiastes 3:1",
     "tema": "Amor",
+    "hora": 8
+  },
+  {
+    "data": "2026-10-30",
+    "referencia": "Êxodo 14:14",
+    "consulta": "exodo 14:14",
+    "tema": "Paz e descanso",
     "hora": 8
   }
 ]
