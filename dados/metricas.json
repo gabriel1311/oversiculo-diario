@@ -1,5 +1,5 @@
 {
-  "atualizado": "2026-10-16T23:11:16Z",
+  "atualizado": "2026-10-17T23:10:23Z",
   "seguidores": 95,
   "posts": [
     {
@@ -926,10 +926,10 @@
       "likes": 10,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/DeZHmbREXz0/",
-      "alcance": 117,
+      "alcance": 118,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 157,
+      "views": 160,
       "tempo_medio": 3.4,
       "retencao": 38
     },
@@ -971,29 +971,44 @@
       "likes": 37,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DehRTVYiMZ0/",
-      "alcance": 136,
+      "alcance": 137,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 234,
-      "tempo_medio": 10.1,
-      "retencao": 78
+      "views": 235,
+      "tempo_medio": 10.0,
+      "retencao": 77
     },
     {
       "data": "2026-10-16",
       "referencia": "Romanos 8:18",
       "consulta": "romanos 8:18",
       "id": "17909058804589794",
-      "likes": 29,
-      "comentarios": 0,
+      "likes": 33,
+      "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/Dej4uvumxwv/",
-      "alcance": 127,
+      "alcance": 133,
       "salvos": 2,
-      "compartilhamentos": 0,
-      "views": 175,
-      "tempo_medio": 7.5,
-      "retencao": 62
+      "compartilhamentos": 1,
+      "views": 186,
+      "tempo_medio": 7.7,
+      "retencao": 64
+    },
+    {
+      "data": "2026-10-17",
+      "referencia": "Isaías 41:13",
+      "consulta": "isaias 41:13",
+      "id": "18119887807946074",
+      "likes": 26,
+      "comentarios": 1,
+      "permalink": "https://www.instagram.com/reel/Del-zzmCmC-/",
+      "alcance": 147,
+      "salvos": 0,
+      "compartilhamentos": 1,
+      "views": 188,
+      "tempo_medio": 5.7,
+      "retencao": 48
     }
   ],
-  "media_count": 83,
+  "media_count": 84,
   "username": "oversiculo.diario"
 }
