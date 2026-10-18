@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-17T23:10:23Z",
-  "seguidores": 95,
+  "atualizado": "2026-10-18T23:10:41Z",
+  "seguidores": 97,
   "posts": [
     {
       "data": "2026-08-08",
@@ -881,10 +881,10 @@
       "likes": 45,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DeR0YBtDGNa/",
-      "alcance": 128,
+      "alcance": 129,
       "salvos": 1,
       "compartilhamentos": 0,
-      "views": 204,
+      "views": 205,
       "tempo_medio": 6.5,
       "retencao": 65
     },
@@ -911,7 +911,7 @@
       "likes": 34,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeW97j4gAB4/",
-      "alcance": 141,
+      "alcance": 142,
       "salvos": 2,
       "compartilhamentos": 1,
       "views": 235,
@@ -971,12 +971,12 @@
       "likes": 37,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DehRTVYiMZ0/",
-      "alcance": 137,
+      "alcance": 138,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 235,
-      "tempo_medio": 10.0,
-      "retencao": 77
+      "views": 236,
+      "tempo_medio": 9.9,
+      "retencao": 76
     },
     {
       "data": "2026-10-16",
@@ -990,25 +990,40 @@
       "salvos": 2,
       "compartilhamentos": 1,
       "views": 186,
-      "tempo_medio": 7.7,
-      "retencao": 64
+      "tempo_medio": 7.6,
+      "retencao": 63
     },
     {
       "data": "2026-10-17",
       "referencia": "Isaías 41:13",
       "consulta": "isaias 41:13",
       "id": "18119887807946074",
-      "likes": 26,
+      "likes": 27,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/Del-zzmCmC-/",
-      "alcance": 147,
+      "alcance": 157,
       "salvos": 0,
       "compartilhamentos": 1,
-      "views": 188,
-      "tempo_medio": 5.7,
-      "retencao": 48
+      "views": 203,
+      "tempo_medio": 5.5,
+      "retencao": 46
+    },
+    {
+      "data": "2026-10-18",
+      "referencia": "Salmos 118:24",
+      "consulta": "salmos 118:24",
+      "id": "17961621195233086",
+      "likes": 25,
+      "comentarios": 1,
+      "permalink": "https://www.instagram.com/reel/DeojgcnjPEi/",
+      "alcance": 128,
+      "salvos": 0,
+      "compartilhamentos": 0,
+      "views": 167,
+      "tempo_medio": 4.4,
+      "retencao": 37
     }
   ],
-  "media_count": 84,
+  "media_count": 86,
   "username": "oversiculo.diario"
 }
