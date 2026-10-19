@@ -1,5 +1,5 @@
 {
-  "atualizado": "2026-10-18T23:10:41Z",
+  "atualizado": "2026-10-19T23:13:00Z",
   "seguidores": 97,
   "posts": [
     {
@@ -836,10 +836,10 @@
       "likes": 11,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DeJqg74kdwW/",
-      "alcance": 120,
+      "alcance": 121,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 151,
+      "views": 152,
       "tempo_medio": 5.6,
       "retencao": 47
     },
@@ -944,7 +944,7 @@
       "alcance": 181,
       "salvos": 0,
       "compartilhamentos": 3,
-      "views": 260,
+      "views": 261,
       "tempo_medio": 6.4,
       "retencao": 49
     },
@@ -959,24 +959,24 @@
       "alcance": 130,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 166,
-      "tempo_medio": 5.7,
-      "retencao": 48
+      "views": 167,
+      "tempo_medio": 5.6,
+      "retencao": 47
     },
     {
       "data": "2026-10-15",
       "referencia": "Sofonias 3:17",
       "consulta": "sofonias 3:17",
       "id": "17915471826466973",
-      "likes": 37,
+      "likes": 38,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DehRTVYiMZ0/",
       "alcance": 138,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 236,
-      "tempo_medio": 9.9,
-      "retencao": 76
+      "views": 239,
+      "tempo_medio": 10.0,
+      "retencao": 77
     },
     {
       "data": "2026-10-16",
@@ -986,12 +986,12 @@
       "likes": 33,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/Dej4uvumxwv/",
-      "alcance": 133,
+      "alcance": 134,
       "salvos": 2,
       "compartilhamentos": 1,
-      "views": 186,
-      "tempo_medio": 7.6,
-      "retencao": 63
+      "views": 188,
+      "tempo_medio": 7.5,
+      "retencao": 62
     },
     {
       "data": "2026-10-17",
@@ -1001,10 +1001,10 @@
       "likes": 27,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/Del-zzmCmC-/",
-      "alcance": 157,
+      "alcance": 159,
       "salvos": 0,
       "compartilhamentos": 1,
-      "views": 203,
+      "views": 204,
       "tempo_medio": 5.5,
       "retencao": 46
     },
@@ -1013,17 +1013,32 @@
       "referencia": "Salmos 118:24",
       "consulta": "salmos 118:24",
       "id": "17961621195233086",
-      "likes": 25,
+      "likes": 26,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/DeojgcnjPEi/",
-      "alcance": 128,
+      "alcance": 131,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 167,
+      "views": 172,
       "tempo_medio": 4.4,
       "retencao": 37
+    },
+    {
+      "data": "2026-10-19",
+      "referencia": "João 14:27",
+      "consulta": "joao 14:27",
+      "id": "18127445473895149",
+      "likes": 27,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DerkYqgjk5p/",
+      "alcance": 145,
+      "salvos": 0,
+      "compartilhamentos": 3,
+      "views": 194,
+      "tempo_medio": 5.7,
+      "retencao": 48
     }
   ],
-  "media_count": 86,
+  "media_count": 87,
   "username": "oversiculo.diario"
 }
