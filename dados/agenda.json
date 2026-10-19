@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-19",
-    "referencia": "João 14:27",
-    "consulta": "joao 14:27",
-    "tema": "Força e recomeço",
-    "hora": 12
-  },
-  {
     "data": "2026-10-20",
     "referencia": "Salmos 121:1-2",
     "consulta": "salmos 121:1-2",
@@ -96,5 +89,12 @@
     "consulta": "joao 1:1",
     "tema": "Gratidão e louvor",
     "hora": 19
+  },
+  {
+    "data": "2026-11-02",
+    "referencia": "Jeremias 29:11",
+    "consulta": "jeremias 29:11",
+    "tema": "Força e recomeço",
+    "hora": 8
   }
 ]
