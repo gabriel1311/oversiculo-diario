@@ -1,14 +1,14 @@
 {
-  "atualizado": "2026-10-19",
-  "amostras": 71,
+  "atualizado": "2026-10-20",
+  "amostras": 72,
   "pesos_estilo": {
-    "classico": 30,
-    "livro": 36,
-    "foto": 34
+    "classico": 28,
+    "livro": 37,
+    "foto": 35
   },
   "pesos_tamanho": {
-    "curto": 31,
-    "medio": 31,
+    "curto": 30,
+    "medio": 32,
     "longo": 38
   },
   "pesos_hora": {
@@ -36,10 +36,10 @@
     {
       "data": "2026-10-09",
       "referencia": "Salmos 94:19",
-      "score": 56,
+      "score": 57,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 129
+      "alcance": 130
     },
     {
       "data": "2026-10-13",
@@ -55,7 +55,7 @@
       "score": 51,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 134
+      "alcance": 135
     },
     {
       "data": "2026-10-02",
@@ -87,7 +87,7 @@
       "score": 49,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 142
+      "alcance": 143
     },
     {
       "data": "2026-09-14",
