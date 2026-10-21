@@ -1,22 +1,30 @@
 {
-  "atualizado": "2026-10-20",
-  "amostras": 72,
+  "atualizado": "2026-10-21",
+  "amostras": 73,
   "pesos_estilo": {
-    "classico": 28,
+    "classico": 29,
     "livro": 37,
-    "foto": 35
+    "foto": 34
   },
   "pesos_tamanho": {
     "curto": 30,
-    "medio": 32,
-    "longo": 38
+    "medio": 33,
+    "longo": 37
   },
   "pesos_hora": {
-    "8": 29,
-    "12": 42,
-    "19": 29
+    "8": 31,
+    "12": 41,
+    "19": 28
   },
   "ranking": [
+    {
+      "data": "2026-10-20",
+      "referencia": "Salmos 121:1-2",
+      "score": 77,
+      "estilo": "livro",
+      "hora": 8,
+      "alcance": 250
+    },
     {
       "data": "2026-09-18",
       "referencia": "Salmos 37:5",
@@ -36,10 +44,10 @@
     {
       "data": "2026-10-09",
       "referencia": "Salmos 94:19",
-      "score": 57,
+      "score": 58,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 130
+      "alcance": 132
     },
     {
       "data": "2026-10-13",
@@ -47,7 +55,7 @@
       "score": 53,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 181
+      "alcance": 182
     },
     {
       "data": "2026-10-16",
@@ -55,7 +63,7 @@
       "score": 51,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 135
+      "alcance": 136
     },
     {
       "data": "2026-10-02",
@@ -87,15 +95,7 @@
       "score": 49,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 143
-    },
-    {
-      "data": "2026-09-14",
-      "referencia": "2 Coríntios 12:9",
-      "score": 48,
-      "estilo": "livro",
-      "hora": 12,
-      "alcance": 305
+      "alcance": 144
     }
   ]
 }
