@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-21",
-    "referencia": "Salmos 61:2",
-    "consulta": "salmos 61:2",
-    "tema": "Sabedoria",
-    "hora": 12
-  },
-  {
     "data": "2026-10-22",
     "referencia": "1 Pedro 4:8",
     "consulta": "1 pedro 4:8",
@@ -96,5 +89,12 @@
     "consulta": "1 pedro 5:10",
     "tema": "Fé e esperança",
     "hora": 8
+  },
+  {
+    "data": "2026-11-04",
+    "referencia": "Hebreus 11:1",
+    "consulta": "hebreus 11:1",
+    "tema": "Sabedoria",
+    "hora": 19
   }
 ]
