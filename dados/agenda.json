@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-22",
-    "referencia": "1 Pedro 4:8",
-    "consulta": "1 pedro 4:8",
-    "tema": "Amor",
-    "hora": 8
-  },
-  {
     "data": "2026-10-23",
     "referencia": "Salmos 34:18",
     "consulta": "salmos 34:18",
@@ -96,5 +89,12 @@
     "consulta": "hebreus 11:1",
     "tema": "Sabedoria",
     "hora": 19
+  },
+  {
+    "data": "2026-11-05",
+    "referencia": "Romanos 15:13",
+    "consulta": "romanos 15:13",
+    "tema": "Amor",
+    "hora": 12
   }
 ]
