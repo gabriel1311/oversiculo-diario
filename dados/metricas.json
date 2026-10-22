@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-21T23:11:53Z",
-  "seguidores": 101,
+  "atualizado": "2026-10-22T23:12:38Z",
+  "seguidores": 102,
   "posts": [
     {
       "data": "2026-08-08",
@@ -854,7 +854,7 @@
       "alcance": 111,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 121,
+      "views": 142,
       "tempo_medio": 3.1,
       "retencao": 39
     },
@@ -986,10 +986,10 @@
       "likes": 33,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/Dej4uvumxwv/",
-      "alcance": 136,
+      "alcance": 138,
       "salvos": 2,
       "compartilhamentos": 1,
-      "views": 193,
+      "views": 194,
       "tempo_medio": 7.4,
       "retencao": 62
     },
@@ -1031,11 +1031,11 @@
       "likes": 30,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DerkYqgjk5p/",
-      "alcance": 155,
+      "alcance": 157,
       "salvos": 0,
       "compartilhamentos": 3,
-      "views": 207,
-      "tempo_medio": 5.7,
+      "views": 212,
+      "tempo_medio": 5.8,
       "retencao": 48
     },
     {
@@ -1049,26 +1049,41 @@
       "alcance": 250,
       "salvos": 3,
       "compartilhamentos": 3,
-      "views": 300,
-      "tempo_medio": 4.4,
-      "retencao": 37
+      "views": 302,
+      "tempo_medio": 4.3,
+      "retencao": 36
     },
     {
       "data": "2026-10-21",
       "referencia": "Salmos 61:2",
       "consulta": "salmos 61:2",
       "id": "18412811578094467",
-      "likes": 31,
+      "likes": 32,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Dewt68QEgJR/",
-      "alcance": 146,
+      "alcance": 156,
       "salvos": 0,
-      "compartilhamentos": 0,
-      "views": 202,
-      "tempo_medio": 5.7,
+      "compartilhamentos": 1,
+      "views": 222,
+      "tempo_medio": 5.8,
       "retencao": 48
+    },
+    {
+      "data": "2026-10-22",
+      "referencia": "1 Pedro 4:8",
+      "consulta": "1 pedro 4:8",
+      "id": "18152077633531611",
+      "likes": 28,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/Dey433YCgAl/",
+      "alcance": 165,
+      "salvos": 2,
+      "compartilhamentos": 1,
+      "views": 218,
+      "tempo_medio": 4.3,
+      "retencao": 36
     }
   ],
-  "media_count": 90,
+  "media_count": 91,
   "username": "oversiculo.diario"
 }
