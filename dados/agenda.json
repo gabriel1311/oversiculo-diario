@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-23",
-    "referencia": "Salmos 34:18",
-    "consulta": "salmos 34:18",
-    "tema": "Paz e descanso",
-    "hora": 8
-  },
-  {
     "data": "2026-10-24",
     "referencia": "Mateus 7:7",
     "consulta": "mateus 7:7",
@@ -96,5 +89,12 @@
     "consulta": "romanos 15:13",
     "tema": "Amor",
     "hora": 12
+  },
+  {
+    "data": "2026-11-06",
+    "referencia": "2 Coríntios 4:8-9",
+    "consulta": "2 corintios 4:8-9",
+    "tema": "Paz e descanso",
+    "hora": 8
   }
 ]
