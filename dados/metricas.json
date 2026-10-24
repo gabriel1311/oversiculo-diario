@@ -1,5 +1,5 @@
 {
-  "atualizado": "2026-10-23T23:12:18Z",
+  "atualizado": "2026-10-24T23:10:22Z",
   "seguidores": 104,
   "posts": [
     {
@@ -13,7 +13,7 @@
       "alcance": 174,
       "salvos": 1,
       "compartilhamentos": 0,
-      "views": 224,
+      "views": 225,
       "tempo_medio": 5.8
     },
     {
@@ -821,10 +821,10 @@
       "likes": 28,
       "comentarios": 2,
       "permalink": "https://www.instagram.com/reel/DeHhfm9DRXa/",
-      "alcance": 144,
+      "alcance": 145,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 189,
+      "views": 190,
       "tempo_medio": 4.0,
       "retencao": 44
     },
@@ -1031,10 +1031,10 @@
       "likes": 30,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DerkYqgjk5p/",
-      "alcance": 158,
+      "alcance": 159,
       "salvos": 0,
       "compartilhamentos": 3,
-      "views": 215,
+      "views": 216,
       "tempo_medio": 5.8,
       "retencao": 48
     },
@@ -1064,8 +1064,8 @@
       "alcance": 157,
       "salvos": 0,
       "compartilhamentos": 1,
-      "views": 223,
-      "tempo_medio": 5.8,
+      "views": 224,
+      "tempo_medio": 5.7,
       "retencao": 48
     },
     {
@@ -1076,10 +1076,10 @@
       "likes": 28,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/Dey433YCgAl/",
-      "alcance": 184,
+      "alcance": 185,
       "salvos": 2,
       "compartilhamentos": 1,
-      "views": 246,
+      "views": 247,
       "tempo_medio": 4.2,
       "retencao": 35
     },
@@ -1088,17 +1088,32 @@
       "referencia": "Salmos 34:18",
       "consulta": "salmos 34:18",
       "id": "17912635800480797",
-      "likes": 32,
+      "likes": 34,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/De1b_PBAczH/",
-      "alcance": 131,
+      "alcance": 134,
       "salvos": 1,
       "compartilhamentos": 0,
-      "views": 176,
+      "views": 183,
       "tempo_medio": 5.0,
       "retencao": 42
+    },
+    {
+      "data": "2026-10-24",
+      "referencia": "Mateus 7:7",
+      "consulta": "mateus 7:7",
+      "id": "18471010573185813",
+      "likes": 17,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/De5L3ICEgq6/",
+      "alcance": 31,
+      "salvos": 0,
+      "compartilhamentos": 0,
+      "views": 134,
+      "tempo_medio": 2.5,
+      "retencao": 21
     }
   ],
-  "media_count": 92,
+  "media_count": 93,
   "username": "oversiculo.diario"
 }
