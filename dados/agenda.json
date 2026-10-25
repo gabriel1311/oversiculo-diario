@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-25",
-    "referencia": "Salmos 138:8",
-    "consulta": "salmos 138:8",
-    "tema": "Gratidão e louvor",
-    "hora": 19
-  },
-  {
     "data": "2026-10-26",
     "referencia": "Tiago 4:7",
     "consulta": "tiago 4:7",
@@ -96,5 +89,12 @@
     "consulta": "naum 1:7",
     "tema": "Proteção e cuidado",
     "hora": 12
+  },
+  {
+    "data": "2026-11-08",
+    "referencia": "Atos 1:8",
+    "consulta": "atos 1:8",
+    "tema": "Gratidão e louvor",
+    "hora": 8
   }
 ]
