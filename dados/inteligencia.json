@@ -1,10 +1,10 @@
 {
-  "atualizado": "2026-10-24",
-  "amostras": 76,
+  "atualizado": "2026-10-25",
+  "amostras": 77,
   "pesos_estilo": {
-    "classico": 29,
-    "livro": 37,
-    "foto": 34
+    "classico": 27,
+    "livro": 38,
+    "foto": 35
   },
   "pesos_tamanho": {
     "curto": 30,
@@ -20,10 +20,10 @@
     {
       "data": "2026-10-20",
       "referencia": "Salmos 121:1-2",
-      "score": 77,
+      "score": 78,
       "estilo": "livro",
       "hora": 8,
-      "alcance": 251
+      "alcance": 253
     },
     {
       "data": "2026-09-18",
