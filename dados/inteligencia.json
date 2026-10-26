@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-25",
-  "amostras": 77,
+  "atualizado": "2026-10-26",
+  "amostras": 78,
   "pesos_estilo": {
     "classico": 27,
     "livro": 38,
@@ -20,10 +20,10 @@
     {
       "data": "2026-10-20",
       "referencia": "Salmos 121:1-2",
-      "score": 78,
+      "score": 79,
       "estilo": "livro",
       "hora": 8,
-      "alcance": 253
+      "alcance": 256
     },
     {
       "data": "2026-09-18",
@@ -47,15 +47,15 @@
       "score": 58,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 132
+      "alcance": 133
     },
     {
       "data": "2026-10-13",
       "referencia": "Apocalipse 21:4",
-      "score": 53,
+      "score": 54,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 183
+      "alcance": 184
     },
     {
       "data": "2026-10-16",
@@ -63,7 +63,7 @@
       "score": 51,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 139
+      "alcance": 141
     },
     {
       "data": "2026-10-02",
@@ -95,7 +95,7 @@
       "score": 49,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 144
+      "alcance": 145
     }
   ]
 }
