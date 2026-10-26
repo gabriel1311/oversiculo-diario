@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-26",
-    "referencia": "Tiago 4:7",
-    "consulta": "tiago 4:7",
-    "tema": "Força e recomeço",
-    "hora": 12
-  },
-  {
     "data": "2026-10-27",
     "referencia": "Salmos 34:8",
     "consulta": "salmos 34:8",
@@ -95,6 +88,13 @@
     "referencia": "Atos 1:8",
     "consulta": "atos 1:8",
     "tema": "Gratidão e louvor",
+    "hora": 8
+  },
+  {
+    "data": "2026-11-09",
+    "referencia": "2 Timóteo 1:7",
+    "consulta": "2 timoteo 1:7",
+    "tema": "Força e recomeço",
     "hora": 8
   }
 ]
