@@ -1,10 +1,10 @@
 {
-  "atualizado": "2026-10-26",
-  "amostras": 78,
+  "atualizado": "2026-10-27",
+  "amostras": 79,
   "pesos_estilo": {
-    "classico": 27,
-    "livro": 38,
-    "foto": 35
+    "classico": 30,
+    "livro": 36,
+    "foto": 34
   },
   "pesos_tamanho": {
     "curto": 30,
@@ -23,7 +23,7 @@
       "score": 79,
       "estilo": "livro",
       "hora": 8,
-      "alcance": 256
+      "alcance": 259
     },
     {
       "data": "2026-09-18",
@@ -55,7 +55,7 @@
       "score": 54,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 184
+      "alcance": 185
     },
     {
       "data": "2026-10-16",
@@ -63,7 +63,7 @@
       "score": 51,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 141
+      "alcance": 143
     },
     {
       "data": "2026-10-02",
