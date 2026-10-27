@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-27",
-    "referencia": "Salmos 34:8",
-    "consulta": "salmos 34:8",
-    "tema": "Fé e esperança",
-    "hora": 12
-  },
-  {
     "data": "2026-10-28",
     "referencia": "João 14:6",
     "consulta": "joao 14:6",
@@ -95,6 +88,13 @@
     "referencia": "2 Timóteo 1:7",
     "consulta": "2 timoteo 1:7",
     "tema": "Força e recomeço",
+    "hora": 8
+  },
+  {
+    "data": "2026-11-10",
+    "referencia": "Salmos 73:26",
+    "consulta": "salmos 73:26",
+    "tema": "Fé e esperança",
     "hora": 8
   }
 ]
