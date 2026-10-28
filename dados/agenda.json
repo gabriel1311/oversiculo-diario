@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-28",
-    "referencia": "João 14:6",
-    "consulta": "joao 14:6",
-    "tema": "Sabedoria",
-    "hora": 12
-  },
-  {
     "data": "2026-10-29",
     "referencia": "Eclesiastes 3:1",
     "consulta": "eclesiastes 3:1",
@@ -96,5 +89,12 @@
     "consulta": "salmos 73:26",
     "tema": "Fé e esperança",
     "hora": 8
+  },
+  {
+    "data": "2026-11-11",
+    "referencia": "Isaías 43:2",
+    "consulta": "isaias 43:2",
+    "tema": "Sabedoria",
+    "hora": 12
   }
 ]
