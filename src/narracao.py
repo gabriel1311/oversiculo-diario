@@ -19,10 +19,11 @@ import subprocess
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-ARQ_VOZ = RAIZ / "dados" / "voz.json"  # {"voice_id": ..., "modelo": ..., "ajustes": {...}} — não é segredo
+ARQ_VOZ = RAIZ / "dados" / "voz.json"  # {"vozes": [{nome, voice_id}], "modelo", "ajustes"} — não é segredo
 API = "https://api.elevenlabs.io/v1"
 
 FECHOS = [
@@ -38,6 +39,7 @@ class Narracao:
     corpo: Path
     s_gancho: float
     s_corpo: float
+    voz: str
 
 
 def _duracao(arquivo: Path) -> float:
@@ -59,12 +61,29 @@ def referencia_falada(referencia: str) -> str:
     return f"{livro} {cap}, versículo {v1}"
 
 
-def _falar(texto: str, destino: Path, voz: dict, chave: str) -> Path:
+def escolher_voz(config: dict, seed: str) -> dict:
+    """Alterna as vozes: por dia quando o seed é uma data (um dia cada), senão pelo hash."""
+    vozes = config["vozes"]
+    try:
+        n = date.fromisoformat(seed).toordinal()
+    except ValueError:
+        n = sum(map(ord, seed))
+    return vozes[n % len(vozes)]
+
+
+def _falar(texto: str, destino: Path, voz: dict, chave: str, ajustes: dict | None = None,
+           antes: str | None = None, depois: str | None = None) -> Path:
     corpo = {
         "text": texto,
         "model_id": voz.get("modelo", "eleven_multilingual_v2"),
-        "voice_settings": voz.get("ajustes", {"stability": 0.55, "similarity_boost": 0.8, "speed": 0.92}),
+        "voice_settings": ajustes or voz.get("ajustes", {"stability": 0.55, "similarity_boost": 0.8, "speed": 0.92}),
     }
+    # Contexto da fala vizinha: o modelo mantém o mesmo ritmo e entonação nas
+    # duas partes, em vez de tratar cada uma como frase solta.
+    if antes:
+        corpo["previous_text"] = antes
+    if depois:
+        corpo["next_text"] = depois
     req = urllib.request.Request(
         f"{API}/text-to-speech/{voz['voice_id']}?output_format=mp3_44100_128",
         data=json.dumps(corpo).encode(), method="POST",
@@ -79,14 +98,19 @@ def narrar(gancho: str, texto: str, referencia: str, pasta: Path, seed: str) -> 
     chave = os.environ.get("ELEVENLABS_API_KEY")
     if not chave or not ARQ_VOZ.exists():
         return None
-    voz = json.loads(ARQ_VOZ.read_text(encoding="utf-8"))
+    config = json.loads(ARQ_VOZ.read_text(encoding="utf-8"))
+    voz = {**config, **escolher_voz(config, seed)}
     fecho = FECHOS[sum(map(ord, seed)) % len(FECHOS)]
     frase = gancho.strip().rstrip(":").strip() + "."
     corpo = f"{texto.strip()} {referencia_falada(referencia)}. {fecho}"
     try:
-        a = _falar(frase, pasta / "fala-gancho.mp3", voz, chave)
-        b = _falar(corpo, pasta / "fala-corpo.mp3", voz, chave)
-        return Narracao(a, b, _duracao(a), _duracao(b))
+        # Frase curta sozinha sai corrida (Gabriel, 29/10: "arrancou falando rápido
+        # demais"): o gancho tem velocidade e estabilidade próprias.
+        ajustes = voz.get("ajustes", {})
+        a = _falar(frase, pasta / "fala-gancho.mp3", voz, chave,
+                   ajustes={**ajustes, **voz.get("ajustes_gancho", {})}, depois=corpo)
+        b = _falar(corpo, pasta / "fala-corpo.mp3", voz, chave, antes=frase)
+        return Narracao(a, b, _duracao(a), _duracao(b), voz["nome"])
     except (urllib.error.URLError, subprocess.CalledProcessError, OSError, KeyError) as erro:
         print(f"::warning::Narração indisponível, seguindo só com a trilha: {erro}")
         return None

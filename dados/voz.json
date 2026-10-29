@@ -1,0 +1,19 @@
+{
+  "nota": "Voz oficial do perfil: sintética, desenhada do zero no ElevenLabs (Voice Design + remix 'emoção'), escolhida pelo Gabriel em 29/10/2026.",
+  "modelo": "eleven_multilingual_v2",
+  "ajustes": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "speed": 0.95
+  },
+  "vozes": [
+    {
+      "nome": "oficial",
+      "voice_id": "rEXGBBH2osA45nT2wUSx"
+    }
+  ],
+  "ajustes_gancho": {
+    "speed": 0.8,
+    "stability": 0.65
+  }
+}
