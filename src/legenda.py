@@ -110,16 +110,24 @@ def _gancho(hashtags: list[str], consulta: str) -> str:
     return opcoes[_semente(consulta + "gancho") % len(opcoes)]
 
 
-def gerar(texto: str, referencia: str, consulta: str) -> str:
+def gancho(consulta: str, variacao: str = "") -> str:
+    """O gancho do versículo — o mesmo da 1ª linha da legenda e da abertura do
+    vídeo (desde 29/10 ele aparece na TELA no segundo 0, onde a pessoa decide se
+    fica). `variacao` sorteia outro gancho do mesmo tema (Trial Reels)."""
+    hashtags = _reflexoes().get(consulta, {}).get("hashtags") or HASHTAGS_PADRAO
+    return _gancho(hashtags, consulta + variacao)
+
+
+def gerar(texto: str, referencia: str, consulta: str, variacao: str = "") -> str:
     ref = _reflexoes().get(consulta, {})
     reflexao = ref.get("reflexao") or REFLEXAO_PADRAO
     hashtags = ref.get("hashtags") or HASHTAGS_PADRAO
-    pergunta = PERGUNTAS[_semente(consulta) % len(PERGUNTAS)]
+    pergunta = PERGUNTAS[_semente(consulta + variacao) % len(PERGUNTAS)]
 
     # Gancho na 1ª linha; o versículo entra por escrito (acessibilidade); depois
     # reflexão, convite e tags.
     return (
-        f"{_gancho(hashtags, consulta)}\n\n"
+        f"{gancho(consulta, variacao)}\n\n"
         f"“{texto}”\n"
         f"— {referencia}\n\n"
         f"{reflexao}\n\n"

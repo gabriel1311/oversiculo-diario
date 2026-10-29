@@ -1,0 +1,83 @@
+name: Trial Reel do dia
+
+# Um Reel extra por dia mostrado só para quem NÃO segue (src/teste.py): um
+# versículo antigo que foi bem, com visual e gancho novos. Fora do horário do
+# post do dia (8/12/19h) para não competir com ele. Falha de publicação vira
+# aviso, não alarme — o teste é extra.
+
+on:
+  schedule:
+    - cron: "33 19 * * *" # 16h33 Brasília
+  workflow_dispatch:
+    inputs:
+      ensaio:
+        description: "Gerar sem publicar"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: trial-reel
+  cancel-in-progress: false
+
+jobs:
+  teste:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Garantir ffmpeg
+        run: ffmpeg -version >/dev/null 2>&1 || (sudo apt-get update && sudo apt-get install -y ffmpeg)
+
+      - name: Gerar o teste
+        run: python -m src.teste --fase ${{ inputs.ensaio && 'ensaio' || 'preparar' }}
+
+      - name: Guardar os arquivos como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: trial-reel
+          path: posts/teste/
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Commitar os arquivos
+        if: ${{ !inputs.ensaio }}
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add posts/teste 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Nada novo para commitar."
+          else
+            git commit -m "Trial Reel: $(date -u +%Y-%m-%d)"
+            git pull --rebase --autostash || true
+            git push
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Publicar como Trial Reel
+        if: ${{ !inputs.ensaio }}
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
+          IMAGEM_REF: ${{ steps.commit.outputs.sha }}
+        run: python -m src.teste --fase publicar
+
+      - name: Registrar o teste
+        if: ${{ !inputs.ensaio }}
+        run: |
+          git add dados/testes.json 2>/dev/null || true
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Registro do Trial Reel: $(date -u +%Y-%m-%d)"
+          git pull --rebase --autostash
+          git push

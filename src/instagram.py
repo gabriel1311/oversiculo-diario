@@ -95,15 +95,23 @@ def _publicar_container(conta: str, token: str, campos: dict[str, str], tentativ
     return id_post
 
 
-def publicar_reel(url_video: str, legenda: str, cover_url: str | None = None) -> str:
+def publicar_reel(url_video: str, legenda: str, cover_url: str | None = None, teste: bool = False) -> str:
     """Publica o vídeo como Reel no feed (com legenda). Devolve o id do post.
 
     cover_url define a capa/thumbnail (a imagem do versículo), para a grade do
     perfil não mostrar o primeiro quadro do vídeo.
+
+    teste=True publica como Trial Reel (Content Publishing API desde 03/12/2025):
+    ele é mostrado só para quem NÃO segue o perfil; com SS_PERFORMANCE o próprio
+    Instagram o "gradua" (passa a mostrar aos seguidores) se for bem.
     """
     token, conta = _credenciais()
-    # share_to_feed=true faz o Reel aparecer também na grade do perfil.
-    campos = {"media_type": "REELS", "video_url": url_video, "caption": legenda, "share_to_feed": "true"}
+    campos = {"media_type": "REELS", "video_url": url_video, "caption": legenda}
+    if teste:
+        campos["trial_params"] = json.dumps({"graduation_strategy": "SS_PERFORMANCE"})
+    else:
+        # share_to_feed=true faz o Reel aparecer também na grade do perfil.
+        campos["share_to_feed"] = "true"
     if cover_url:
         campos["cover_url"] = cover_url
     return _publicar_container(

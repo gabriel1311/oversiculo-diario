@@ -1,0 +1,99 @@
+name: Carrossel temático
+
+# "5 versículos para quando…" (src/tematico.py), quarta e sexta. Carrossel é o
+# formato que mais se salva e se envia — os sinais que mais distribuem um post.
+# O carrossel de domingo (semanal) continua à parte.
+
+on:
+  schedule:
+    - cron: "33 20 * * 3,5" # 17h33 Brasília, quarta e sexta
+  workflow_dispatch:
+    inputs:
+      ensaio:
+        description: "Gerar as imagens sem publicar"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: carrossel-tematico
+  cancel-in-progress: false
+
+jobs:
+  carrossel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Gerar carrossel
+        run: python -m src.tematico --fase ${{ inputs.ensaio && 'ensaio' || 'preparar' }}
+
+      - name: Guardar as imagens como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: carrossel-tematico
+          path: posts/tematico/
+          retention-days: 14
+
+      - name: Commitar as imagens
+        if: ${{ !inputs.ensaio }}
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A posts/tematico
+          if git diff --cached --quiet; then
+            echo "Imagens já commitadas; usando o commit atual."
+          else
+            git commit -m "Carrossel temático $(date -u +%Y-%m-%d)"
+            git pull --rebase --autostash || true
+            git push
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Publicar o carrossel
+        if: ${{ !inputs.ensaio }}
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
+          IMAGEM_REF: ${{ steps.commit.outputs.sha }}
+        run: python -m src.tematico --fase publicar
+
+      - name: Registrar o carrossel
+        if: ${{ !inputs.ensaio }}
+        run: |
+          git add dados/tematicos.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Registro do carrossel temático: $(date -u +%Y-%m-%d)"
+          git pull --rebase --autostash
+          git push
+
+  avisar-falha:
+    needs: carrossel
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Abrir ou atualizar issue de falha
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          corpo=$(printf 'O carrossel temático falhou em %s UTC.\n\nLog: %s' "$(date -u '+%Y-%m-%d %H:%M')" "$RUN_URL")
+          num=$(gh issue list --state open --label falha-publicacao --json number --jq '.[0].number // empty' -R "$GITHUB_REPOSITORY")
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body "$corpo" -R "$GITHUB_REPOSITORY"
+          else
+            gh label create falha-publicacao --color B60205 --description "Falha na automação" -R "$GITHUB_REPOSITORY" 2>/dev/null || true
+            gh issue create --title "⚠️ Falha no carrossel temático" --label falha-publicacao --body "$corpo" -R "$GITHUB_REPOSITORY"
+          fi

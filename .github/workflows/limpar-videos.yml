@@ -39,7 +39,7 @@ jobs:
           dias = int(sys.argv[1])
           corte = datetime.date.today() - datetime.timedelta(days=dias)
           removidos = []
-          for p in sorted(pathlib.Path("posts").glob("*.mp4")):
+          for p in sorted([*pathlib.Path("posts").glob("*.mp4"), *pathlib.Path("posts/teste").glob("*.mp4")]):
               try:
                   d = datetime.date.fromisoformat(p.stem)
               except ValueError:

@@ -133,12 +133,15 @@ def aprender() -> dict:
         m = por_data.get(reg["data"])
         if not m or reg["data"] > ontem:
             continue
-        score = (
+        # Por 100 de alcance (29/10): em soma bruta, curtidas crescem só porque a
+        # base de seguidores cresce (os follows diários curtem de volta) e posts
+        # novos venciam os antigos sem ser melhores.
+        score = round(100 * (
             PESO_CURTIDA * (m.get("likes") or 0)
             + PESO_COMENTARIO * (m.get("comentarios") or 0)
             + PESO_SALVO * (m.get("salvos") or 0)
             + PESO_COMPARTILHAMENTO * (m.get("compartilhamentos") or 0)
-        )
+        ) / max(m.get("alcance") or 0, 50), 1)
         ranking.append({
             "data": reg["data"], "referencia": reg["referencia"], "score": score,
             "estilo": reg.get("estilo"), "hora": reg.get("hora"),

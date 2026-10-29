@@ -72,9 +72,13 @@ def preparar(dia: date, ensaio: bool) -> int:
             camadas = imagem.gerar_camadas(
                 escolhido.texto, escolhido.referencia, Path(tmp), seed=dia.isoformat()
             )
+            gancho = imagem.gerar_gancho(
+                legenda.gancho(escolhido.consulta), Path(tmp) / "gancho.png",
+                cartaz=None if camadas else c.jpg,
+            )
             video.montar(
                 c.jpg, c.mp4, seed=dia.isoformat(),
-                duracao=video.duracao_para(escolhido.texto), camadas=camadas,
+                duracao=video.duracao_para(escolhido.texto), camadas=camadas, gancho=gancho,
             )
         print(f"[video] {c.rel_mp4} ({c.mp4.stat().st_size // 1024} KB)")
     except video.VideoIndisponivel as erro:

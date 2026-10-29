@@ -109,29 +109,50 @@ def coletar() -> dict:
         if not mid:
             continue
         item = {"data": h["data"], "referencia": h["referencia"], "consulta": h["consulta"], "id": mid}
-
-        basico = _api(mid, {"fields": "like_count,comments_count,permalink,media_type", "access_token": token})
-        if basico:
-            item["likes"] = basico.get("like_count")
-            item["comentarios"] = basico.get("comments_count")
-            item["permalink"] = basico.get("permalink")
-
-        # Alcance/salvos dependem de permissão de Insights — opcional.
-        insights = _api(f"{mid}/insights", {"metric": "reach,saved", "access_token": token})
-        if insights and insights.get("data"):
-            for m in insights["data"]:
-                if m.get("name") == "reach" and m.get("values"):
-                    item["alcance"] = m["values"][0].get("value")
-                if m.get("name") == "saved" and m.get("values"):
-                    item["salvos"] = m["values"][0].get("value")
-
-        _insights_de_reel(mid, token, item)
-        if item.get("tempo_medio") is not None and h.get("duracao"):
-            item["retencao"] = round(100 * item["tempo_medio"] / h["duracao"])  # % do vídeo assistido
-
+        _coletar_post(mid, token, item, h.get("duracao"))
         resultado["posts"].append(item)
 
+    # Trial Reels (src/teste.py): mostrados só a quem não segue — ficam à parte
+    # para não misturar com o aprendizado do post do dia.
+    resultado["testes"] = []
+    arq_testes = RAIZ / "dados" / "testes.json"
+    testes = json.loads(arq_testes.read_text(encoding="utf-8")) if arq_testes.exists() else []
+    for t in testes:
+        if not t.get("id_post"):
+            continue
+        item = {k: t.get(k) for k in ("data", "referencia", "consulta", "estilo", "gancho")}
+        item["id"] = t["id_post"]
+        _coletar_post(t["id_post"], token, item, t.get("duracao"))
+        resultado["testes"].append(item)
+
     return resultado
+
+
+def _coletar_post(mid: str, token: str, item: dict, duracao: int | None) -> None:
+    """Curtidas, comentários, alcance, salvos e sinais de Reel de uma mídia."""
+    basico = _api(mid, {"fields": "like_count,comments_count,permalink,media_type", "access_token": token})
+    if basico:
+        item["likes"] = basico.get("like_count")
+        item["comentarios"] = basico.get("comments_count")
+        item["permalink"] = basico.get("permalink")
+
+    # Alcance/salvos dependem de permissão de Insights — opcional.
+    insights = _api(f"{mid}/insights", {"metric": "reach,saved", "access_token": token})
+    if insights and insights.get("data"):
+        for m in insights["data"]:
+            if m.get("name") == "reach" and m.get("values"):
+                item["alcance"] = m["values"][0].get("value")
+            if m.get("name") == "saved" and m.get("values"):
+                item["salvos"] = m["values"][0].get("value")
+
+    _insights_de_reel(mid, token, item)
+    if item.get("tempo_medio") is not None and duracao:
+        item["retencao"] = round(100 * item["tempo_medio"] / duracao)  # % do vídeo assistido
+    # Métrica-guia desde 29/10: (envios + salvos) por 100 de alcance.
+    if item.get("alcance"):
+        item["envios_salvos_100"] = round(
+            100 * ((item.get("compartilhamentos") or 0) + (item.get("salvos") or 0)) / item["alcance"], 2
+        )
 
 
 def main() -> int:

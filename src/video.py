@@ -69,9 +69,16 @@ ENTRADAS = [(0.0, 0.6), (1.4, 0.8), (2.6, 0.8)]
 ZOOM_FINAL = 0.07  # a foto de fundo cresce 7% ao longo do vídeo (aproximação lenta)
 
 
-def duracao_para(texto: str) -> int:
-    """Segundos para ler o versículo com calma (~22 caracteres/s) + respiro."""
-    return max(DURACAO_MIN, min(DURACAO_MAX, round(6 + len(texto) / 22)))
+# Gancho na tela (29/10): fica GANCHO_S segundos e some em GANCHO_FADE; o texto do
+# versículo só começa a entrar depois disso. Soma-se ao tempo de leitura.
+GANCHO_S, GANCHO_FADE = 2.0, 0.4
+
+
+def duracao_para(texto: str, gancho: bool = True) -> int:
+    """Segundos para ler o versículo com calma (~22 caracteres/s) + respiro
+    (+ a abertura com o gancho, quando houver)."""
+    leitura = max(DURACAO_MIN, min(DURACAO_MAX, round(6 + len(texto) / 22)))
+    return leitura + (round(GANCHO_S) if gancho else 0)
 
 
 def _fnv(texto: str) -> int:
@@ -106,6 +113,14 @@ def escolher_trilha(seed: str | None) -> Path:
     return AUDIO / existentes[_fnv(seed + "trilha") % len(existentes)]
 
 
+def _filtro_gancho(indice: int, base: str, saida: str) -> str:
+    """Sobrepõe a entrada `indice` (PNG do gancho) a `base`, sumindo em fade."""
+    return (
+        f"[{indice}:v]format=rgba,fade=t=out:st={GANCHO_S}:d={GANCHO_FADE}:alpha=1[g{indice}];"
+        f"[{base}][g{indice}]overlay=format=auto[{saida}]"
+    )
+
+
 class VideoIndisponivel(RuntimeError):
     pass
 
@@ -121,10 +136,12 @@ def montar(
     trilha: Path | None = None,
     duracao: int = DURACAO,
     camadas: list[Path] | None = None,
+    gancho: Path | None = None,
 ) -> Path:
     """`camadas` = [fundo, camada1.png, …] (imagem.gerar_camadas): vídeo animado,
     com a foto em aproximação lenta e os textos entrando em tempos. Sem camadas,
-    o vídeo é o cartaz parado."""
+    o vídeo é o cartaz parado. `gancho` = PNG de tela cheia (imagem.gerar_gancho)
+    que cobre os primeiros GANCHO_S segundos e some em fade."""
     if not disponivel():
         raise VideoIndisponivel("ffmpeg não encontrado no PATH")
     if trilha is None:
@@ -152,19 +169,35 @@ def montar(
             f"[0:v]scale={LADO * 2}:{ALTURA * 2},zoompan=z='1+{ZOOM_FINAL}*on/{quadros}'"
             f":x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s={LADO}x{ALTURA}:fps=30[v0]"
         ]
+        atraso = GANCHO_S if gancho else 0.0
         entradas = ["-loop", "1", "-framerate", "30", "-i", str(camadas[0])]
         for i, camada in enumerate(camadas[1:], 1):
             entradas += ["-loop", "1", "-framerate", "30", "-i", str(camada)]
             inicio, fade = ENTRADAS[min(i - 1, len(ENTRADAS) - 1)]
-            filtros.append(f"[{i}:v]format=rgba,fade=t=in:st={inicio}:d={fade}:alpha=1[c{i}]")
+            filtros.append(f"[{i}:v]format=rgba,fade=t=in:st={inicio + atraso}:d={fade}:alpha=1[c{i}]")
             filtros.append(f"[v{i - 1}][c{i}]overlay=format=auto[v{i}]")
         n = len(camadas) - 1
+        if gancho:
+            entradas += ["-loop", "1", "-framerate", "30", "-i", str(gancho)]
+            n += 1
+            filtros.append(_filtro_gancho(n, f"v{n - 1}", f"v{n}"))
         filtros.append(f"[v{n}]format=yuv420p[v]")
         comando = [
             "ffmpeg", "-y", *entradas,
             "-stream_loop", "-1", "-i", str(trilha),
             "-filter_complex", ";".join(filtros),
             "-map", "[v]", "-map", f"{n + 1}:a",
+            *codificacao,
+        ]
+    elif gancho:
+        # Cartaz parado com o gancho por cima nos primeiros segundos.
+        comando = [
+            "ffmpeg", "-y",
+            "-loop", "1", "-framerate", "30", "-i", str(imagem),
+            "-loop", "1", "-framerate", "30", "-i", str(gancho),
+            "-stream_loop", "-1", "-i", str(trilha),
+            "-filter_complex", _filtro_gancho(1, "0:v", "vg") + ";[vg]format=yuv420p[v]",
+            "-map", "[v]", "-map", "2:a",
             *codificacao,
         ]
     else:

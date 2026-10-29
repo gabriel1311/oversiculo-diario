@@ -11,7 +11,7 @@ from __future__ import annotations
 import random
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps, ImageStat
+from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps, ImageStat
 
 
 def _fnv(texto: str) -> int:
@@ -683,3 +683,87 @@ def gerar_quadrado(texto: str, referencia: str, destino: Path, seed: str | None 
     """Cartaz QUADRADO 1080x1080 (para o carrossel do feed), estilo sorteado pela seed."""
     imagem = _renderizar(texto, referencia, seed or "", LADO, LADO)
     return _salvar(imagem, destino)
+
+
+# Gancho na TELA (29/10/2026): os 2 primeiros segundos do Reel mostram a frase
+# que fala com a dor de quem rola o feed ("Se a ansiedade apertou hoje, leia
+# isto"), por cima de um véu escuro; depois ela some e o versículo aparece. Até
+# aqui o gancho só existia na legenda, que quase ninguém lê no Reels — e é no
+# 1º segundo que a pessoa decide se fica.
+GANCHO_VEU = (14, 20, 34, 222)  # azul-noite quase opaco: esconde o cartaz por trás
+GANCHO_TEXTO = (250, 248, 242)
+GANCHO_OURO = (214, 178, 102)
+
+
+def gerar_gancho(frase: str, destino: Path, cartaz: Path | None = None,
+                 W: int = VERT_W, H: int = VERT_H) -> Path:
+    """PNG de tela cheia com o gancho, para o vídeo sobrepor no início.
+
+    Sem `cartaz` (estilos animados, cujo texto entra depois) o véu é
+    translúcido e a foto aparece por trás. Com `cartaz` (estilos parados, com o
+    versículo já impresso) o fundo é o próprio cartaz desfocado e o PNG sai
+    opaco — senão o versículo vaza por baixo da frase."""
+    frase = frase.strip().rstrip(":").strip()
+    im = Image.new("RGBA", (W, H), GANCHO_VEU)
+    if cartaz is not None:
+        base = Image.open(cartaz).convert("RGB").resize((W, H)).filter(ImageFilter.GaussianBlur(40))
+        im = Image.alpha_composite(base.convert("RGBA"), im)
+    desenho = ImageDraw.Draw(im)
+    largura = W - 2 * MARGEM - 60
+    for tamanho in range(104, 59, -4):
+        fonte = _fonte("EBGaramond.ttf", tamanho, "SemiBold")
+        linhas = _quebrar_equilibrado(frase, fonte, largura, desenho)
+        if len(linhas) <= 4:
+            break
+    esp = round(tamanho * 1.25)
+    y = (H - len(linhas) * esp) // 2 - 40
+    for linha in linhas:
+        desenho.text((W // 2, y), linha, font=fonte, fill=GANCHO_TEXTO, anchor="ma")
+        y += esp
+    desenho.line([W // 2 - 60, y + 40, W // 2 + 60, y + 40], fill=GANCHO_OURO, width=3)
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    im.save(destino)
+    return destino
+
+
+# Carrossel temático (29/10/2026): capa com o título do tema, os versículos num
+# MESMO estilo (o carrossel lê como uma peça só) e um fecho pedindo salvar/enviar.
+def gerar_quadrado_estilo(texto: str, referencia: str, destino: Path, seed: str, estilo: str) -> Path:
+    """Cartaz quadrado num estilo fixo (sem o sorteio do dia)."""
+    render = {"livro": _render_livro, "foto": _render_foto}.get(estilo, _render_classico)
+    return _salvar(render(texto, referencia, seed, LADO, LADO), destino)
+
+
+def _cartaz_titulo(linhas_grandes: str, pequena: str, seed: str, destino: Path, rodape: str) -> Path:
+    pal = PALETAS[_fnv(seed + "pal") % len(PALETAS)]
+    im = _fundo(pal, LADO, LADO)
+    desenho = ImageDraw.Draw(im)
+    _moldura(desenho, pal, MOLDURAS[_fnv(seed + "mol") % len(MOLDURAS)], LADO, LADO)
+    fonte_peq = _fonte("Cinzel.ttf", 34, "SemiBold")
+    largura = LADO - 2 * MARGEM - 80
+    for tamanho in range(96, 55, -4):
+        fonte = _fonte("EBGaramond.ttf", tamanho, "SemiBold")
+        linhas = _quebrar_equilibrado(linhas_grandes, fonte, largura, desenho)
+        if len(linhas) <= 4:
+            break
+    esp = round(tamanho * 1.22)
+    bloco = 80 + len(linhas) * esp
+    y = (LADO - bloco) // 2
+    desenho.text((LADO // 2, y), " ".join(pequena.upper()), font=fonte_peq, fill=pal["ouro"], anchor="ma")
+    y += 80
+    for linha in linhas:
+        desenho.text((LADO // 2, y), linha, font=fonte, fill=pal["texto"], anchor="ma")
+        y += esp
+    _ornamento(desenho, y + 40, pal, ORNAMENTOS[_fnv(seed + "orn") % len(ORNAMENTOS)], LADO // 2)
+    fonte_rod = _fonte("Cinzel.ttf", 24, "Regular")
+    desenho.text((LADO // 2, LADO - 140), rodape, font=fonte_rod, fill=pal["ouro_fraco"], anchor="ma")
+    return _salvar(im, destino)
+
+
+def gerar_capa_tema(titulo: str, destino: Path, seed: str) -> Path:
+    return _cartaz_titulo(titulo, "para guardar", seed, destino, " ".join("ARRASTE PARA O LADO"))
+
+
+def gerar_fecho_tema(destino: Path, seed: str) -> Path:
+    return _cartaz_titulo("Salve para reler e envie para quem precisa ouvir isso hoje",
+                          "guarde esta palavra", seed, destino, " ".join(HANDLE.upper()))

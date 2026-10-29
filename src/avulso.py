@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import os
 import sys
+import tempfile
 from pathlib import Path
 
 from src import imagem, instagram, legenda, versiculos, video
@@ -63,7 +64,12 @@ def preparar(ensaio: bool) -> int:
     trilha_env = os.environ.get("AVULSO_TRILHA", "").strip()
     trilha = (RAIZ / "audio" / trilha_env) if trilha_env else None
     try:
-        video.montar(jpg, mp4, seed=seed, trilha=trilha, duracao=video.duracao_para(v.texto))
+        with tempfile.TemporaryDirectory() as tmp:
+            camadas = imagem.gerar_camadas(v.texto, v.referencia, Path(tmp), seed=seed)
+            gancho = imagem.gerar_gancho(legenda.gancho(v.consulta), Path(tmp) / "gancho.png",
+                                         cartaz=None if camadas else jpg)
+            video.montar(jpg, mp4, seed=seed, trilha=trilha, duracao=video.duracao_para(v.texto),
+                         camadas=camadas, gancho=gancho)
         print(f"[video] {rel_mp4} ({mp4.stat().st_size // 1024} KB){' | trilha ' + trilha_env if trilha_env else ''}")
     except video.VideoIndisponivel as erro:
         if not ensaio:
