@@ -45,6 +45,7 @@ jobs:
         env:
           AVULSO_CONSULTA: ${{ inputs.consulta }}
           AVULSO_TRILHA: ${{ inputs.trilha }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
         run: python -m src.avulso --fase ${{ inputs.ensaio && 'ensaio' || 'preparar' }}
 
       - name: Guardar os arquivos como artefato

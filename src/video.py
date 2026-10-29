@@ -12,6 +12,7 @@ o vídeo.
 
 from __future__ import annotations
 
+import math
 import shutil
 import subprocess
 from datetime import date
@@ -113,10 +114,24 @@ def escolher_trilha(seed: str | None) -> Path:
     return AUDIO / existentes[_fnv(seed + "trilha") % len(existentes)]
 
 
-def _filtro_gancho(indice: int, base: str, saida: str) -> str:
+def duracao_de(arquivo: Path) -> int | None:
+    """Duração em segundos de um vídeo pronto (None se não der para ler)."""
+    if not arquivo.exists() or not shutil.which("ffprobe"):
+        return None
+    saida = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(arquivo)],
+        capture_output=True, text=True,
+    )
+    try:
+        return round(float(saida.stdout.strip()))
+    except ValueError:
+        return None
+
+
+def _filtro_gancho(indice: int, base: str, saida: str, ate: float = GANCHO_S) -> str:
     """Sobrepõe a entrada `indice` (PNG do gancho) a `base`, sumindo em fade."""
     return (
-        f"[{indice}:v]format=rgba,fade=t=out:st={GANCHO_S}:d={GANCHO_FADE}:alpha=1[g{indice}];"
+        f"[{indice}:v]format=rgba,fade=t=out:st={ate}:d={GANCHO_FADE}:alpha=1[g{indice}];"
         f"[{base}][g{indice}]overlay=format=auto[{saida}]"
     )
 
@@ -137,11 +152,14 @@ def montar(
     duracao: int = DURACAO,
     camadas: list[Path] | None = None,
     gancho: Path | None = None,
+    narracao=None,
 ) -> Path:
     """`camadas` = [fundo, camada1.png, …] (imagem.gerar_camadas): vídeo animado,
     com a foto em aproximação lenta e os textos entrando em tempos. Sem camadas,
     o vídeo é o cartaz parado. `gancho` = PNG de tela cheia (imagem.gerar_gancho)
-    que cobre os primeiros GANCHO_S segundos e some em fade."""
+    que cobre os primeiros GANCHO_S segundos e some em fade. `narracao`
+    (narracao.Narracao) põe a voz por cima da trilha baixinha: o gancho fica na
+    tela enquanto a frase é falada, e o vídeo dura o tempo da fala."""
     if not disponivel():
         raise VideoIndisponivel("ffmpeg não encontrado no PATH")
     if trilha is None:
@@ -150,6 +168,11 @@ def montar(
         raise VideoIndisponivel(f"trilha não encontrada: {trilha}")
 
     destino.parent.mkdir(parents=True, exist_ok=True)
+
+    t_gancho = GANCHO_S
+    if narracao is not None and gancho:
+        t_gancho = max(GANCHO_S, round(narracao.s_gancho + 0.35, 2))
+        duracao = max(duracao, math.ceil(t_gancho + 0.25 + narracao.s_corpo + 1.5))
 
     codificacao = [
         "-t", str(duracao),
@@ -160,6 +183,18 @@ def montar(
         "-shortest",
         str(destino),
     ]
+    # Áudio: só a trilha (mapeada direto) ou trilha baixa + as duas falas.
+    def audio(i_trilha: int) -> tuple[list[str], str, list[str]]:
+        if narracao is None:
+            return [], f"{i_trilha}:a", []
+        a, b = i_trilha + 1, i_trilha + 2
+        atraso_corpo = int((t_gancho + 0.25) * 1000)
+        filtro = (
+            f"[{i_trilha}:a]volume=0.16[mus];[{a}:a]adelay=150|150[fa];"
+            f"[{b}:a]adelay={atraso_corpo}|{atraso_corpo}[fb];"
+            f"[mus][fa][fb]amix=inputs=3:normalize=0:duration=first[a]"
+        )
+        return ["-i", str(narracao.gancho), "-i", str(narracao.corpo)], "[a]", [filtro]
     if camadas:
         # Fundo ampliado 2x antes do zoompan: ele arredonda para pixel inteiro e,
         # sem a folga, a aproximação lenta treme. A capa do Reel vem do cover_url
@@ -169,7 +204,7 @@ def montar(
             f"[0:v]scale={LADO * 2}:{ALTURA * 2},zoompan=z='1+{ZOOM_FINAL}*on/{quadros}'"
             f":x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s={LADO}x{ALTURA}:fps=30[v0]"
         ]
-        atraso = GANCHO_S if gancho else 0.0
+        atraso = t_gancho if gancho else 0.0
         entradas = ["-loop", "1", "-framerate", "30", "-i", str(camadas[0])]
         for i, camada in enumerate(camadas[1:], 1):
             entradas += ["-loop", "1", "-framerate", "30", "-i", str(camada)]
@@ -180,24 +215,27 @@ def montar(
         if gancho:
             entradas += ["-loop", "1", "-framerate", "30", "-i", str(gancho)]
             n += 1
-            filtros.append(_filtro_gancho(n, f"v{n - 1}", f"v{n}"))
+            filtros.append(_filtro_gancho(n, f"v{n - 1}", f"v{n}", t_gancho))
         filtros.append(f"[v{n}]format=yuv420p[v]")
+        falas, mapa_audio, filtro_audio = audio(n + 1)
         comando = [
             "ffmpeg", "-y", *entradas,
-            "-stream_loop", "-1", "-i", str(trilha),
-            "-filter_complex", ";".join(filtros),
-            "-map", "[v]", "-map", f"{n + 1}:a",
+            "-stream_loop", "-1", "-i", str(trilha), *falas,
+            "-filter_complex", ";".join(filtros + filtro_audio),
+            "-map", "[v]", "-map", mapa_audio,
             *codificacao,
         ]
     elif gancho:
         # Cartaz parado com o gancho por cima nos primeiros segundos.
+        falas, mapa_audio, filtro_audio = audio(2)
         comando = [
             "ffmpeg", "-y",
             "-loop", "1", "-framerate", "30", "-i", str(imagem),
             "-loop", "1", "-framerate", "30", "-i", str(gancho),
-            "-stream_loop", "-1", "-i", str(trilha),
-            "-filter_complex", _filtro_gancho(1, "0:v", "vg") + ";[vg]format=yuv420p[v]",
-            "-map", "[v]", "-map", "2:a",
+            "-stream_loop", "-1", "-i", str(trilha), *falas,
+            "-filter_complex", ";".join(
+                [_filtro_gancho(1, "0:v", "vg", t_gancho) + ";[vg]format=yuv420p[v]"] + filtro_audio),
+            "-map", "[v]", "-map", mapa_audio,
             *codificacao,
         ]
     else:

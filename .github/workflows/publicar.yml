@@ -91,6 +91,8 @@ jobs:
 
       - name: Gerar imagem, vídeo e legenda
         if: ${{ inputs.ensaio || (steps.ja.outputs.pulado != 'true' && steps.hora.outputs.agora == 'true') }}
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
         run: |
           python -m src.principal --fase ${{ inputs.ensaio && 'ensaio' || 'preparar' }}
 

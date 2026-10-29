@@ -39,6 +39,8 @@ jobs:
         run: ffmpeg -version >/dev/null 2>&1 || (sudo apt-get update && sudo apt-get install -y ffmpeg)
 
       - name: Gerar o teste
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
         run: python -m src.teste --fase ${{ inputs.ensaio && 'ensaio' || 'preparar' }}
 
       - name: Guardar os arquivos como artefato

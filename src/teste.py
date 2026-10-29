@@ -24,7 +24,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from src import imagem, instagram, legenda, versiculos, video
+from src import imagem, instagram, legenda, narracao, versiculos, video
 from src.principal import url_publica
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -92,12 +92,14 @@ def preparar(hoje: datetime.date, ensaio: bool) -> int:
 
     imagem.gerar(v.texto, v.referencia, c.jpg, seed=seed)
     frase = legenda.gancho(v.consulta, variacao)
+    fala = None
     try:
         with tempfile.TemporaryDirectory() as tmp:
             camadas = imagem.gerar_camadas(v.texto, v.referencia, Path(tmp), seed=seed)
             gancho = imagem.gerar_gancho(frase, Path(tmp) / "gancho.png", cartaz=None if camadas else c.jpg)
+            fala = narracao.narrar(frase, v.texto, v.referencia, Path(tmp), seed=seed)
             video.montar(c.jpg, c.mp4, seed=seed, duracao=video.duracao_para(v.texto),
-                         camadas=camadas, gancho=gancho)
+                         camadas=camadas, gancho=gancho, narracao=fala)
         print(f"[video] {c.rel_mp4} ({c.mp4.stat().st_size // 1024} KB)")
     except video.VideoIndisponivel as erro:
         if not ensaio:
@@ -110,7 +112,8 @@ def preparar(hoje: datetime.date, ensaio: bool) -> int:
     c.info.write_text(json.dumps({
         "consulta": v.consulta, "referencia": v.referencia,
         "estilo": imagem.escolher_estilo(v.texto, seed), "gancho": frase,
-        "duracao": video.duracao_para(v.texto),
+        "duracao": video.duracao_de(c.mp4) or video.duracao_para(v.texto),
+        "narrado": bool(fala),
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"[legenda]\n{texto}\n")
     if ensaio:

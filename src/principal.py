@@ -23,7 +23,7 @@ import tempfile
 from datetime import date
 from pathlib import Path
 
-from src import imagem, instagram, legenda, versiculos, video
+from src import imagem, instagram, legenda, narracao, versiculos, video
 
 RAIZ = Path(__file__).resolve().parent.parent
 
@@ -76,10 +76,14 @@ def preparar(dia: date, ensaio: bool) -> int:
                 legenda.gancho(escolhido.consulta), Path(tmp) / "gancho.png",
                 cartaz=None if camadas else c.jpg,
             )
+            fala = narracao.narrar(legenda.gancho(escolhido.consulta), escolhido.texto,
+                                   escolhido.referencia, Path(tmp), seed=dia.isoformat())
             video.montar(
                 c.jpg, c.mp4, seed=dia.isoformat(),
                 duracao=video.duracao_para(escolhido.texto), camadas=camadas, gancho=gancho,
+                narracao=fala,
             )
+            print(f"[narracao] {'com voz' if fala else 'sem voz (só trilha)'}")
         print(f"[video] {c.rel_mp4} ({c.mp4.stat().st_size // 1024} KB)")
     except video.VideoIndisponivel as erro:
         if not ensaio:
@@ -141,7 +145,8 @@ def publicar(dia: date) -> int:
         ),
         "hora": hora_brt,
         "trilha": video.escolher_trilha(dia.isoformat()).name,
-        "duracao": video.duracao_para(versiculos.escolher(dia).texto),
+        # Duração real do arquivo (com narração ela segue a fala, não a leitura).
+        "duracao": video.duracao_de(c.mp4) or video.duracao_para(versiculos.escolher(dia).texto),
     }
     versiculos.registrar(versiculos.escolher(dia), dia, id_reel, extras)
     # Regrava a agenda JÁ COM o post de hoje no histórico — senão o painel
