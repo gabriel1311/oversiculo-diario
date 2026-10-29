@@ -118,7 +118,7 @@ def gancho(consulta: str, variacao: str = "") -> str:
     return _gancho(hashtags, consulta + variacao)
 
 
-def gerar(texto: str, referencia: str, consulta: str, variacao: str = "") -> str:
+def gerar(texto: str, referencia: str, consulta: str, variacao: str = "", narrado: bool = False) -> str:
     ref = _reflexoes().get(consulta, {})
     reflexao = ref.get("reflexao") or REFLEXAO_PADRAO
     hashtags = ref.get("hashtags") or HASHTAGS_PADRAO
@@ -132,5 +132,7 @@ def gerar(texto: str, referencia: str, consulta: str, variacao: str = "") -> str
         f"— {referencia}\n\n"
         f"{reflexao}\n\n"
         f"{pergunta}\n\n"
+        # A Meta pede que áudio realista feito por IA seja identificado.
+        + ("🎙️ Narração com voz sintética.\n\n" if narrado else "")
         + _hashtags(hashtags, consulta)
     )

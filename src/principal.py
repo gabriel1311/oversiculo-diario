@@ -67,6 +67,7 @@ def preparar(dia: date, ensaio: bool) -> int:
     # O vídeo (Reel/Story) é a imagem do dia + trilha, em 9:16. Precisa de ffmpeg
     # (existe no runner do GitHub Actions). Na máquina local sem ffmpeg, seguimos
     # sem o vídeo — o ensaio ainda mostra imagem e legenda.
+    fala = None
     try:
         with tempfile.TemporaryDirectory() as tmp:
             camadas = imagem.gerar_camadas(
@@ -91,7 +92,7 @@ def preparar(dia: date, ensaio: bool) -> int:
             return 1
         print(f"[video] pulado no ensaio ({erro})")
 
-    texto_legenda = legenda.gerar(escolhido.texto, escolhido.referencia, escolhido.consulta)
+    texto_legenda = legenda.gerar(escolhido.texto, escolhido.referencia, escolhido.consulta, narrado=bool(fala))
     c.txt.write_text(texto_legenda + "\n", encoding="utf-8")
     print(f"[legenda]\n{texto_legenda}\n")
 

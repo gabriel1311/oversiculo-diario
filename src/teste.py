@@ -107,7 +107,7 @@ def preparar(hoje: datetime.date, ensaio: bool) -> int:
             return 1
         print(f"[video] pulado no ensaio ({erro})")
 
-    texto = legenda.gerar(v.texto, v.referencia, v.consulta, variacao)
+    texto = legenda.gerar(v.texto, v.referencia, v.consulta, variacao, narrado=bool(fala))
     c.txt.write_text(texto + "\n", encoding="utf-8")
     c.info.write_text(json.dumps({
         "consulta": v.consulta, "referencia": v.referencia,

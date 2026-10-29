@@ -63,6 +63,7 @@ def preparar(ensaio: bool) -> int:
 
     trilha_env = os.environ.get("AVULSO_TRILHA", "").strip()
     trilha = (RAIZ / "audio" / trilha_env) if trilha_env else None
+    fala = None
     try:
         with tempfile.TemporaryDirectory() as tmp:
             camadas = imagem.gerar_camadas(v.texto, v.referencia, Path(tmp), seed=seed)
@@ -78,7 +79,7 @@ def preparar(ensaio: bool) -> int:
             return 1
         print(f"[video] pulado no ensaio ({erro})")
 
-    texto_legenda = legenda.gerar(v.texto, v.referencia, v.consulta)
+    texto_legenda = legenda.gerar(v.texto, v.referencia, v.consulta, narrado=bool(fala))
     txt.write_text(texto_legenda + "\n", encoding="utf-8")
     print(f"[legenda]\n{texto_legenda}\n")
 
