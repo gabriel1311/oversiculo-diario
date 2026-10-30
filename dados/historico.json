@@ -774,5 +774,15 @@
     "hora": 8,
     "trilha": "piano-dmitry.mp3",
     "duracao": 12
+  },
+  {
+    "data": "2026-10-30",
+    "consulta": "exodo 14:14",
+    "referencia": "Êxodo 14:14",
+    "id_post": "18015316247987019",
+    "estilo": "classico",
+    "hora": 8,
+    "trilha": "ambient-jonas.mp3",
+    "duracao": 17
   }
 ]

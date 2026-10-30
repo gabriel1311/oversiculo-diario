@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-30",
-    "referencia": "Êxodo 14:14",
-    "consulta": "exodo 14:14",
-    "tema": "Paz e descanso",
-    "hora": 8
-  },
-  {
     "data": "2026-10-31",
     "referencia": "Romanos 12:12",
     "consulta": "romanos 12:12",
@@ -96,5 +89,12 @@
     "consulta": "hebreus 11:1",
     "tema": "Amor",
     "hora": 8
+  },
+  {
+    "data": "2026-11-13",
+    "referencia": "Mateus 6:34",
+    "consulta": "mateus 6:34",
+    "tema": "Paz e descanso",
+    "hora": 12
   }
 ]
