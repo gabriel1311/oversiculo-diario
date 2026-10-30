@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-29",
-  "amostras": 81,
+  "atualizado": "2026-10-30",
+  "amostras": 82,
   "pesos_estilo": {
     "classico": 31,
     "livro": 35,
@@ -44,10 +44,10 @@
     {
       "data": "2026-10-16",
       "referencia": "Romanos 8:18",
-      "score": 35.9,
+      "score": 35.6,
       "estilo": "foto",
       "hora": 12,
-      "alcance": 145
+      "alcance": 146
     },
     {
       "data": "2026-09-03",
