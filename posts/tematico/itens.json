@@ -1,0 +1,48 @@
+{
+  "data": "2026-10-30",
+  "tema": "desistir",
+  "titulo": "5 versículos para quem pensou em desistir",
+  "estilo": "classico",
+  "seed": "tema-2026-10-30",
+  "tags_legenda": [
+    "forca",
+    "naodesista",
+    "coragem"
+  ],
+  "itens": [
+    {
+      "consulta": "filipenses 4:13",
+      "referencia": "Filipenses 4:13",
+      "texto": "Posso todas as coisas naquele que me fortalece."
+    },
+    {
+      "consulta": "josue 1:9",
+      "referencia": "Josué 1:9",
+      "texto": "Não to mandei eu? Esforça-te, e tem bom ânimo; não te atemorizes, nem te espantes; porque o Senhor teu Deus está contigo, por onde quer que andares."
+    },
+    {
+      "consulta": "2 corintios 4:8-9",
+      "referencia": "2 Coríntios 4:8-9",
+      "texto": "Em tudo somos atribulados, mas não angustiados; perplexos, mas não desesperados; perseguidos, mas não desamparados; abatidos, mas não destruídos;"
+    },
+    {
+      "consulta": "isaias 40:31",
+      "referencia": "Isaías 40:31",
+      "texto": "mas os que esperam no Senhor renovarão as suas forças; subirão com asas como águias; correrão, e não se cansarão; andarão, e não se fatigarão."
+    },
+    {
+      "consulta": "isaias 41:10",
+      "referencia": "Isaías 41:10",
+      "texto": "não temas, porque eu sou contigo; não te assombres, porque eu sou teu Deus; eu te fortaleço, e te ajudo, e te sustento com a destra da minha justiça."
+    }
+  ],
+  "arquivos": [
+    "00-capa.jpg",
+    "01.jpg",
+    "02.jpg",
+    "03.jpg",
+    "04.jpg",
+    "05.jpg",
+    "99-fecho.jpg"
+  ]
+}
