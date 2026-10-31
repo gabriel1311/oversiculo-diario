@@ -6,9 +6,13 @@ name: Trial Reel do dia
 # aviso, não alarme — o teste é extra.
 
 on:
-  # Religado em 31/10/2026, com o app da Meta publicado (verificação via ARW).
-  schedule:
-    - cron: "33 19 * * *" # 16h33 Brasília
+  # Horário DESLIGADO. 29/10/2026: "OAuthException 10: Application does not
+  # have permission". 31/10/2026: mesmo erro com o app JÁ PUBLICADO e a empresa
+  # verificada — então a trava é da conta (Trial Reels pela API parece exigir
+  # elegibilidade, ex. mínimo de seguidores), não do app. Testar de novo à mão
+  # quando o perfil crescer (~1.000 seguidores):
+  # schedule:
+  #   - cron: "33 19 * * *" # 16h33 Brasília
   workflow_dispatch:
     inputs:
       ensaio:
