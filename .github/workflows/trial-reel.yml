@@ -6,11 +6,9 @@ name: Trial Reel do dia
 # aviso, não alarme — o teste é extra.
 
 on:
-  # Horário DESLIGADO em 29/10/2026: o Instagram recusou o 1º teste com
-  # "OAuthException 10: Application does not have permission" (app da Meta em
-  # modo desenvolvimento). Religar quando o app for publicado:
-  # schedule:
-  #   - cron: "33 19 * * *" # 16h33 Brasília
+  # Religado em 31/10/2026, com o app da Meta publicado (verificação via ARW).
+  schedule:
+    - cron: "33 19 * * *" # 16h33 Brasília
   workflow_dispatch:
     inputs:
       ensaio:
