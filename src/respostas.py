@@ -102,7 +102,11 @@ def _posts_recentes() -> list[dict]:
 def _comentarios(mid: str, token: str) -> list[dict]:
     dados = instagram._get(
         f"{mid}/comments",
-        {"fields": "id,text,username,timestamp", "limit": "50", "access_token": token},
+        # 31/10/2026: com o app publicado, `username` veio vazio — o autor vem em
+        # `from`. `replies` diz se o perfil já respondeu (a rodada do navegador
+        # também responde, e esse estado não está no respondidos.json).
+        {"fields": "id,text,username,timestamp,from{id,username},replies{from{id,username}}",
+         "limit": "50", "access_token": token},
     )
     return dados.get("data", [])
 
@@ -129,17 +133,30 @@ def responder_novos() -> int:
 
         if comentarios:
             print(f"[respostas] {post['referencia']}: {len(comentarios)} comentário(s) na API")
+            print(f"[respostas]   1º cru: {json.dumps(comentarios[0], ensure_ascii=False)[:300]}")
         else:
             bruto = instagram._get(f"{mid}/comments", {"fields": "id,text,username,hidden", "limit": "50", "access_token": token})
             print(f"[respostas] {post['referencia']} ({mid}): resposta crua = {json.dumps(bruto, ensure_ascii=False)[:300]}")
         for c in comentarios:
             cid = c.get("id")
             texto = (c.get("text") or "").strip()
-            autor = (c.get("username") or "").lower()
+            de = c.get("from") or {}
+            autor = (c.get("username") or de.get("username") or "").lower()
             if not cid or cid in respondidos:
                 continue
-            if autor == proprio:
+            if de.get("id") == conta or (autor and autor == proprio):
                 continue  # nosso próprio comentário (ou resposta antiga)
+            if not autor and not de.get("id"):
+                # Sem saber quem escreveu não dá para filtrar perfil-robô nem o
+                # próprio perfil: melhor não responder.
+                print(f"[respostas] pulei {cid} em {post['referencia']}: autor desconhecido")
+                continue
+            respostas_existentes = (c.get("replies") or {}).get("data") or []
+            if any((r.get("from") or {}).get("id") == conta
+                   or ((r.get("from") or {}).get("username") or "").lower() == proprio
+                   for r in respostas_existentes):
+                respondidos[cid] = {"ignorado": "ja_respondido", "autor": autor}
+                continue
             if autor in IGNORAR_AUTORES:
                 respondidos[cid] = {"ignorado": "autor", "autor": autor}
                 continue
@@ -152,6 +169,9 @@ def responder_novos() -> int:
                 break
 
             mensagem = RESPOSTAS[_fnv(cid) % len(RESPOSTAS)]
+            if os.environ.get("RESPOSTAS_SECO"):
+                print(f"[respostas] (seco) responderia @{autor} em {post['referencia']}: {texto[:60]!r}")
+                continue
             try:
                 criada = instagram._post(f"{cid}/replies", {"message": mensagem, "access_token": token})
             except instagram.ErroInstagram as erro:
@@ -167,6 +187,9 @@ def responder_novos() -> int:
             enviadas += 1
             print(f"[respostas] @{autor} em {post['referencia']} → “{mensagem}”")
 
+    if os.environ.get("RESPOSTAS_SECO"):
+        print("[respostas] modo seco: nada respondido nem gravado")
+        return 0
     _salvar_respondidos(respondidos)
     print(f"[respostas] {enviadas} resposta(s) enviada(s); {len(respondidos)} no total")
     return 0

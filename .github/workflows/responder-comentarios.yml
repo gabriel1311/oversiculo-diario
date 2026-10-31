@@ -16,6 +16,10 @@ on:
         description: "Testar permissões (cria, responde e apaga um comentário próprio)"
         type: boolean
         default: false
+      seco:
+        description: "Só listar o que responderia (não responde nem grava)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -39,6 +43,7 @@ jobs:
 
       - name: Responder comentários novos
         env:
+          RESPOSTAS_SECO: ${{ inputs.seco && '1' || '' }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
         run: |
