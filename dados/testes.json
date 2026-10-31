@@ -8,5 +8,15 @@
     "duracao": 17,
     "narrado": false,
     "erro": "HTTP 400 em 17841437190733875/media — OAuthException 10: Application does not have permission for this action"
+  },
+  {
+    "data": "2026-10-31",
+    "consulta": "salmos 139:14",
+    "referencia": "Salmos 139:14",
+    "estilo": "classico",
+    "gancho": "Quando nada parece fazer sentido, lembre:",
+    "duracao": 24,
+    "narrado": true,
+    "erro": "HTTP 400 em 17841437190733875/media — OAuthException 10: Application does not have permission for this action"
   }
 ]
