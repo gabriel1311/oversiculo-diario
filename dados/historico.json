@@ -784,5 +784,15 @@
     "hora": 8,
     "trilha": "ambient-jonas.mp3",
     "duracao": 17
+  },
+  {
+    "data": "2026-10-31",
+    "consulta": "romanos 12:12",
+    "referencia": "Romanos 12:12",
+    "id_post": "18414868435091603",
+    "estilo": "foto",
+    "hora": 8,
+    "trilha": "piano-monda.mp3",
+    "duracao": 18
   }
 ]

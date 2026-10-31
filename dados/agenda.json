@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-10-31",
-    "referencia": "Romanos 12:12",
-    "consulta": "romanos 12:12",
-    "tema": "Proteção e cuidado",
-    "hora": 8
-  },
-  {
     "data": "2026-11-01",
     "referencia": "João 1:1",
     "consulta": "joao 1:1",
@@ -95,6 +88,13 @@
     "referencia": "Mateus 6:34",
     "consulta": "mateus 6:34",
     "tema": "Paz e descanso",
+    "hora": 12
+  },
+  {
+    "data": "2026-11-14",
+    "referencia": "Salmos 91:1-2",
+    "consulta": "salmos 91:1-2",
+    "tema": "Proteção e cuidado",
     "hora": 12
   }
 ]
