@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-11-01",
-    "referencia": "João 1:1",
-    "consulta": "joao 1:1",
-    "tema": "Gratidão e louvor",
-    "hora": 19
-  },
-  {
     "data": "2026-11-02",
     "referencia": "Jeremias 29:11",
     "consulta": "jeremias 29:11",
@@ -96,5 +89,12 @@
     "consulta": "salmos 91:1-2",
     "tema": "Proteção e cuidado",
     "hora": 12
+  },
+  {
+    "data": "2026-11-15",
+    "referencia": "Romanos 10:9",
+    "consulta": "romanos 10:9",
+    "tema": "Gratidão e louvor",
+    "hora": 19
   }
 ]
