@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-10-31",
-  "amostras": 83,
+  "atualizado": "2026-11-01",
+  "amostras": 84,
   "pesos_estilo": {
     "classico": 30,
     "livro": 36,
@@ -12,18 +12,18 @@
     "longo": 34
   },
   "pesos_hora": {
-    "8": 30,
-    "12": 43,
-    "19": 27
+    "8": 28,
+    "12": 44,
+    "19": 28
   },
   "ranking": [
     {
       "data": "2026-10-28",
       "referencia": "João 14:6",
-      "score": 52.7,
+      "score": 59.6,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 165
+      "alcance": 166
     },
     {
       "data": "2026-10-09",
@@ -44,10 +44,26 @@
     {
       "data": "2026-10-16",
       "referencia": "Romanos 8:18",
-      "score": 35.6,
+      "score": 37.7,
       "estilo": "foto",
       "hora": 12,
       "alcance": 146
+    },
+    {
+      "data": "2026-10-15",
+      "referencia": "Sofonias 3:17",
+      "score": 34.5,
+      "estilo": "livro",
+      "hora": 12,
+      "alcance": 145
+    },
+    {
+      "data": "2026-10-26",
+      "referencia": "Tiago 4:7",
+      "score": 34.4,
+      "estilo": "classico",
+      "hora": 12,
+      "alcance": 151
     },
     {
       "data": "2026-09-03",
@@ -80,22 +96,6 @@
       "estilo": "livro",
       "hora": 12,
       "alcance": 124
-    },
-    {
-      "data": "2026-09-09",
-      "referencia": "Provérbios 4:23",
-      "score": 32.7,
-      "estilo": "livro",
-      "hora": 8,
-      "alcance": 150
-    },
-    {
-      "data": "2026-10-15",
-      "referencia": "Sofonias 3:17",
-      "score": 32.4,
-      "estilo": "livro",
-      "hora": 12,
-      "alcance": 145
     }
   ]
 }
