@@ -1,9 +1,9 @@
 {
-  "atualizado": "2026-11-01",
-  "amostras": 84,
+  "atualizado": "2026-11-02",
+  "amostras": 85,
   "pesos_estilo": {
-    "classico": 30,
-    "livro": 36,
+    "classico": 29,
+    "livro": 37,
     "foto": 34
   },
   "pesos_tamanho": {
@@ -12,9 +12,9 @@
     "longo": 34
   },
   "pesos_hora": {
-    "8": 28,
+    "8": 29,
     "12": 44,
-    "19": 28
+    "19": 27
   },
   "ranking": [
     {

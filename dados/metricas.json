@@ -1,5 +1,5 @@
 {
-  "atualizado": "2026-11-01T23:07:44Z",
+  "atualizado": "2026-11-02T23:08:28Z",
   "seguidores": 116,
   "posts": [
     {
@@ -1227,13 +1227,13 @@
       "referencia": "Salmos 34:8",
       "consulta": "salmos 34:8",
       "id": "18057885050571113",
-      "likes": 42,
+      "likes": 43,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DfAK47ACGps/",
-      "alcance": 145,
+      "alcance": 147,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 191,
+      "views": 195,
       "tempo_medio": 5.4,
       "retencao": 45,
       "envios_salvos_100": 0.0
@@ -1281,7 +1281,7 @@
       "alcance": 63,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 88,
+      "views": 89,
       "tempo_medio": 4.4,
       "retencao": 26,
       "envios_salvos_100": 0.0
@@ -1297,9 +1297,9 @@
       "alcance": 28,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 41,
-      "tempo_medio": 4.1,
-      "retencao": 23,
+      "views": 42,
+      "tempo_medio": 4.0,
+      "retencao": 22,
       "envios_salvos_100": 0.0
     },
     {
@@ -1307,19 +1307,35 @@
       "referencia": "João 1:1",
       "consulta": "joao 1:1",
       "id": "18099402872390380",
-      "likes": 6,
+      "likes": 10,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DfNxhd8jW8r/",
-      "alcance": 59,
+      "alcance": 117,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 100,
-      "tempo_medio": 3.5,
-      "retencao": 22,
+      "views": 151,
+      "tempo_medio": 3.3,
+      "retencao": 21,
       "envios_salvos_100": 0.0
+    },
+    {
+      "data": "2026-11-02",
+      "referencia": "Jeremias 29:11",
+      "consulta": "jeremias 29:11",
+      "id": "17926639752438539",
+      "likes": 19,
+      "comentarios": 1,
+      "permalink": "https://www.instagram.com/reel/DfPLHdkkV7j/",
+      "alcance": 133,
+      "salvos": 0,
+      "compartilhamentos": 1,
+      "views": 168,
+      "tempo_medio": 5.6,
+      "retencao": 24,
+      "envios_salvos_100": 0.75
     }
   ],
-  "media_count": 105,
+  "media_count": 106,
   "username": "oversiculo.diario",
   "testes": []
 }
