@@ -94,6 +94,20 @@ def _falar(texto: str, destino: Path, voz: dict, chave: str, ajustes: dict | Non
     return destino
 
 
+# Teste A/B (03/11/2026): os 4 primeiros posts narrados (30/10–02/11) tiveram
+# retenção ~22% contra ~45% antes. Por 2 semanas o post do dia alterna: dia com
+# voz, dia sem (o gancho na tela fica nos dois). Depois comparar pelo campo
+# "narrado" do historico.json e decidir.
+TESTE_AB_ATE = date(2026, 11, 17)
+
+
+def dia_com_voz(dia: date) -> bool:
+    """No período do teste, só os dias de ordinal par têm narração."""
+    if dia > TESTE_AB_ATE:
+        return True
+    return dia.toordinal() % 2 == 0
+
+
 def narrar(gancho: str, texto: str, referencia: str, pasta: Path, seed: str) -> Narracao | None:
     chave = os.environ.get("ELEVENLABS_API_KEY")
     if not chave or not ARQ_VOZ.exists():

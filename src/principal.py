@@ -77,8 +77,10 @@ def preparar(dia: date, ensaio: bool) -> int:
                 legenda.gancho(escolhido.consulta), Path(tmp) / "gancho.png",
                 cartaz=None if camadas else c.jpg,
             )
-            fala = narracao.narrar(legenda.gancho(escolhido.consulta), escolhido.texto,
-                                   escolhido.referencia, Path(tmp), seed=dia.isoformat())
+            fala = None
+            if narracao.dia_com_voz(dia):
+                fala = narracao.narrar(legenda.gancho(escolhido.consulta), escolhido.texto,
+                                       escolhido.referencia, Path(tmp), seed=dia.isoformat())
             video.montar(
                 c.jpg, c.mp4, seed=dia.isoformat(),
                 duracao=video.duracao_para(escolhido.texto), camadas=camadas, gancho=gancho,
@@ -148,6 +150,8 @@ def publicar(dia: date) -> int:
         "trilha": video.escolher_trilha(dia.isoformat()).name,
         # Duração real do arquivo (com narração ela segue a fala, não a leitura).
         "duracao": video.duracao_de(c.mp4) or video.duracao_para(versiculos.escolher(dia).texto),
+        # Teste A/B da narração: a legenda só ganha o aviso quando o vídeo tem voz.
+        "narrado": "voz sintética" in texto_legenda,
     }
     versiculos.registrar(versiculos.escolher(dia), dia, id_reel, extras)
     # Regrava a agenda JÁ COM o post de hoje no histórico — senão o painel

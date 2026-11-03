@@ -783,7 +783,8 @@
     "estilo": "classico",
     "hora": 8,
     "trilha": "ambient-jonas.mp3",
-    "duracao": 17
+    "duracao": 17,
+    "narrado": true
   },
   {
     "data": "2026-10-31",
@@ -793,7 +794,8 @@
     "estilo": "foto",
     "hora": 8,
     "trilha": "piano-monda.mp3",
-    "duracao": 18
+    "duracao": 18,
+    "narrado": true
   },
   {
     "data": "2026-11-01",
@@ -803,7 +805,8 @@
     "estilo": "classico",
     "hora": 19,
     "trilha": "piano-atlas.mp3",
-    "duracao": 16
+    "duracao": 16,
+    "narrado": true
   },
   {
     "data": "2026-11-02",
@@ -813,7 +816,8 @@
     "estilo": "livro",
     "hora": 8,
     "trilha": "piano-monda.mp3",
-    "duracao": 23
+    "duracao": 23,
+    "narrado": true
   },
   {
     "data": "2026-11-03",
@@ -823,6 +827,7 @@
     "estilo": "foto",
     "hora": 8,
     "trilha": "piano-atlas2.mp3",
-    "duracao": 25
+    "duracao": 25,
+    "narrado": true
   }
 ]
