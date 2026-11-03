@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-11-02T23:08:28Z",
-  "seguidores": 116,
+  "atualizado": "2026-11-03T23:07:57Z",
+  "seguidores": 122,
   "posts": [
     {
       "data": "2026-08-08",
@@ -1118,13 +1118,13 @@
       "likes": 52,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DettghBjpYz/",
-      "alcance": 263,
+      "alcance": 264,
       "salvos": 3,
       "compartilhamentos": 3,
-      "views": 326,
+      "views": 329,
       "tempo_medio": 4.4,
       "retencao": 37,
-      "envios_salvos_100": 2.28
+      "envios_salvos_100": 2.27
     },
     {
       "data": "2026-10-21",
@@ -1198,12 +1198,12 @@
       "likes": 32,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/De7wiU_CbJS/",
-      "alcance": 142,
+      "alcance": 143,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 220,
-      "tempo_medio": 7.8,
-      "retencao": 65,
+      "views": 223,
+      "tempo_medio": 7.7,
+      "retencao": 64,
       "envios_salvos_100": 0.0
     },
     {
@@ -1278,7 +1278,7 @@
       "likes": 5,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DfHctSWj1Y3/",
-      "alcance": 63,
+      "alcance": 64,
       "salvos": 0,
       "compartilhamentos": 0,
       "views": 89,
@@ -1294,10 +1294,10 @@
       "likes": 4,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DfKBTHgjQCg/",
-      "alcance": 28,
+      "alcance": 29,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 42,
+      "views": 43,
       "tempo_medio": 4.0,
       "retencao": 22,
       "envios_salvos_100": 0.0
@@ -1310,10 +1310,10 @@
       "likes": 10,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DfNxhd8jW8r/",
-      "alcance": 117,
+      "alcance": 122,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 151,
+      "views": 157,
       "tempo_medio": 3.3,
       "retencao": 21,
       "envios_salvos_100": 0.0
@@ -1326,16 +1326,32 @@
       "likes": 19,
       "comentarios": 1,
       "permalink": "https://www.instagram.com/reel/DfPLHdkkV7j/",
-      "alcance": 133,
+      "alcance": 136,
+      "salvos": 0,
+      "compartilhamentos": 3,
+      "views": 171,
+      "tempo_medio": 5.9,
+      "retencao": 26,
+      "envios_salvos_100": 2.21
+    },
+    {
+      "data": "2026-11-03",
+      "referencia": "1 Pedro 5:10",
+      "consulta": "1 pedro 5:10",
+      "id": "18126322552911293",
+      "likes": 5,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DfRwBjZitR2/",
+      "alcance": 24,
       "salvos": 0,
       "compartilhamentos": 1,
-      "views": 168,
-      "tempo_medio": 5.6,
-      "retencao": 24,
-      "envios_salvos_100": 0.75
+      "views": 43,
+      "tempo_medio": 7.1,
+      "retencao": 28,
+      "envios_salvos_100": 4.17
     }
   ],
-  "media_count": 106,
+  "media_count": 107,
   "username": "oversiculo.diario",
   "testes": []
 }
