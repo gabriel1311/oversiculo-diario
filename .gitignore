@@ -8,3 +8,11 @@ __pycache__/
 
 # Rodada diária local (relatórios e receitas privadas)
 rodada/
+# Série Números da Bíblia: só o código e os roteiros vão pro repo; o vídeo
+# publicado fica em posts/serie/.
+serie/node_modules/
+serie/*/audio/
+serie/*/audio-*/
+serie/*/previa/
+serie/*/*.mp4
+serie/*/*.jpg

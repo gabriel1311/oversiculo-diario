@@ -1,0 +1,73 @@
+name: Série Números da Bíblia
+
+# Um Reel narrado por semana (src/serie.py). O vídeo é feito no Mac e commitado
+# em posts/serie/; aqui só se publica o episódio agendado em dados/serie.json.
+
+on:
+  schedule:
+    - cron: "33 19 * * 6" # 16h33 Brasília, sábado
+    - cron: "13 20 * * 6" # segurança
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: serie
+  cancel-in-progress: false
+
+jobs:
+  serie:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Tem episódio hoje?
+        id: ver
+        run: python -m src.serie --fase verificar
+
+      - name: Publicar o episódio
+        if: steps.ver.outputs.tem == 'true'
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
+        run: python -m src.serie --fase publicar
+
+      - name: Registrar
+        if: steps.ver.outputs.tem == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dados/serie.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Série: episódio publicado $(date -u +%Y-%m-%d)"
+          git pull --rebase --autostash
+          git push
+
+  avisar-falha:
+    needs: serie
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Abrir ou atualizar issue de falha
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          corpo=$(printf 'A série Números da Bíblia falhou em %s UTC.\n\nLog: %s' "$(date -u '+%Y-%m-%d %H:%M')" "$RUN_URL")
+          num=$(gh issue list --state open --label falha-publicacao --json number --jq '.[0].number // empty' -R "$GITHUB_REPOSITORY")
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body "$corpo" -R "$GITHUB_REPOSITORY"
+          else
+            gh label create falha-publicacao --color B60205 --description "Falha na automação" -R "$GITHUB_REPOSITORY" 2>/dev/null || true
+            gh issue create --title "⚠️ Falha na série Números da Bíblia" --label falha-publicacao --body "$corpo" -R "$GITHUB_REPOSITORY"
+          fi

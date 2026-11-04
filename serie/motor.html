@@ -1,0 +1,396 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"Garamond";src:url("../fontes/EBGaramond.ttf")}
+@font-face{font-family:"Cinzel";src:url("../fontes/Cinzel.ttf")}
+html,body{margin:0;background:#000}
+canvas{display:block}
+</style></head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+/* Motor da série "Números da Bíblia" (@oversiculo.diario).
+   Estilo próprio: noite azul-marinho, traço de luz em creme e ouro, contador de
+   dias com 40 marcas. Tudo desenhado em código e determinístico: renderizar(t)
+   desenha o quadro do instante t (s) para a linha do tempo em window.LINHA. */
+const W = 1080, H = 1920;
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+const COR = {
+  ceuTopo: '#0b1838', ceuBase: '#04081a', traco: '#f6ead2', ouro: '#f2bf6b',
+  ouroForte: '#ffcf7a', brilho: 'rgba(255,196,110,0.85)', tenue: 'rgba(246,234,210,0.62)',
+};
+const CHAO = 1240;           // linha do chão das ilustrações
+const TOPO_ARTE = 660;       // onde a arte pode começar
+
+/* ---------- utilidades ---------- */
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const seg = (p, a, b) => clamp((p - a) / (b - a));
+const suave = x => x * x * (3 - 2 * x);
+const saida = x => 1 - Math.pow(1 - x, 3);
+const lerp = (a, b, x) => a + (b - a) * x;
+function rng(seed) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
+
+function brilho(blur = 18, cor = COR.brilho) { ctx.shadowColor = cor; ctx.shadowBlur = blur; }
+function semBrilho() { ctx.shadowBlur = 0; ctx.shadowColor = 'transparent'; }
+
+/* Polilinha desenhada até a fração prog do comprimento (efeito "traço se desenhando"). */
+function poli(pts, prog = 1, { cor = COR.traco, larg = 5, blur = 18, fechar = false, preencher = null } = {}) {
+  if (prog <= 0 || pts.length < 2) return;
+  if (fechar) pts = pts.concat([pts[0]]);
+  let tot = 0; const L = [0];
+  for (let i = 1; i < pts.length; i++) { tot += Math.hypot(pts[i][0] - pts[i-1][0], pts[i][1] - pts[i-1][1]); L.push(tot); }
+  const alvo = tot * clamp(prog);
+  ctx.save(); brilho(blur); ctx.strokeStyle = cor; ctx.lineWidth = larg; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]);
+  for (let i = 1; i < pts.length; i++) {
+    if (L[i] <= alvo) ctx.lineTo(pts[i][0], pts[i][1]);
+    else { const f = (alvo - L[i-1]) / (L[i] - L[i-1] || 1); ctx.lineTo(lerp(pts[i-1][0], pts[i][0], f), lerp(pts[i-1][1], pts[i][1], f)); break; }
+  }
+  if (preencher && prog >= 1) { ctx.fillStyle = preencher; ctx.fill(); }
+  ctx.stroke(); ctx.restore();
+}
+function amostrar(f, n = 80) { const p = []; for (let i = 0; i <= n; i++) p.push(f(i / n)); return p; }
+function circulo(x, y, r, prog = 1, o = {}) { return poli(amostrar(u => [x + r * Math.cos(-Math.PI/2 + u * 2 * Math.PI), y + r * Math.sin(-Math.PI/2 + u * 2 * Math.PI)], 64), prog, o); }
+function ponto(x, y, r, cor = COR.traco, blur = 16) { ctx.save(); brilho(blur); ctx.fillStyle = cor; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); ctx.restore(); }
+function halo(x, y, r, alfa, cor = '255,190,100') {
+  const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+  g.addColorStop(0, `rgba(${cor},${alfa})`); g.addColorStop(1, `rgba(${cor},0)`);
+  ctx.fillStyle = g; ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+}
+
+/* Boneco de luz. pe = y dos pés, h = altura. */
+function figura(x, pe, h, o = {}) {
+  const { passo = null, bracos = 'baixo', ajoelhado = false, prog = 1, alfa = 1, dir = 1 } = o;
+  if (prog <= 0) return;
+  ctx.save(); ctx.globalAlpha *= alfa;
+  const quadril = pe - h * (ajoelhado ? 0.30 : 0.45), ombro = pe - h * 0.80, rc = h * 0.085;
+  const larg = Math.max(2.5, h * 0.035);
+  const op = { larg, blur: 14 };
+  poli([[x, ombro], [x, quadril]], prog, op);
+  const ang = passo === null ? 0.18 : 0.38 * Math.sin(passo);
+  const perna = h * 0.45;
+  if (ajoelhado) {
+    poli([[x, quadril], [x + dir * h * 0.20, quadril + h * 0.02], [x + dir * h * 0.20, pe]], prog, op);
+    poli([[x, quadril], [x - dir * h * 0.05, pe], [x - dir * h * 0.28, pe]], prog, op);
+  } else {
+    poli([[x, quadril], [x + Math.sin(ang) * perna, quadril + Math.cos(ang) * perna]], prog, op);
+    poli([[x, quadril], [x - Math.sin(ang) * perna, quadril + Math.cos(ang) * perna]], prog, op);
+  }
+  const b = h * 0.36, oy = ombro + h * 0.03;
+  const A = { baixo: [0.35, -0.35], cima: [2.5, -2.5], abertos: [1.25, -1.25], frente: [1.45, 0.25], orando: [2.75, 2.75] }[bracos] || [0.3, -0.3];
+  const sw = passo === null ? 0 : 0.3 * Math.sin(passo);
+  if (bracos === 'orando') {
+    const mx = x + dir * h * 0.17, my = oy + h * 0.06;
+    poli([[x, oy], [x + dir * h * 0.10, oy + h * 0.20], [mx, my]], prog, op);
+    poli([[mx, my], [mx + dir * h * 0.02, my - h * 0.10]], prog, op);
+    if (prog > 0.6) ponto(x, ombro - rc * 1.25, rc, COR.traco, 14);
+    ctx.restore(); return;
+  }
+  poli([[x, oy], [x + Math.sin(A[0] + sw) * b * dir, oy + Math.cos(A[0] + sw) * b]], prog, op);
+  poli([[x, oy], [x + Math.sin(A[1] - sw) * b * dir, oy + Math.cos(A[1] - sw) * b]], prog, op);
+  if (prog > 0.6) ponto(x, ombro - rc * 1.25, rc, COR.traco, 14);
+  ctx.restore();
+}
+
+/* ---------- texto ---------- */
+function fonte(tam, fam = 'Garamond', peso = 500) { ctx.font = `${peso} ${tam}px "${fam}"`; }
+function espacado(txt, x, y, tam, esp, cor, alfa = 1) {
+  fonte(tam, 'Cinzel', 600); ctx.save(); ctx.globalAlpha *= alfa; ctx.fillStyle = cor;
+  ctx.letterSpacing = esp + 'px'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  ctx.fillText(txt, x + esp / 2, y); ctx.restore();
+}
+/* Título com trechos {em ouro}, quebrado em linhas centralizadas. Devolve o y final. */
+function titulo(txt, y, tam, alfa) {
+  fonte(tam);
+  const palavras = []; let ouro = false;
+  for (const parte of txt.split(/([{}])/)) {
+    if (parte === '{') { ouro = true; continue; }
+    if (parte === '}') { ouro = false; continue; }
+    parte.split(' ').forEach((w, k) => { if (w) palavras.push({ w, ouro, cola: k === 0 && /^[,.;:!?”]/.test(w) && palavras.length > 0 }); });
+  }
+  const esp = ctx.measureText(' ').width, maxW = 940, linhas = [[]]; let lw = 0;
+  for (const p of palavras) {
+    const pw = ctx.measureText(p.w).width, e = p.cola ? 0 : esp;
+    if (lw > 0 && !p.cola && lw + e + pw > maxW) { linhas.push([]); lw = 0; }
+    linhas[linhas.length - 1].push(p); lw += (lw ? e : 0) + pw;
+  }
+  const alt = tam * 1.16;
+  linhas.forEach((ln, i) => {
+    const largs = ln.map(p => ctx.measureText(p.w).width);
+    const gap = j => (j === 0 || ln[j].cola ? 0 : esp);
+    const total = largs.reduce((a, b, j) => a + b + gap(j), 0);
+    let x = W / 2 - total / 2;
+    const a = alfa * suave(seg(alfa, i * 0.12, 1));
+    ln.forEach((p, j) => {
+      x += gap(j);
+      ctx.save(); ctx.globalAlpha *= a; ctx.textBaseline = 'alphabetic';
+      if (p.ouro) { brilho(26, 'rgba(255,180,80,0.75)'); ctx.fillStyle = COR.ouroForte; }
+      else { brilho(10, 'rgba(255,240,220,0.35)'); ctx.fillStyle = COR.traco; }
+      ctx.fillText(p.w, x, y + i * alt + (1 - a) * 18); ctx.restore();
+      x += largs[j];
+    });
+  });
+  return y + (linhas.length - 1) * alt;
+}
+
+/* ---------- fundo ---------- */
+const ESTRELAS = (() => { const r = rng(40); return Array.from({ length: 140 }, () => [r() * W, r() * 1250, r() * 2.2 + 0.6, r() * 6.28]); })();
+function fundo(t, calor = 0) {
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, COR.ceuTopo); g.addColorStop(0.62, '#0a1430'); g.addColorStop(1, COR.ceuBase);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  for (const [x, y, r, f] of ESTRELAS) {
+    ctx.globalAlpha = 0.25 + 0.35 * (0.5 + 0.5 * Math.sin(t * 1.3 + f));
+    ctx.fillStyle = '#e9e2ff'; ctx.beginPath(); ctx.arc(x, y, r * 0.8, 0, 7); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  if (calor > 0) halo(W / 2, CHAO, 760, 0.22 * calor);
+  const v = ctx.createRadialGradient(W / 2, H * 0.45, H * 0.3, W / 2, H * 0.45, H * 0.75);
+  v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,0.55)');
+  ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+}
+function chao(prog, y = CHAO) { poli(amostrar(u => [lerp(-20, W + 20, u), y + 14 * Math.sin(u * 3.1)], 60), prog, { larg: 3, cor: COR.tenue, blur: 10 }); }
+
+/* ---------- contador de dias (assinatura da série) ---------- */
+function contador(cena, p, alfa) {
+  const c = cena.contador; if (!c) return;
+  const y = 1395, x0 = 150, x1 = 930;
+  let n, unidade = c.unidade;
+  if (c.depois) {
+    const f1 = seg(p, 0.08, 0.42), f2 = seg(p, 0.55, 0.92);
+    if (p < 0.5) n = Math.max(1, Math.round(saida(f1) * c.ate));
+    else { unidade = c.depois; n = Math.max(1, Math.round(saida(f2) * c.ate)); }
+  } else n = Math.max(1, Math.round(saida(seg(p, 0.08, 0.78)) * c.ate));
+  ctx.save(); ctx.globalAlpha *= alfa;
+  for (let i = 0; i < 40; i++) {
+    const x = lerp(x0, x1, i / 39), on = i < n, alto = (i + 1) % 10 === 0;
+    ctx.save();
+    if (on) brilho(12); ctx.strokeStyle = on ? COR.ouro : 'rgba(246,234,210,0.16)';
+    ctx.lineWidth = alto ? 4 : 3; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(x, y - (alto ? 30 : 18)); ctx.lineTo(x, y + (alto ? 30 : 18)); ctx.stroke(); ctx.restore();
+  }
+  fonte(96, 'Cinzel', 700); ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic';
+  brilho(24, 'rgba(255,180,80,0.7)'); ctx.fillStyle = COR.ouroForte;
+  ctx.fillText(String(n), W / 2 + 10, 1528); semBrilho();
+  ctx.textAlign = 'left'; espacadoEsq(unidade, W / 2 + 32, 1520, 34, 8, COR.traco);
+  ctx.restore();
+}
+function espacadoEsq(txt, x, y, tam, esp, cor) { fonte(tam, 'Cinzel', 600); ctx.save(); ctx.fillStyle = cor; ctx.letterSpacing = esp + 'px'; ctx.textAlign = 'left'; ctx.fillText(txt, x, y); ctx.restore(); }
+
+/* ---------- cenas ---------- */
+const CENAS = {
+  gancho(t, p) {
+    const a = saida(seg(p, 0, 0.35));
+    halo(W / 2, 1000, 520, 0.28 * a);
+    for (let i = 0; i < 40; i++) {
+      const ang = -Math.PI / 2 + i / 40 * Math.PI * 2, on = seg(p, 0.05 + i * 0.014, 0.08 + i * 0.014);
+      if (on <= 0) continue;
+      const r1 = 330, r2 = (i % 10 === 9) ? 382 : 362;
+      poli([[W/2 + r1 * Math.cos(ang), 1000 + r1 * Math.sin(ang)], [W/2 + r2 * Math.cos(ang), 1000 + r2 * Math.sin(ang)]], on, { cor: COR.ouro, larg: 5, blur: 14 });
+    }
+    ctx.save(); ctx.globalAlpha = a; fonte(400, 'Cinzel', 700); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const esc = 0.86 + 0.14 * a; ctx.translate(W / 2, 1020); ctx.scale(esc, esc);
+    brilho(50, 'rgba(255,175,70,0.8)'); ctx.fillStyle = COR.ouroForte; ctx.fillText('40', 0, 0); ctx.restore();
+  },
+  diluvio(t, p) {
+    const d = saida(seg(p, 0, 0.35)), boia = Math.sin(t * 1.6) * 10, inc = Math.sin(t * 1.2) * 0.03;
+    const r = rng(7);
+    ctx.save(); ctx.globalAlpha = 0.5 * seg(p, 0.05, 0.25);
+    ctx.strokeStyle = 'rgba(200,215,255,0.55)'; ctx.lineWidth = 2;
+    for (let i = 0; i < 150; i++) {
+      const x = r() * (W + 300) - 150, v = 900 + r() * 500, y = ((r() * 2000 + t * v) % 900) + TOPO_ARTE - 40;
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - 14, y + 46); ctx.stroke();
+    }
+    ctx.restore();
+    ctx.save(); ctx.translate(540, 1110 + boia); ctx.rotate(inc);
+    poli([[-330, -30], [-280, 70], [280, 70], [330, -30], [-330, -30]], d, { larg: 6 });
+    poli([[-190, -30], [-190, -140], [190, -140], [190, -30]], seg(p, 0.12, 0.4), { larg: 5 });
+    poli([[-230, -140], [0, -220], [230, -140]], seg(p, 0.2, 0.45), { larg: 5 });
+    for (let i = -1; i <= 1; i++) poli([[i * 100 - 22, -110], [i * 100 + 22, -110], [i * 100 + 22, -70], [i * 100 - 22, -70]], seg(p, 0.3, 0.5), { larg: 3, fechar: true, cor: COR.ouro });
+    ctx.restore();
+    for (let k = 0; k < 4; k++) {
+      const y = 1190 + k * 34, fase = t * (1.4 + k * 0.3) + k;
+      poli(amostrar(u => [lerp(-30, W + 30, u), y + 12 * Math.sin(u * 14 + fase)], 120), seg(p, 0.02 + k * 0.05, 0.3 + k * 0.05), { larg: 3, cor: k ? COR.tenue : COR.traco, blur: 10 });
+    }
+  },
+  sinai(t, p) {
+    const d = saida(seg(p, 0, 0.4));
+    const pico = [540, 820];
+    poli([[60, 1250], [230, 1080], [300, 1110], [420, 930], pico, [640, 920], [700, 960], [830, 1060], [900, 1040], [1020, 1250]], d, { larg: 6 });
+    poli([[330, 1170], [420, 1060], [470, 1090]], seg(p, 0.15, 0.4), { larg: 3, cor: COR.tenue });
+    const nv = seg(p, 0.2, 0.5);
+    for (let i = 0; i < 6; i++) {
+      const cx = 380 + i * 64, cy = 760 + (i % 2) * 22 + Math.sin(t + i) * 4;
+      poli(amostrar(u => [cx + 70 * Math.cos(Math.PI + u * Math.PI), cy + 46 * Math.sin(Math.PI + u * Math.PI)], 30), nv, { larg: 4, cor: COR.tenue, blur: 12 });
+    }
+    halo(540, 780, 330, 0.25 * nv);
+    const raio = Math.floor(t * 1.7) % 4 === 0 && (t * 1.7) % 1 < 0.18 && p > 0.3;
+    if (raio) { halo(540, 760, 600, 0.18); poli([[470, 720], [445, 780], [480, 790], [450, 860]], 1, { cor: COR.ouroForte, larg: 4, blur: 30 }); }
+    figura(540, 822, 70, { bracos: 'cima', prog: seg(p, 0.4, 0.6) });
+  },
+  deserto(t, p) {
+    const anos = p >= 0.5;
+    for (let k = 0; k < 2; k++) {
+      const y = 1010 + k * 70;
+      poli(amostrar(u => [lerp(-40, W + 40, u), y + 26 * Math.sin(u * (3 + k) + k * 2)], 80), seg(p, k * 0.05, 0.3 + k * 0.05), { larg: 3, cor: COR.tenue, blur: 10 });
+    }
+    chao(saida(seg(p, 0, 0.25)));
+    if (!anos) {
+      // os espias caminham até a terra de Canaã (o cacho de uvas)
+      const andar = seg(p, 0.1, 0.46);
+      for (let i = 0; i < 3; i++) figura(lerp(110, 600, andar) + i * 62, 1240, 105, { passo: andar < 1 ? t * 6 + i : null, prog: seg(p, 0.08, 0.2) });
+      const ux = 870, uy = 1010, uv = seg(p, 0.12, 0.36);
+      poli([[ux, uy - 24], [ux + 8, uy - 74], [ux + 58, uy - 92]], uv, { larg: 4, cor: COR.ouro });
+      for (let i = 0; i < 10; i++) { const r = [0,0,0,1,1,1,2,2,3,4][i], c = [-2,0,2,-1,1,3,0,2,1,1][i] - 0.5; circulo(ux + c * 23, uy + r * 40, 21, uv, { larg: 3, cor: COR.ouro }); }
+      halo(ux, uy + 60, 200, 0.22 * uv);
+    } else {
+      // os 40 anos: acampamento ao fundo e o povo dando voltas no deserto
+      const q = seg(p, 0.5, 1);
+      for (let i = 0; i < 6; i++) {
+        const x = 130 + i * 164, y = 1105;
+        poli([[x - 48, y + 36], [x, y - 34], [x + 48, y + 36]], seg(q, i * 0.04, 0.25 + i * 0.04), { larg: 4 });
+        poli([[x, y - 34], [x, y + 36]], seg(q, 0.15 + i * 0.04, 0.35 + i * 0.04), { larg: 2, cor: COR.tenue });
+      }
+      ctx.save(); ctx.setLineDash([3, 18]);
+      poli(amostrar(u => [540 + 400 * Math.cos(u * Math.PI * 2), 1196 + 26 * Math.sin(u * Math.PI * 2)], 120), seg(q, 0.05, 0.4), { cor: COR.ouro, larg: 4, blur: 12, fechar: true });
+      ctx.restore();
+      for (let i = 0; i < 3; i++) {
+        const a = t * 0.9 + i * 0.32, x = 540 + 400 * Math.cos(a), y = 1196 + 26 * Math.sin(a);
+        figura(x, y, 86 + 10 * Math.sin(a), { passo: t * 6 + i, dir: Math.sin(a) > 0 ? -1 : 1, prog: seg(q, 0.1, 0.25) });
+      }
+    }
+  },
+  golias(t, p) {
+    chao(saida(seg(p, 0, 0.25)));
+    const gx = 330, gh = 470, gp = seg(p, 0.05, 0.3);
+    figura(gx, 1236, gh, { bracos: 'abertos', prog: gp });
+    poli([[gx + 200, 1236 - gh * 0.95], [gx + 150, 1236 - gh * 0.1]], gp, { larg: 5 });
+    poli([[gx + 192, 1236 - gh * 0.98], [gx + 200, 1236 - gh * 1.06], [gx + 210, 1236 - gh * 0.96]], gp, { larg: 4, cor: COR.ouro });
+    circulo(gx - 170, 1236 - gh * 0.62, 62, gp, { larg: 5 });
+    poli([[gx - 18, 1236 - gh * 0.98], [gx, 1236 - gh * 1.06], [gx + 18, 1236 - gh * 0.98]], gp, { larg: 4 });
+    // manhã e tarde: o sol vai e volta
+    const ciclo = (t * 0.9) % 1, sx = lerp(150, 930, ciclo), sy = 800 - 110 * Math.sin(ciclo * Math.PI);
+    if (p > 0.15 && p < 0.72) ponto(sx, sy, 16, COR.ouro, 30);
+    const dv = seg(p, 0.66, 0.82);
+    if (dv > 0) {
+      const dx = 820;
+      figura(dx, 1236, 150, { bracos: 'frente', prog: dv, dir: -1 });
+      const a = t * 9, hx = dx - 52, hy = 1236 - 150 * 0.78;
+      poli([[hx, hy], [hx + 60 * Math.cos(a), hy + 60 * Math.sin(a)]], dv, { cor: COR.ouro, larg: 3 });
+      halo(dx, 1150, 220, 0.22 * dv);
+    }
+  },
+  elias(t, p) {
+    chao(saida(seg(p, 0, 0.2)));
+    poli([[760, 1245], [850, 1110], [900, 1125], [970, 960], [1030, 1050], [1100, 1140]], saida(seg(p, 0.05, 0.35)), { larg: 6 });
+    halo(970, 960, 220, 0.2 * seg(p, 0.3, 0.6));
+    const tv = seg(p, 0, 0.25);
+    poli([[150, 1240], [150, 1120]], tv, { larg: 5 });
+    for (let i = 0; i < 7; i++) { const a = -Math.PI / 2 + (i - 3) * 0.32; poli([[150, 1130], [150 + 120 * Math.cos(a), 1130 + 100 * Math.sin(a)]], tv, { larg: 3, cor: COR.tenue }); }
+    ponto(210, 1228, 9, COR.ouro, 18); ponto(232, 1230, 7, COR.traco, 10);
+    const andar = seg(p, 0.2, 0.92), ex = lerp(240, 660, andar);
+    figura(ex, 1238, 120, { passo: andar > 0 && andar < 1 ? t * 5 : null, prog: seg(p, 0.12, 0.25) });
+    const lua = (t * 0.45) % 1;
+    ponto(lerp(80, 1000, lua), 780 - 90 * Math.sin(lua * Math.PI), 14, COR.traco, 26);
+  },
+  ninive(t, p) {
+    chao(saida(seg(p, 0, 0.2)));
+    const r = rng(3), pts = [[120, 1240]]; let x = 120;
+    while (x < 960) {
+      const w = 60 + r() * 50, h = 160 + r() * 200;
+      pts.push([x, 1240 - h]);
+      for (let k = 0; k < 3; k++) { const xx = x + w * k / 3; pts.push([xx, 1240 - h], [xx, 1240 - h - 16], [xx + w / 6, 1240 - h - 16], [xx + w / 6, 1240 - h]); }
+      x += w; pts.push([x, 1240 - h]);
+      if (x < 960) pts.push([x, 1240 - 120]);
+    }
+    pts.push([x, 1240]);
+    const poupada = seg(p, 0.6, 0.85);
+    halo(560, 1100, 520, 0.32 * poupada);
+    poli(pts, saida(seg(p, 0.05, 0.4)), { larg: 4, cor: poupada > 0.5 ? COR.ouro : COR.traco });
+    poli(amostrar(u => [560 + 70 * Math.cos(Math.PI + u * Math.PI), 1240 - 70 + 70 * Math.sin(Math.PI + u * Math.PI)], 30).concat([[630, 1240]]), seg(p, 0.3, 0.45), { larg: 4 });
+    figura(90, 1240, 110, { bracos: p < 0.6 ? 'cima' : 'baixo', prog: seg(p, 0.1, 0.25) });
+  },
+  jesus(t, p) {
+    chao(saida(seg(p, 0, 0.2)));
+    poli([[380, 1240], [420, 1170], [560, 1150], [650, 1180], [690, 1240]], saida(seg(p, 0.05, 0.25)), { larg: 5 });
+    figura(520, 1150, 200, { ajoelhado: true, bracos: 'orando', prog: seg(p, 0.15, 0.35) });
+    const pv = seg(p, 0.3, 0.5);
+    [[250, 1222], [300, 1226], [820, 1224]].forEach(([x, y], i) => circulo(x, y, 16, seg(pv, i * 0.2, 0.6 + i * 0.2), { larg: 3, cor: COR.tenue }));
+    const ciclo = (t * 0.55) % 1;
+    poli(amostrar(u => [lerp(120, 960, u), 1060 - 330 * Math.sin(u * Math.PI)], 60), seg(p, 0.1, 0.4), { larg: 2, cor: 'rgba(246,234,210,0.25)', blur: 0 });
+    if (p > 0.2) ponto(lerp(120, 960, ciclo), 1060 - 330 * Math.sin(ciclo * Math.PI), 18, COR.ouro, 34);
+    halo(540, 1090, 260, 0.25 * seg(p, 0.6, 0.9));
+  },
+  ascensao(t, p) {
+    poli(amostrar(u => [lerp(-20, W + 20, u), 1250 - 130 * Math.sin(u * Math.PI)], 60), saida(seg(p, 0, 0.25)), { larg: 5 });
+    const xs = [250, 360, 720, 830, 470];
+    xs.forEach((x, i) => { const yb = 1250 - 130 * Math.sin((x + 20) / (W + 40) * Math.PI); figura(x, yb, 95, { prog: seg(p, 0.1 + i * 0.03, 0.3 + i * 0.03), bracos: p > 0.6 ? 'cima' : 'baixo' }); });
+    const sobe = suave(seg(p, 0.5, 0.95)), y = lerp(1118, 860, sobe);
+    halo(540, y - 80, 300, 0.2 + 0.25 * sobe);
+    figura(540, y, 150, { bracos: 'abertos', prog: seg(p, 0.15, 0.35) });
+    const nv = seg(p, 0.65, 0.95);
+    for (let i = 0; i < 5; i++) {
+      const cx = 400 + i * 70, cy = 830 + (i % 2) * 16;
+      poli(amostrar(u => [cx + 60 * Math.cos(Math.PI + u * Math.PI), cy + 38 * Math.sin(Math.PI + u * Math.PI)], 30), nv, { larg: 4, cor: COR.tenue, blur: 12 });
+    }
+  },
+  fecho(t, p) {
+    const sol = suave(seg(p, 0.05, 0.6)), sy = lerp(1300, 1160, sol);
+    halo(540, sy, 620, 0.35 * sol);
+    ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, 1222); ctx.clip();
+    circulo(540, sy, 120, saida(seg(p, 0, 0.3)), { cor: COR.ouroForte, larg: 6, blur: 34 });
+    for (let i = 0; i < 13; i++) {
+      const a = Math.PI + i / 12 * Math.PI, rv = seg(p, 0.25 + i * 0.015, 0.45 + i * 0.015);
+      poli([[540 + 150 * Math.cos(a), sy + 150 * Math.sin(a)], [540 + 230 * Math.cos(a), sy + 230 * Math.sin(a)]], rv, { cor: COR.ouro, larg: 4 });
+    }
+    ctx.restore();
+    poli(amostrar(u => [lerp(-20, W + 20, u), 1222 + 6 * Math.sin(u * 5)], 60), saida(seg(p, 0, 0.2)), { larg: 5 });
+    figura(540, 1222, 130, { prog: seg(p, 0.35, 0.55), bracos: 'abertos' });
+  },
+};
+
+/* ---------- linha do tempo ---------- */
+function desenharCena(c, t) {
+  const tl = t - c.ini, p = clamp(tl / c.dur), F = 0.45;
+  const alfa = Math.min(1, tl / F, (c.dur - tl) / F);
+  if (alfa <= 0) return;
+  ctx.save(); ctx.globalAlpha = alfa;
+  if (c.id === 'assinatura') { assinatura(tl, p); ctx.restore(); return; }
+  if (CENAS[c.id]) CENAS[c.id](t, p);
+  semBrilho();
+  espacado('@OVERSICULO.DIARIO', W / 2, 190, 24, 6, COR.tenue);
+  const ta = saida(clamp(tl / 0.9));
+  if (c.eyebrow) espacado(c.eyebrow, W / 2, 262, 28, 4, COR.ouro, ta);
+  let y = 350;
+  if (c.titulo) y = titulo(c.titulo, c.eyebrow ? 350 : 300, c.id === 'gancho' ? 82 : 72, ta);
+  if (c.sub) espacado(c.sub, W / 2, y + 66, 25, 3, COR.tenue, saida(clamp((tl - 0.4) / 0.9)));
+  contador(c, p, saida(clamp((tl - 0.3) / 0.6)));
+  ctx.restore();
+}
+function assinatura(tl, p) {
+  const a = saida(seg(p, 0, 0.3));
+  for (let i = 0; i < 40; i++) {
+    const ang = -Math.PI / 2 + i / 40 * Math.PI * 2, r1 = 70, r2 = i % 10 === 9 ? 100 : 90;
+    poli([[W/2 + r1 * Math.cos(ang), 720 + r1 * Math.sin(ang)], [W/2 + r2 * Math.cos(ang), 720 + r2 * Math.sin(ang)]], seg(p, i * 0.006, 0.05 + i * 0.006), { cor: COR.ouro, larg: 3, blur: 10 });
+  }
+  ponto(W / 2, 720, 10, COR.ouroForte, 30);
+  espacado('O VERSÍCULO DIÁRIO', W / 2, 920, 52, 10, COR.traco, a);
+  ctx.save(); ctx.globalAlpha *= a; fonte(44, 'Garamond', 400); ctx.font = 'italic ' + ctx.font; ctx.fillStyle = COR.tenue; ctx.textAlign = 'center';
+  ctx.fillText('Números da Bíblia · episódio 1', W / 2, 990); ctx.restore();
+  espacado('@OVERSICULO.DIARIO', W / 2, 1060, 30, 5, COR.ouro, a);
+  ctx.save(); ctx.globalAlpha *= saida(seg(p, 0.15, 0.45)); fonte(27, 'Garamond', 400); ctx.fillStyle = COR.tenue; ctx.textAlign = 'center';
+  ['Citações conferidas na Almeida Revista e Atualizada (ARA):',
+   'Gênesis 7:12 · Êxodo 34:28 · Números 13:25 e 14:34 · 1 Samuel 17:16',
+   '1 Reis 19:8 · Jonas 3:4 e 3:10 · Mateus 4:2 · Atos 1:3 e 1:9'].forEach((l, i) => ctx.fillText(l, W / 2, 1180 + i * 42));
+  ctx.restore();
+}
+window.renderizar = function (t) {
+  const L = window.LINHA; semBrilho(); ctx.globalAlpha = 1;
+  const atual = L.find(c => t >= c.ini && t < c.ini + c.dur) || L[L.length - 1];
+  fundo(t, atual.id === 'fecho' || atual.id === 'ninive' ? 0.6 : 0.25);
+  for (const c of L) if (t >= c.ini - 0.01 && t < c.ini + c.dur + 0.01) desenharCena(c, t);
+};
+window.pronto = document.fonts.ready.then(() => Promise.all([document.fonts.load('80px "Garamond"'), document.fonts.load('80px "Cinzel"')]));
+</script>
+</body></html>

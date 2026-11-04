@@ -1,0 +1,57 @@
+[
+ {
+  "id": "gancho",
+  "ini": 0,
+  "dur": 5.18
+ },
+ {
+  "id": "diluvio",
+  "ini": 5.18,
+  "dur": 7.4
+ },
+ {
+  "id": "sinai",
+  "ini": 12.58,
+  "dur": 8.89
+ },
+ {
+  "id": "deserto",
+  "ini": 21.47,
+  "dur": 13.86
+ },
+ {
+  "id": "golias",
+  "ini": 35.33,
+  "dur": 11.86
+ },
+ {
+  "id": "elias",
+  "ini": 47.19,
+  "dur": 9.96
+ },
+ {
+  "id": "ninive",
+  "ini": 57.14,
+  "dur": 12.28
+ },
+ {
+  "id": "jesus",
+  "ini": 69.42,
+  "dur": 9.35
+ },
+ {
+  "id": "ascensao",
+  "ini": 78.78,
+  "dur": 10.33
+ },
+ {
+  "id": "fecho",
+  "ini": 89.1,
+  "dur": 19.69
+ },
+ {
+  "id": "assinatura",
+  "ini": 108.79,
+  "dur": 4.5
+ }
+]

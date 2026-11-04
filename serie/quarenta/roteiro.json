@@ -1,0 +1,91 @@
+{
+  "titulo": "O número 40 na Bíblia",
+  "versao_biblica": "Almeida Revista e Atualizada (ARA)",
+  "cenas": [
+    {
+      "id": "gancho",
+      "eyebrow": "O NÚMERO 40 NA BÍBLIA",
+      "titulo": "8 vezes em que o {40} mudou uma história",
+      "sub": "",
+      "fala": "Oito vezes em que o número quarenta mudou uma história na Bíblia."
+    },
+    {
+      "id": "diluvio",
+      "eyebrow": "O DILÚVIO · GÊNESIS 7:12",
+      "titulo": "Choveu {40 dias e 40 noites}",
+      "sub": "SOBRE TODA A TERRA",
+      "contador": {"ate": 40, "unidade": "DIAS"},
+      "fala": "No dilúvio, choveu sobre a terra quarenta dias e quarenta noites."
+    },
+    {
+      "id": "sinai",
+      "eyebrow": "MONTE SINAI · ÊXODO 34:28",
+      "titulo": "Moisés ficou com Deus {40 dias e 40 noites}",
+      "sub": "SEM COMER PÃO NEM BEBER ÁGUA",
+      "contador": {"ate": 40, "unidade": "DIAS"},
+      "fala": "Moisés ficou no monte com Deus quarenta dias e quarenta noites, sem comer pão nem beber água."
+    },
+    {
+      "id": "deserto",
+      "eyebrow": "CANAÃ · NÚMEROS 13:25 E 14:34",
+      "titulo": "{40 dias} espiando a terra. {40 anos} no deserto",
+      "sub": "UM ANO PARA CADA DIA",
+      "contador": {"ate": 40, "unidade": "DIAS", "depois": "ANOS"},
+      "fala": "Os espias exploraram Canaã por quarenta dias. Por não confiarem, o povo vagou quarenta anos no deserto: um ano para cada dia."
+    },
+    {
+      "id": "golias",
+      "eyebrow": "VALE DE ELÁ · 1 SAMUEL 17:16",
+      "titulo": "Golias desafiou Israel por {40 dias}",
+      "sub": "DE MANHÃ E À TARDE",
+      "contador": {"ate": 40, "unidade": "DIAS"},
+      "fala": "Golias desafiou o exército de Israel por quarenta dias, de manhã e à tarde. Até que chegou Davi."
+    },
+    {
+      "id": "elias",
+      "eyebrow": "A CAMINHO DO HOREBE · 1 REIS 19:8",
+      "titulo": "Elias caminhou {40 dias e 40 noites}",
+      "sub": "COM A FORÇA DA COMIDA QUE O ANJO TROUXE",
+      "contador": {"ate": 40, "unidade": "DIAS"},
+      "fala": "Com a força da comida que o anjo trouxe, Elias caminhou quarenta dias e quarenta noites até o monte de Deus."
+    },
+    {
+      "id": "ninive",
+      "eyebrow": "NÍNIVE · JONAS 3:4 E 3:10",
+      "titulo": "“Ainda {40 dias}, e Nínive será subvertida”",
+      "sub": "A CIDADE SE ARREPENDEU, E DEUS A POUPOU",
+      "contador": {"ate": 40, "unidade": "DIAS"},
+      "fala": "Jonas anunciou: ainda quarenta dias, e Nínive será destruída. A cidade se arrependeu, e Deus a poupou."
+    },
+    {
+      "id": "jesus",
+      "eyebrow": "O DESERTO · MATEUS 4:2",
+      "titulo": "Jesus jejuou {40 dias e 40 noites}",
+      "sub": "E VENCEU A TENTAÇÃO COM A PALAVRA",
+      "contador": {"ate": 40, "unidade": "DIAS"},
+      "fala": "Jesus jejuou quarenta dias e quarenta noites no deserto, e venceu a tentação com a Palavra."
+    },
+    {
+      "id": "ascensao",
+      "eyebrow": "MONTE DAS OLIVEIRAS · ATOS 1:3 E 1:9",
+      "titulo": "Ressuscitado, apareceu por {40 dias}",
+      "sub": "E ENTÃO SUBIU AO CÉU",
+      "contador": {"ate": 40, "unidade": "DIAS"},
+      "fala": "Depois de ressuscitar, ele apareceu aos discípulos durante quarenta dias. Então, subiu ao céu."
+    },
+    {
+      "id": "fecho",
+      "eyebrow": "",
+      "titulo": "Depois dos {40}, Deus começa algo novo",
+      "sub": "SE VOCÊ ESTÁ NO SEU DESERTO, ELE NÃO É O FIM",
+      "fala": "Na Bíblia, o quarenta costuma marcar um tempo de prova e de preparo. E, do outro lado, Deus começa algo novo. Se você está no seu deserto, ele não é o fim. Manda pra alguém que está atravessando o dele."
+    },
+    {
+      "id": "assinatura",
+      "eyebrow": "",
+      "titulo": "",
+      "sub": "",
+      "fala": ""
+    }
+  ]
+}

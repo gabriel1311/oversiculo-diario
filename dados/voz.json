@@ -1,5 +1,5 @@
 {
-  "nota": "Voz oficial do perfil: sintética, desenhada do zero no ElevenLabs (Voice Design + remix 'emoção'), escolhida pelo Gabriel em 29/10/2026.",
+  "nota": "Voz oficial do perfil desde 04/11/2026: 'Documental 2' (Voice Design por descrição, sem clonar ninguém), escolhida pelo Gabriel para TODAS as publicações (Reel diário e série Números da Bíblia). A anterior (rEXGBBH2osA45nT2wUSx, 29/10) foi aposentada.",
   "modelo": "eleven_multilingual_v2",
   "ajustes": {
     "stability": 0.5,
@@ -8,12 +8,12 @@
   },
   "vozes": [
     {
-      "nome": "oficial",
-      "voice_id": "rEXGBBH2osA45nT2wUSx"
+      "nome": "documental",
+      "voice_id": "FIFp2GzVE1CCPnh6Gfia"
     }
   ],
   "ajustes_gancho": {
-    "speed": 0.8,
+    "speed": 0.9,
     "stability": 0.65
   }
 }
