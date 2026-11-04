@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-11-03",
-  "amostras": 86,
+  "atualizado": "2026-11-04",
+  "amostras": 87,
   "pesos_estilo": {
     "classico": 29,
     "livro": 37,
@@ -12,18 +12,18 @@
     "longo": 34
   },
   "pesos_hora": {
-    "8": 29,
-    "12": 44,
+    "8": 30,
+    "12": 43,
     "19": 27
   },
   "ranking": [
     {
       "data": "2026-10-28",
       "referencia": "João 14:6",
-      "score": 59.6,
+      "score": 59.3,
       "estilo": "livro",
       "hora": 12,
-      "alcance": 166
+      "alcance": 167
     },
     {
       "data": "2026-10-09",
@@ -58,20 +58,20 @@
       "alcance": 145
     },
     {
-      "data": "2026-10-26",
-      "referencia": "Tiago 4:7",
-      "score": 34.4,
-      "estilo": "classico",
-      "hora": 12,
-      "alcance": 151
-    },
-    {
       "data": "2026-09-03",
       "referencia": "1 João 4:19",
       "score": 34.3,
       "estilo": "foto",
       "hora": 12,
       "alcance": 143
+    },
+    {
+      "data": "2026-10-26",
+      "referencia": "Tiago 4:7",
+      "score": 34.2,
+      "estilo": "classico",
+      "hora": 12,
+      "alcance": 152
     },
     {
       "data": "2026-10-08",
