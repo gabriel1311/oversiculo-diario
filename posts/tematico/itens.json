@@ -1,39 +1,39 @@
 {
-  "data": "2026-10-30",
-  "tema": "desistir",
-  "titulo": "5 versículos para quem pensou em desistir",
+  "data": "2026-11-04",
+  "tema": "espera",
+  "titulo": "5 versículos para quem está esperando uma resposta",
   "estilo": "classico",
-  "seed": "tema-2026-10-30",
+  "seed": "tema-2026-11-04",
   "tags_legenda": [
-    "forca",
-    "naodesista",
-    "coragem"
+    "esperanca",
+    "confianca",
+    "propositodedeus"
   ],
   "itens": [
     {
-      "consulta": "filipenses 4:13",
-      "referencia": "Filipenses 4:13",
-      "texto": "Posso todas as coisas naquele que me fortalece."
+      "consulta": "romanos 8:28",
+      "referencia": "Romanos 8:28",
+      "texto": "E sabemos que todas as coisas concorrem para o bem daqueles que amam a Deus, daqueles que são chamados segundo o seu propósito."
     },
     {
-      "consulta": "josue 1:9",
-      "referencia": "Josué 1:9",
-      "texto": "Não to mandei eu? Esforça-te, e tem bom ânimo; não te atemorizes, nem te espantes; porque o Senhor teu Deus está contigo, por onde quer que andares."
+      "consulta": "salmos 138:8",
+      "referencia": "Salmos 138:8",
+      "texto": "O Senhor aperfeiçoará o que me diz respeito. A tua benignidade, ó Senhor, dura para sempre; não abandones as obras das tuas mãos."
     },
     {
-      "consulta": "2 corintios 4:8-9",
-      "referencia": "2 Coríntios 4:8-9",
-      "texto": "Em tudo somos atribulados, mas não angustiados; perplexos, mas não desesperados; perseguidos, mas não desamparados; abatidos, mas não destruídos;"
+      "consulta": "filipenses 1:6",
+      "referencia": "Filipenses 1:6",
+      "texto": "tendo por certo isto mesmo, que aquele que em vós começou a boa obra a aperfeiçoará até o dia de Cristo Jesus,"
     },
     {
-      "consulta": "isaias 40:31",
-      "referencia": "Isaías 40:31",
-      "texto": "mas os que esperam no Senhor renovarão as suas forças; subirão com asas como águias; correrão, e não se cansarão; andarão, e não se fatigarão."
+      "consulta": "proverbios 16:3",
+      "referencia": "Provérbios 16:3",
+      "texto": "Entrega ao Senhor as tuas obras, e teus desígnios serão estabelecidos."
     },
     {
-      "consulta": "isaias 41:10",
-      "referencia": "Isaías 41:10",
-      "texto": "não temas, porque eu sou contigo; não te assombres, porque eu sou teu Deus; eu te fortaleço, e te ajudo, e te sustento com a destra da minha justiça."
+      "consulta": "proverbios 3:5-6",
+      "referencia": "Provérbios 3:5-6",
+      "texto": "Confia no Senhor de todo o teu coração, e não te estribes no teu próprio entendimento. Reconhece-o em todos os teus caminhos, e ele endireitará as tuas veredas."
     }
   ],
   "arquivos": [
