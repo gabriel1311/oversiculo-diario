@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-11-04",
-    "referencia": "Romanos 15:13",
-    "consulta": "romanos 15:13",
-    "tema": "Sabedoria",
-    "hora": 19
-  },
-  {
     "data": "2026-11-05",
     "referencia": "Mateus 5:16",
     "consulta": "mateus 5:16",
@@ -95,6 +88,13 @@
     "referencia": "Jeremias 17:7",
     "consulta": "jeremias 17:7",
     "tema": "Fé e esperança",
+    "hora": 12
+  },
+  {
+    "data": "2026-11-18",
+    "referencia": "Salmos 56:3",
+    "consulta": "salmos 56:3",
+    "tema": "Sabedoria",
     "hora": 12
   }
 ]
