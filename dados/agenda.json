@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-11-05",
-    "referencia": "Mateus 5:16",
-    "consulta": "mateus 5:16",
-    "tema": "Amor",
-    "hora": 12
-  },
-  {
     "data": "2026-11-06",
     "referencia": "2 Coríntios 4:8-9",
     "consulta": "2 corintios 4:8-9",
@@ -95,6 +88,13 @@
     "referencia": "Salmos 56:3",
     "consulta": "salmos 56:3",
     "tema": "Sabedoria",
+    "hora": 12
+  },
+  {
+    "data": "2026-11-19",
+    "referencia": "Salmos 62:1-2",
+    "consulta": "salmos 62:1-2",
+    "tema": "Amor",
     "hora": 12
   }
 ]
