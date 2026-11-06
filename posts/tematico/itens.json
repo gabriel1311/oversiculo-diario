@@ -1,39 +1,39 @@
 {
-  "data": "2026-11-04",
-  "tema": "espera",
-  "titulo": "5 versículos para quem está esperando uma resposta",
-  "estilo": "classico",
-  "seed": "tema-2026-11-04",
+  "data": "2026-11-06",
+  "tema": "medo",
+  "titulo": "5 versículos para quando bater o medo",
+  "estilo": "foto",
+  "seed": "tema-2026-11-06",
   "tags_legenda": [
-    "esperanca",
-    "confianca",
-    "propositodedeus"
+    "semmedo",
+    "protecao",
+    "deusnocontrole"
   ],
   "itens": [
     {
-      "consulta": "romanos 8:28",
-      "referencia": "Romanos 8:28",
-      "texto": "E sabemos que todas as coisas concorrem para o bem daqueles que amam a Deus, daqueles que são chamados segundo o seu propósito."
+      "consulta": "salmos 91:1-2",
+      "referencia": "Salmos 91:1-2",
+      "texto": "Aquele que habita no esconderijo do Altíssimo, à sombra do Todo-Poderoso descansará. Direi do Senhor: Ele é o meu refúgio e a minha fortaleza, o meu Deus, em quem confio."
     },
     {
-      "consulta": "salmos 138:8",
-      "referencia": "Salmos 138:8",
-      "texto": "O Senhor aperfeiçoará o que me diz respeito. A tua benignidade, ó Senhor, dura para sempre; não abandones as obras das tuas mãos."
+      "consulta": "isaias 41:13",
+      "referencia": "Isaías 41:13",
+      "texto": "Porque eu, o Senhor teu Deus, te seguro pela tua mão direita, e te digo: Não temas; eu te ajudarei."
     },
     {
-      "consulta": "filipenses 1:6",
-      "referencia": "Filipenses 1:6",
-      "texto": "tendo por certo isto mesmo, que aquele que em vós começou a boa obra a aperfeiçoará até o dia de Cristo Jesus,"
+      "consulta": "salmos 23:4",
+      "referencia": "Salmos 23:4",
+      "texto": "Ainda que eu ande pelo vale da sombra da morte, não temerei mal algum, porque tu estás comigo; a tua vara e o teu cajado me consolam."
     },
     {
-      "consulta": "proverbios 16:3",
-      "referencia": "Provérbios 16:3",
-      "texto": "Entrega ao Senhor as tuas obras, e teus desígnios serão estabelecidos."
+      "consulta": "naum 1:7",
+      "referencia": "Naum 1:7",
+      "texto": "O Senhor é bom, uma fortaleza no dia da angústia; e conhece os que nele confiam."
     },
     {
-      "consulta": "proverbios 3:5-6",
-      "referencia": "Provérbios 3:5-6",
-      "texto": "Confia no Senhor de todo o teu coração, e não te estribes no teu próprio entendimento. Reconhece-o em todos os teus caminhos, e ele endireitará as tuas veredas."
+      "consulta": "proverbios 18:10",
+      "referencia": "Provérbios 18:10",
+      "texto": "Torre forte é o nome do Senhor; para ela corre o justo, e está seguro."
     }
   ],
   "arquivos": [
