@@ -5,8 +5,8 @@ name: Série Números da Bíblia
 
 on:
   schedule:
-    - cron: "33 19 * * 6" # 16h33 Brasília, sábado
-    - cron: "13 20 * * 6" # segurança
+    - cron: "3 9 * * 6" # 6h03 Brasília, sábado
+    - cron: "43 9 * * 6" # segurança
   workflow_dispatch:
 
 permissions:
