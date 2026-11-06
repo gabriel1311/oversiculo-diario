@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-11-05T23:08:19Z",
-  "seguidores": 123,
+  "atualizado": "2026-11-06T23:07:29Z",
+  "seguidores": 126,
   "posts": [
     {
       "data": "2026-08-08",
@@ -1042,8 +1042,8 @@
       "salvos": 0,
       "compartilhamentos": 0,
       "views": 253,
-      "tempo_medio": 10.1,
-      "retencao": 78,
+      "tempo_medio": 10.0,
+      "retencao": 77,
       "envios_salvos_100": 0.0
     },
     {
@@ -1227,13 +1227,13 @@
       "referencia": "Salmos 34:8",
       "consulta": "salmos 34:8",
       "id": "18057885050571113",
-      "likes": 44,
+      "likes": 45,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DfAK47ACGps/",
-      "alcance": 148,
+      "alcance": 149,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 196,
+      "views": 197,
       "tempo_medio": 5.4,
       "retencao": 45,
       "envios_salvos_100": 0.0
@@ -1243,13 +1243,13 @@
       "referencia": "João 14:6",
       "consulta": "joao 14:6",
       "id": "18115059863026573",
-      "likes": 57,
+      "likes": 58,
       "comentarios": 9,
       "permalink": "https://www.instagram.com/reel/DfCu6LKkwz3/",
       "alcance": 168,
       "salvos": 0,
       "compartilhamentos": 3,
-      "views": 245,
+      "views": 246,
       "tempo_medio": 8.0,
       "retencao": 67,
       "envios_salvos_100": 1.79
@@ -1266,8 +1266,8 @@
       "salvos": 0,
       "compartilhamentos": 0,
       "views": 162,
-      "tempo_medio": 3.6,
-      "retencao": 30,
+      "tempo_medio": 3.5,
+      "retencao": 29,
       "envios_salvos_100": 0.0
     },
     {
@@ -1282,8 +1282,8 @@
       "salvos": 0,
       "compartilhamentos": 0,
       "views": 89,
-      "tempo_medio": 4.4,
-      "retencao": 26,
+      "tempo_medio": 4.3,
+      "retencao": 25,
       "envios_salvos_100": 0.0
     },
     {
@@ -1298,8 +1298,8 @@
       "salvos": 0,
       "compartilhamentos": 0,
       "views": 44,
-      "tempo_medio": 4.0,
-      "retencao": 22,
+      "tempo_medio": 3.8,
+      "retencao": 21,
       "envios_salvos_100": 0.0
     },
     {
@@ -1310,12 +1310,12 @@
       "likes": 10,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DfNxhd8jW8r/",
-      "alcance": 124,
+      "alcance": 125,
       "salvos": 0,
       "compartilhamentos": 0,
       "views": 161,
-      "tempo_medio": 3.3,
-      "retencao": 21,
+      "tempo_medio": 3.2,
+      "retencao": 20,
       "envios_salvos_100": 0.0
     },
     {
@@ -1346,8 +1346,8 @@
       "salvos": 0,
       "compartilhamentos": 1,
       "views": 55,
-      "tempo_medio": 6.8,
-      "retencao": 27,
+      "tempo_medio": 6.5,
+      "retencao": 26,
       "envios_salvos_100": 3.33
     },
     {
@@ -1371,19 +1371,35 @@
       "referencia": "Mateus 5:16",
       "consulta": "mateus 5:16",
       "id": "18106007999381785",
-      "likes": 5,
+      "likes": 7,
       "comentarios": 0,
       "permalink": "https://www.instagram.com/reel/DfXVBBUDoor/",
-      "alcance": 44,
+      "alcance": 70,
       "salvos": 0,
       "compartilhamentos": 0,
-      "views": 72,
-      "tempo_medio": 4.2,
-      "retencao": 30,
+      "views": 99,
+      "tempo_medio": 3.5,
+      "retencao": 25,
+      "envios_salvos_100": 0.0
+    },
+    {
+      "data": "2026-11-06",
+      "referencia": "2 Coríntios 4:8-9",
+      "consulta": "2 corintios 4:8-9",
+      "id": "17887098372623586",
+      "likes": 3,
+      "comentarios": 0,
+      "permalink": "https://www.instagram.com/reel/DfZeQD_Dgdx/",
+      "alcance": 16,
+      "salvos": 0,
+      "compartilhamentos": 0,
+      "views": 23,
+      "tempo_medio": 6.2,
+      "retencao": 24,
       "envios_salvos_100": 0.0
     }
   ],
-  "media_count": 110,
+  "media_count": 112,
   "username": "oversiculo.diario",
   "testes": []
 }

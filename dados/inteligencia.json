@@ -1,6 +1,6 @@
 {
-  "atualizado": "2026-11-05",
-  "amostras": 88,
+  "atualizado": "2026-11-06",
+  "amostras": 89,
   "pesos_estilo": {
     "classico": 29,
     "livro": 37,
@@ -13,14 +13,14 @@
   },
   "pesos_hora": {
     "8": 30,
-    "12": 44,
-    "19": 26
+    "12": 43,
+    "19": 27
   },
   "ranking": [
     {
       "data": "2026-10-28",
       "referencia": "João 14:6",
-      "score": 58.9,
+      "score": 59.5,
       "estilo": "livro",
       "hora": 12,
       "alcance": 168
