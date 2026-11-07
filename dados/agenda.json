@@ -1,12 +1,5 @@
 [
   {
-    "data": "2026-11-07",
-    "referencia": "Naum 1:7",
-    "consulta": "naum 1:7",
-    "tema": "Proteção e cuidado",
-    "hora": 12
-  },
-  {
     "data": "2026-11-08",
     "referencia": "Atos 1:8",
     "consulta": "atos 1:8",
@@ -95,6 +88,13 @@
     "referencia": "Isaías 41:10",
     "consulta": "isaias 41:10",
     "tema": "Paz e descanso",
+    "hora": 19
+  },
+  {
+    "data": "2026-11-21",
+    "referencia": "Romanos 8:28",
+    "consulta": "romanos 8:28",
+    "tema": "Proteção e cuidado",
     "hora": 19
   }
 ]
